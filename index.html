@@ -272,49 +272,40 @@
         <div class="campo">
             <label for="neurologico">1. NEUROLÓGICO:</label>
             <textarea id="neurologico" placeholder="Ejemplo: Apertura de ojos y reacciona ante estímulos..."></textarea>
-            <button class="dictado" onclick="startDictation('neurologico')">🎤 Dictar</button>
         </div>
         <div class="campo">
             <label for="cardiovascular">2. CARDIOVASCULAR:</label>
             <textarea id="cardiovascular"
                 placeholder="Ejemplo: Estable hemodinámicamente sin drogas vaso activas..."></textarea>
-            <button class="dictado" onclick="startDictation('cardiovascular')">🎤 Dictar</button>
         </div>
         <div class="campo">
             <label for="respiratorio">3. RESPIRATORIO:</label>
             <textarea id="respiratorio" placeholder="Ejemplo: Mantiene buenas saturaciones..."></textarea>
-            <button class="dictado" onclick="startDictation('respiratorio')">🎤 Dictar</button>
         </div>
         <div class="campo">
             <label for="renal">4. RENAL:</label>
             <textarea id="renal" placeholder="Ejemplo: Buenas diuresis sin furosemida..."></textarea>
-            <button class="dictado" onclick="startDictation('renal')">🎤 Dictar</button>
         </div>
         <div class="campo">
             <label for="gastrointestinal">5. GASTROINTESTINAL:</label>
             <textarea id="gastrointestinal" placeholder="Ejemplo: Tolera dieta enteral..."></textarea>
-            <button class="dictado" onclick="startDictation('gastrointestinal')">🎤 Dictar</button>
         </div>
         <div class="campo">
             <label for="nutricional">6. NUTRICIONAL/METABÓLICO:</label>
             <textarea id="nutricional"
                 placeholder="Ejemplo: Glucemias normales con perfusión de insulina..."></textarea>
-            <button class="dictado" onclick="startDictation('nutricional')">🎤 Dictar</button>
         </div>
         <div class="campo">
             <label for="termorregulacion">7. TERMORREGULACIÓN:</label>
             <textarea id="termorregulacion" placeholder="Ejemplo: Afebril..."></textarea>
-            <button class="dictado" onclick="startDictation('termorregulacion')">🎤 Dictar</button>
         </div>
         <div class="campo">
             <label for="piel">8. PIEL:</label>
             <textarea id="piel" placeholder="Ejemplo: Ausencia de escaras..."></textarea>
-            <button class="dictado" onclick="startDictation('piel')">🎤 Dictar</button>
         </div>
         <div class="campo">
             <label for="otros">9. OTROS:</label>
             <textarea id="otros" placeholder="Ejemplo: Otros comentarios..."></textarea>
-            <button class="dictado" onclick="startDictation('otros')">🎤 Dictar</button>
         </div>
     </form>
 
@@ -430,55 +421,7 @@
             updateForm();
         }
 
-        // Función para iniciar el dictado por voz
-        async function startDictation(textareaId) {
-            try {
-                // Verificar si SpeechRecognition está disponible
-                if (!('SpeechRecognition' in window && 'webkitSpeechRecognition' in window)) {
-                    alert('La función de dictado por voz no está disponible en este navegador.');
-                    return;
-                }
 
-                // Solicitar permisos de micrófono explícitamente
-                try {
-                    console.log('Solicitando acceso al micrófono...');
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    console.log('Micrófono accesible.');
-                } catch (mediaError) {
-                    console.error("Error al acceder al micrófono:", mediaError);
-                    alert(`Ocurrió un error al intentar acceder al micrófono. Código de error: ${mediaError.message}. Por favor, inténtalo de nuevo.`);
-                    return;
-                }
-
-                const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-                recognition.lang = 'es-ES'; // Idioma: español de España
-                recognition.interimResults = false; // Esperar hasta que se complete la frase
-                recognition.maxAlternatives = 1; // Solo una alternativa
-
-                console.log('Iniciando reconocimiento de voz...');
-                recognition.start();
-
-                recognition.onresult = function (event) {
-                    console.log('Texto transcribido:', event.results[0][0].transcript);
-                    const transcript = event.results[0][0].transcript;
-                    const textarea = document.getElementById(textareaId);
-                    textarea.value += (textarea.value ? "\n" : "") + transcript; // Agregar texto al campo
-                    console.log('Texto añadido al textarea:', textarea.value);
-                };
-
-                recognition.onerror = function (event) {
-                    console.error("Error en el reconocimiento de voz:", event.error);
-                    alert(`Ocurrió un error al intentar dictar. Código de error: ${event.error}. Por favor, inténtalo de nuevo.`);
-                };
-
-                recognition.onend = function () {
-                    console.log("Reconocimiento de voz finalizado.");
-                };
-            } catch (error) {
-                console.error("Error al inicializar SpeechRecognition:", error);
-                alert(`Ocurrió un error al intentar dictar. Código de error: ${error.message}. Por favor, inténtalo de nuevo.`);
-            }
-        }
 
 
         // Inicialización
