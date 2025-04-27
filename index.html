@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="evolucion.png" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evolución de Enfermería</title>
     <style>
@@ -84,28 +85,6 @@
             resize: none;
         }
 
-        .campo button.dictado {
-            margin-top: 10px;
-            /* Espacio entre el textarea y el botón */
-            padding: 10px 20px;
-            /* Tamaño del botón */
-            font-size: 14px;
-            /* Tamaño de fuente */
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            background-color: #FFD700;
-            /* Light orange */
-            color: black;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            /* Sombra suave */
-        }
-
-        .campo button.dictado:hover {
-            background-color: #FAD7A0;
-            /* Light orange más claro al pasar el ratón */
-        }
-
         .buttons {
             display: flex;
             justify-content: space-between;
@@ -132,14 +111,9 @@
             /* Ancho mínimo para mejorar legibilidad */
         }
 
-        .buttons button:hover {
-            background-color: #0056b3;
-        }
-
         .resultado {
             margin-top: 20px;
             padding: 20px;
-            border: 2px solid #000;
             border-radius: 5px;
             white-space: pre-wrap;
             font-family: monospace;
@@ -161,87 +135,67 @@
                 left: 5cm;
                 right: 2cm;
                 font-size: 14px;
-                /* Reducir el tamaño del texto para evitar desbordamiento */
                 overflow: hidden;
-                /* Evitar desbordamiento */
                 max-height: 90vh;
-                /* Limitar la altura máxima del contenido */
+                white-space: pre-wrap;
+                font-family: monospace;
+                display: block;
             }
 
             .resultado.d1 {
-                top: 2cm;
+                top: 1cm;
                 /* Para D1 */
                 bottom: auto;
             }
-        }
-
-        /* Controlar el tamaño de página y márgenes */
-        @page {
-            size: A4;
-            margin: 0;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
             h1 {
                 font-size: 20px;
-                /* Reducir tamaño del título */
             }
 
             .box-selector button {
                 font-size: 12px;
-                /* Reducir tamaño de fuente */
                 padding: 8px 12px;
-                /* Botones más pequeños */
             }
 
             .campo label {
                 font-size: 14px;
-                /* Reducir tamaño de etiquetas */
             }
 
             .campo textarea {
                 font-size: 12px;
-                /* Reducir tamaño de fuente */
                 height: 60px;
-                /* Altura reducida */
             }
 
             .buttons button {
                 font-size: 12px;
-                /* Reducir tamaño de fuente */
                 padding: 8px 12px;
-                /* Botones más pequeños */
             }
         }
 
         @media (max-width: 480px) {
             h1 {
                 font-size: 18px;
-                /* Título aún más pequeño */
             }
 
             .box-selector button {
                 font-size: 10px;
-                /* Botones muy pequeños */
                 padding: 6px 10px;
             }
 
             .campo label {
                 font-size: 12px;
-                /* Etiquetas más pequeñas */
             }
 
             .campo textarea {
                 font-size: 10px;
-                /* Texto más pequeño */
                 height: 50px;
-                /* Altura reducida */
             }
 
             .buttons button {
                 font-size: 10px;
-                /* Botones muy pequeños */
                 padding: 6px 10px;
             }
         }
@@ -250,7 +204,6 @@
 
 <body>
     <h1>Evolución de Enfermería</h1>
-
     <!-- Selector de Box/Paciente -->
     <div class="box-selector">
         <button onclick="selectBox(1)">Box 1</button>
@@ -266,7 +219,6 @@
         <button onclick="selectBox(11)">Box 11</button>
         <button onclick="selectBox(12)">Box 12</button>
     </div>
-
     <!-- Formulario dinámico -->
     <form class="formulario" id="formulario">
         <div class="campo">
@@ -308,7 +260,6 @@
             <textarea id="otros" placeholder="Ejemplo: Otros comentarios..."></textarea>
         </div>
     </form>
-
     <!-- Botones de acción -->
     <div class="buttons">
         <button onclick="generarInforme()">Generar Informe</button>
@@ -316,12 +267,10 @@
         <button onclick="imprimirD2()">Imprimir (Opción D2)</button>
         <button onclick="borrarDatos()">Borrar Datos</button>
     </div>
-
     <!-- Área de resultados -->
     <div class="resultado" id="resultado">
         <!-- Aquí se mostrará el informe -->
     </div>
-
     <script>
         // Almacena el estado de los pacientes
         const pacientes = Array.from({ length: 12 }, () => ({
@@ -335,7 +284,6 @@
             piel: "",
             otros: ""
         }));
-
         let selectedBox = 1;
 
         function selectBox(boxNumber) {
@@ -373,12 +321,11 @@
             patientData.otros = document.getElementById("otros").value;
         }
 
-        function generarInforme() {
+        function generarInforme(turno = "") {
             guardarDatos(); // Guarda los datos antes de generar el informe
             const patientData = pacientes[selectedBox - 1];
-
             // Generar el contenido del informe
-            const informe = `BOX ${selectedBox}
+            const informe = `BOX ${selectedBox} - ${turno}
 -----------------------------
 1. NEUROLÓGICO: ${patientData.neurologico || "No especificado"}
 2. CARDIOVASCULAR: ${patientData.cardiovascular || "No especificado"}
@@ -389,18 +336,19 @@
 7. TERMORREGULACIÓN: ${patientData.termorregulacion || "No especificado"}
 8. PIEL: ${patientData.piel || "No especificado"}
 9. OTROS: ${patientData.otros || "No especificado"}`;
-
             document.getElementById('resultado').textContent = informe;
             document.getElementById('resultado').style.display = 'block';
         }
 
         function imprimirD1() {
+            generarInforme("Turno de 8 a 20 horas"); // Agregar el turno correspondiente
             document.getElementById('resultado').classList.remove('d2');
             document.getElementById('resultado').classList.add('d1');
             window.print();
         }
 
         function imprimirD2() {
+            generarInforme("Turno de 20 a 8 horas"); // Agregar el turno correspondiente
             document.getElementById('resultado').classList.remove('d1');
             document.getElementById('resultado').classList.add('d2');
             window.print();
@@ -420,9 +368,6 @@
             };
             updateForm();
         }
-
-
-
 
         // Inicialización
         selectBox(1);
