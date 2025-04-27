@@ -59,8 +59,8 @@
 
         .campo {
             margin-bottom: 15px;
-            position: relative;
-            /* Para posicionar el botón de dictado */
+            text-align: center;
+            /* Centrar el contenido del campo */
         }
 
         .campo label {
@@ -73,7 +73,7 @@
 
         .campo textarea {
             width: 95%;
-            /* Asegura que ocupe todo el ancho disponible */
+            /* Nuevo ancho del textarea */
             height: 80px;
             /* Altura ajustada para mejor visualización */
             padding: 10px;
@@ -85,24 +85,25 @@
         }
 
         .campo button.dictado {
-            position: absolute;
-            top: 30px;
-            /* Ajustar posición vertical */
-            right: 10px;
-            /* Ajustar posición horizontal */
-            padding: 5px 10px;
-            font-size: 12px;
+            margin-top: 10px;
+            /* Espacio entre el textarea y el botón */
+            padding: 10px 20px;
+            /* Tamaño del botón */
+            font-size: 14px;
+            /* Tamaño de fuente */
             cursor: pointer;
             border: none;
             border-radius: 5px;
-            background-color: #28a745;
-            /* Verde para indicar dictado */
-            color: white;
+            background-color: #FFD700;
+            /* Light orange */
+            color: black;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            /* Sombra suave */
         }
 
         .campo button.dictado:hover {
-            background-color: #218838;
-            /* Verde oscuro al pasar el ratón */
+            background-color: #FAD7A0;
+            /* Light orange más claro al pasar el ratón */
         }
 
         .buttons {
@@ -143,6 +144,41 @@
             white-space: pre-wrap;
             font-family: monospace;
             display: none;
+        }
+
+        /* Estilos para la impresión */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            .resultado {
+                visibility: visible;
+                position: absolute;
+                top: auto;
+                bottom: 2.5cm;
+                /* Para D2 */
+                left: 5cm;
+                right: 2cm;
+                font-size: 14px;
+                /* Reducir el tamaño del texto para evitar desbordamiento */
+                overflow: hidden;
+                /* Evitar desbordamiento */
+                max-height: 90vh;
+                /* Limitar la altura máxima del contenido */
+            }
+
+            .resultado.d1 {
+                top: 2cm;
+                /* Para D1 */
+                bottom: auto;
+            }
+        }
+
+        /* Controlar el tamaño de página y márgenes */
+        @page {
+            size: A4;
+            margin: 0;
         }
 
         /* Responsive Design */
@@ -396,27 +432,32 @@
 
         // Función para iniciar el dictado por voz
         function startDictation(textareaId) {
-            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-            recognition.lang = 'es-ES'; // Idioma: español de España
-            recognition.interimResults = false; // Esperar hasta que se complete la frase
-            recognition.maxAlternatives = 1; // Solo una alternativa
+            try {
+                const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                recognition.lang = 'es-ES'; // Idioma: español de España
+                recognition.interimResults = false; // Esperar hasta que se complete la frase
+                recognition.maxAlternatives = 1; // Solo una alternativa
 
-            recognition.start();
+                recognition.start();
 
-            recognition.onresult = function (event) {
-                const transcript = event.results[0][0].transcript;
-                const textarea = document.getElementById(textareaId);
-                textarea.value += (textarea.value ? "\n" : "") + transcript; // Agregar texto al campo
-            };
+                recognition.onresult = function (event) {
+                    const transcript = event.results[0][0].transcript;
+                    const textarea = document.getElementById(textareaId);
+                    textarea.value += (textarea.value ? "\n" : "") + transcript; // Agregar texto al campo
+                };
 
-            recognition.onerror = function (event) {
-                console.error("Error en el reconocimiento de voz:", event.error);
+                recognition.onerror = function (event) {
+                    console.error("Error en el reconocimiento de voz:", event.error);
+                    alert("Ocurrió un error al intentar dictar. Por favor, inténtalo de nuevo.");
+                };
+
+                recognition.onend = function () {
+                    console.log("Reconocimiento de voz finalizado.");
+                };
+            } catch (error) {
+                console.error("Error al inicializar SpeechRecognition:", error);
                 alert("Ocurrió un error al intentar dictar. Por favor, inténtalo de nuevo.");
-            };
-
-            recognition.onend = function () {
-                console.log("Reconocimiento de voz finalizado.");
-            };
+            }
         }
 
         // Inicialización
