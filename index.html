@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolución de Enfermería</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f8ff;
+            /* Azul claro */
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            /* Tamaño ajustable */
+        }
+
+        .box-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            /* Permite que los botones se muevan a la siguiente línea */
+        }
+
+        .box-selector button {
+            padding: 10px 15px;
+            /* Ajustar tamaño para móviles */
+            font-size: 14px;
+            /* Reducir tamaño de fuente */
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            min-width: 80px;
+            /* Ancho mínimo para mejorar legibilidad */
+        }
+
+        .box-selector button.active {
+            background-color: #0056b3;
+        }
+
+        .formulario {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        .campo {
+            margin-bottom: 15px;
+            position: relative;
+            /* Para posicionar el botón de dictado */
+        }
+
+        .campo label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+            /* Tamaño ajustable */
+        }
+
+        .campo textarea {
+            width: 95%;
+            /* Asegura que ocupe todo el ancho disponible */
+            height: 80px;
+            /* Altura ajustada para mejor visualización */
+            padding: 10px;
+            font-size: 14px;
+            /* Fuente más pequeña para móviles */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+        }
+
+        .campo button.dictado {
+            position: absolute;
+            top: 30px;
+            /* Ajustar posición vertical */
+            right: 10px;
+            /* Ajustar posición horizontal */
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #28a745;
+            /* Verde para indicar dictado */
+            color: white;
+        }
+
+        .campo button.dictado:hover {
+            background-color: #218838;
+            /* Verde oscuro al pasar el ratón */
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            /* Permite que los botones se muevan a la siguiente línea */
+            gap: 10px;
+            /* Espaciado entre botones */
+        }
+
+        .buttons button {
+            padding: 10px 15px;
+            /* Ajustar tamaño para móviles */
+            font-size: 14px;
+            /* Reducir tamaño de fuente */
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            flex-grow: 1;
+            /* Expandir botones para ocupar espacio disponible */
+            min-width: 120px;
+            /* Ancho mínimo para mejorar legibilidad */
+        }
+
+        .buttons button:hover {
+            background-color: #0056b3;
+        }
+
+        .resultado {
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid #000;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            display: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 20px;
+                /* Reducir tamaño del título */
+            }
+
+            .box-selector button {
+                font-size: 12px;
+                /* Reducir tamaño de fuente */
+                padding: 8px 12px;
+                /* Botones más pequeños */
+            }
+
+            .campo label {
+                font-size: 14px;
+                /* Reducir tamaño de etiquetas */
+            }
+
+            .campo textarea {
+                font-size: 12px;
+                /* Reducir tamaño de fuente */
+                height: 60px;
+                /* Altura reducida */
+            }
+
+            .buttons button {
+                font-size: 12px;
+                /* Reducir tamaño de fuente */
+                padding: 8px 12px;
+                /* Botones más pequeños */
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 18px;
+                /* Título aún más pequeño */
+            }
+
+            .box-selector button {
+                font-size: 10px;
+                /* Botones muy pequeños */
+                padding: 6px 10px;
+            }
+
+            .campo label {
+                font-size: 12px;
+                /* Etiquetas más pequeñas */
+            }
+
+            .campo textarea {
+                font-size: 10px;
+                /* Texto más pequeño */
+                height: 50px;
+                /* Altura reducida */
+            }
+
+            .buttons button {
+                font-size: 10px;
+                /* Botones muy pequeños */
+                padding: 6px 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Evolución de Enfermería</h1>
+
+    <!-- Selector de Box/Paciente -->
+    <div class="box-selector">
+        <button onclick="selectBox(1)">Box 1</button>
+        <button onclick="selectBox(2)">Box 2</button>
+        <button onclick="selectBox(3)">Box 3</button>
+        <button onclick="selectBox(4)">Box 4</button>
+        <button onclick="selectBox(5)">Box 5</button>
+        <button onclick="selectBox(6)">Box 6</button>
+        <button onclick="selectBox(7)">Box 7</button>
+        <button onclick="selectBox(8)">Box 8</button>
+        <button onclick="selectBox(9)">Box 9</button>
+        <button onclick="selectBox(10)">Box 10</button>
+        <button onclick="selectBox(11)">Box 11</button>
+        <button onclick="selectBox(12)">Box 12</button>
+    </div>
+
+    <!-- Formulario dinámico -->
+    <form class="formulario" id="formulario">
+        <div class="campo">
+            <label for="neurologico">1. NEUROLÓGICO:</label>
+            <textarea id="neurologico" placeholder="Ejemplo: Apertura de ojos y reacciona ante estímulos..."></textarea>
+            <button class="dictado" onclick="startDictation('neurologico')">🎤 Dictar</button>
+        </div>
+        <div class="campo">
+            <label for="cardiovascular">2. CARDIOVASCULAR:</label>
+            <textarea id="cardiovascular"
+                placeholder="Ejemplo: Estable hemodinámicamente sin drogas vaso activas..."></textarea>
+            <button class="dictado" onclick="startDictation('cardiovascular')">🎤 Dictar</button>
+        </div>
+        <div class="campo">
+            <label for="respiratorio">3. RESPIRATORIO:</label>
+            <textarea id="respiratorio" placeholder="Ejemplo: Mantiene buenas saturaciones..."></textarea>
+            <button class="dictado" onclick="startDictation('respiratorio')">🎤 Dictar</button>
+        </div>
+        <div class="campo">
+            <label for="renal">4. RENAL:</label>
+            <textarea id="renal" placeholder="Ejemplo: Buenas diuresis sin furosemida..."></textarea>
+            <button class="dictado" onclick="startDictation('renal')">🎤 Dictar</button>
+        </div>
+        <div class="campo">
+            <label for="gastrointestinal">5. GASTROINTESTINAL:</label>
+            <textarea id="gastrointestinal" placeholder="Ejemplo: Tolera dieta enteral..."></textarea>
+            <button class="dictado" onclick="startDictation('gastrointestinal')">🎤 Dictar</button>
+        </div>
+        <div class="campo">
+            <label for="nutricional">6. NUTRICIONAL/METABÓLICO:</label>
+            <textarea id="nutricional"
+                placeholder="Ejemplo: Glucemias normales con perfusión de insulina..."></textarea>
+            <button class="dictado" onclick="startDictation('nutricional')">🎤 Dictar</button>
+        </div>
+        <div class="campo">
+            <label for="termorregulacion">7. TERMORREGULACIÓN:</label>
+            <textarea id="termorregulacion" placeholder="Ejemplo: Afebril..."></textarea>
+            <button class="dictado" onclick="startDictation('termorregulacion')">🎤 Dictar</button>
+        </div>
+        <div class="campo">
+            <label for="piel">8. PIEL:</label>
+            <textarea id="piel" placeholder="Ejemplo: Ausencia de escaras..."></textarea>
+            <button class="dictado" onclick="startDictation('piel')">🎤 Dictar</button>
+        </div>
+        <div class="campo">
+            <label for="otros">9. OTROS:</label>
+            <textarea id="otros" placeholder="Ejemplo: Otros comentarios..."></textarea>
+            <button class="dictado" onclick="startDictation('otros')">🎤 Dictar</button>
+        </div>
+    </form>
+
+    <!-- Botones de acción -->
+    <div class="buttons">
+        <button onclick="generarInforme()">Generar Informe</button>
+        <button onclick="imprimirD1()">Imprimir (Opción D1)</button>
+        <button onclick="imprimirD2()">Imprimir (Opción D2)</button>
+        <button onclick="borrarDatos()">Borrar Datos</button>
+    </div>
+
+    <!-- Área de resultados -->
+    <div class="resultado" id="resultado">
+        <!-- Aquí se mostrará el informe -->
+    </div>
+
+    <script>
+        // Almacena el estado de los pacientes
+        const pacientes = Array.from({ length: 12 }, () => ({
+            neurologico: "",
+            cardiovascular: "",
+            respiratorio: "",
+            renal: "",
+            gastrointestinal: "",
+            nutricional: "",
+            termorregulacion: "",
+            piel: "",
+            otros: ""
+        }));
+
+        let selectedBox = 1;
+
+        function selectBox(boxNumber) {
+            selectedBox = boxNumber;
+            updateForm();
+            document.querySelectorAll(".box-selector button").forEach(button => {
+                button.classList.remove("active");
+            });
+            document.querySelector(`.box-selector button:nth-child(${boxNumber})`).classList.add("active");
+        }
+
+        function updateForm() {
+            const patientData = pacientes[selectedBox - 1];
+            document.getElementById("neurologico").value = patientData.neurologico;
+            document.getElementById("cardiovascular").value = patientData.cardiovascular;
+            document.getElementById("respiratorio").value = patientData.respiratorio;
+            document.getElementById("renal").value = patientData.renal;
+            document.getElementById("gastrointestinal").value = patientData.gastrointestinal;
+            document.getElementById("nutricional").value = patientData.nutricional;
+            document.getElementById("termorregulacion").value = patientData.termorregulacion;
+            document.getElementById("piel").value = patientData.piel;
+            document.getElementById("otros").value = patientData.otros;
+        }
+
+        function guardarDatos() {
+            const patientData = pacientes[selectedBox - 1];
+            patientData.neurologico = document.getElementById("neurologico").value;
+            patientData.cardiovascular = document.getElementById("cardiovascular").value;
+            patientData.respiratorio = document.getElementById("respiratorio").value;
+            patientData.renal = document.getElementById("renal").value;
+            patientData.gastrointestinal = document.getElementById("gastrointestinal").value;
+            patientData.nutricional = document.getElementById("nutricional").value;
+            patientData.termorregulacion = document.getElementById("termorregulacion").value;
+            patientData.piel = document.getElementById("piel").value;
+            patientData.otros = document.getElementById("otros").value;
+        }
+
+        function generarInforme() {
+            guardarDatos(); // Guarda los datos antes de generar el informe
+            const patientData = pacientes[selectedBox - 1];
+
+            // Generar el contenido del informe
+            const informe = `BOX ${selectedBox}
+-----------------------------
+1. NEUROLÓGICO: ${patientData.neurologico || "No especificado"}
+2. CARDIOVASCULAR: ${patientData.cardiovascular || "No especificado"}
+3. RESPIRATORIO: ${patientData.respiratorio || "No especificado"}
+4. RENAL: ${patientData.renal || "No especificado"}
+5. GASTROINTESTINAL: ${patientData.gastrointestinal || "No especificado"}
+6. NUTRICIONAL/METABÓLICO: ${patientData.nutricional || "No especificado"}
+7. TERMORREGULACIÓN: ${patientData.termorregulacion || "No especificado"}
+8. PIEL: ${patientData.piel || "No especificado"}
+9. OTROS: ${patientData.otros || "No especificado"}`;
+
+            document.getElementById('resultado').textContent = informe;
+            document.getElementById('resultado').style.display = 'block';
+        }
+
+        function imprimirD1() {
+            document.getElementById('resultado').classList.remove('d2');
+            document.getElementById('resultado').classList.add('d1');
+            window.print();
+        }
+
+        function imprimirD2() {
+            document.getElementById('resultado').classList.remove('d1');
+            document.getElementById('resultado').classList.add('d2');
+            window.print();
+        }
+
+        function borrarDatos() {
+            pacientes[selectedBox - 1] = {
+                neurologico: "",
+                cardiovascular: "",
+                respiratorio: "",
+                renal: "",
+                gastrointestinal: "",
+                nutricional: "",
+                termorregulacion: "",
+                piel: "",
+                otros: ""
+            };
+            updateForm();
+        }
+
+        // Función para iniciar el dictado por voz
+        function startDictation(textareaId) {
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'es-ES'; // Idioma: español de España
+            recognition.interimResults = false; // Esperar hasta que se complete la frase
+            recognition.maxAlternatives = 1; // Solo una alternativa
+
+            recognition.start();
+
+            recognition.onresult = function (event) {
+                const transcript = event.results[0][0].transcript;
+                const textarea = document.getElementById(textareaId);
+                textarea.value += (textarea.value ? "\n" : "") + transcript; // Agregar texto al campo
+            };
+
+            recognition.onerror = function (event) {
+                console.error("Error en el reconocimiento de voz:", event.error);
+                alert("Ocurrió un error al intentar dictar. Por favor, inténtalo de nuevo.");
+            };
+
+            recognition.onend = function () {
+                console.log("Reconocimiento de voz finalizado.");
+            };
+        }
+
+        // Inicialización
+        selectBox(1);
+    </script>
+</body>
+
+</html>
