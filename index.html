@@ -440,19 +440,30 @@
                 }
 
                 // Solicitar permisos de micrófono explícitamente
-                await navigator.mediaDevices.getUserMedia({ audio: true });
+                try {
+                    console.log('Solicitando acceso al micrófono...');
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    console.log('Micrófono accesible.');
+                } catch (mediaError) {
+                    console.error("Error al acceder al micrófono:", mediaError);
+                    alert(`Ocurrió un error al intentar acceder al micrófono. Código de error: ${mediaError.message}. Por favor, inténtalo de nuevo.`);
+                    return;
+                }
 
                 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
                 recognition.lang = 'es-ES'; // Idioma: español de España
                 recognition.interimResults = false; // Esperar hasta que se complete la frase
                 recognition.maxAlternatives = 1; // Solo una alternativa
 
+                console.log('Iniciando reconocimiento de voz...');
                 recognition.start();
 
                 recognition.onresult = function (event) {
+                    console.log('Texto transcribido:', event.results[0][0].transcript);
                     const transcript = event.results[0][0].transcript;
                     const textarea = document.getElementById(textareaId);
                     textarea.value += (textarea.value ? "\n" : "") + transcript; // Agregar texto al campo
+                    console.log('Texto añadido al textarea:', textarea.value);
                 };
 
                 recognition.onerror = function (event) {
@@ -468,6 +479,7 @@
                 alert(`Ocurrió un error al intentar dictar. Código de error: ${error.message}. Por favor, inténtalo de nuevo.`);
             }
         }
+
 
         // Inicialización
         selectBox(1);
