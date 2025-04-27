@@ -431,8 +431,11 @@
         }
 
         // Función para iniciar el dictado por voz
-        function startDictation(textareaId) {
+        async function startDictation(textareaId) {
             try {
+                // Solicitar permisos de micrófono explícitamente
+                await navigator.mediaDevices.getUserMedia({ audio: true });
+
                 const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
                 recognition.lang = 'es-ES'; // Idioma: español de España
                 recognition.interimResults = false; // Esperar hasta que se complete la frase
@@ -448,7 +451,7 @@
 
                 recognition.onerror = function (event) {
                     console.error("Error en el reconocimiento de voz:", event.error);
-                    alert("Ocurrió un error al intentar dictar. Por favor, inténtalo de nuevo.");
+                    alert(`Ocurrió un error al intentar dictar. Código de error: ${event.error}. Por favor, inténtalo de nuevo.`);
                 };
 
                 recognition.onend = function () {
@@ -456,10 +459,9 @@
                 };
             } catch (error) {
                 console.error("Error al inicializar SpeechRecognition:", error);
-                alert("Ocurrió un error al intentar dictar. Por favor, inténtalo de nuevo.");
+                alert(`Ocurrió un error al intentar dictar. Código de error: ${error.message}. Por favor, inténtalo de nuevo.`);
             }
         }
-
         // Inicialización
         selectBox(1);
     </script>
