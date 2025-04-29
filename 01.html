@@ -4,10 +4,14 @@
     <meta charset="UTF-8" />
     <link rel="shortcut icon" href="evolucion.png" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
     <title>Evolución de Enfermería</title>
     <style>
       body {
-        font-family: Arial, sans-serif;
+        font-family: Montserrat, sans-serif;
         margin: 20px;
         padding: 0;
         display: flex;
@@ -104,7 +108,7 @@
         padding: 20px;
         border-radius: 5px;
         white-space: pre-wrap;
-        font-family: monospace;
+        font-family: Montserrat;
         display: none;
       }
       /* Estilos para la impresión */
@@ -123,9 +127,20 @@
           font-size: 14px;
           overflow: hidden;
           max-height: 90vh;
-          white-space: pre-wrap;
-          font-family: monospace;
+          white-space: normal;
+          font-family: Montserrat;
           display: block;
+          text-align: justify;
+          line-height: 1.5;
+        }
+        .resultado {
+          font-size: 12px;
+          margin: 1cm;
+        }
+        .resultado b {
+          font-weight: bold;
+          display: block;
+          text-align: justify;
         }
         .resultado.d1 {
           top: 0cm;
@@ -262,8 +277,8 @@
     <!-- Botones de acción -->
     <div class="buttons">
       <button onclick="generarInforme()">Generar Informe</button>
-      <button onclick="imprimirD1()">Imprimir (Opción D1)</button>
-      <button onclick="imprimirD2()">Imprimir (Opción D2)</button>
+      <button onclick="imprimirD1()">Imprimir (D1)</button>
+      <button onclick="imprimirD2()">Imprimir (D2)</button>
       <button onclick="borrarDatos()">Borrar Datos</button>
     </div>
     <!-- Área de resultados -->
@@ -337,15 +352,17 @@
         const informe = `BOX ${selectedBox} - ${turno}
 -----------------------------
 1. NEUROLÓGICO: ${patientData.neurologico || "No especificado"}
-2. CARDIOVASCULAR: ${patientData.cardiovascular || "No especificado"}
-3. RESPIRATORIO: ${patientData.respiratorio || "No especificado"}
-4. RENAL: ${patientData.renal || "No especificado"}
-5. GASTROINTESTINAL: ${patientData.gastrointestinal || "No especificado"}
-6. NUTRICIONAL/METABÓLICO: ${patientData.nutricional || "No especificado"}
-7. TERMORREGULACIÓN: ${patientData.termorregulacion || "No especificado"}
-8. PIEL: ${patientData.piel || "No especificado"}
-9. OTROS: ${patientData.otros || "No especificado"}`;
-        document.getElementById("resultado").textContent = informe;
+<b>2. CARDIOVASCULAR:</b> ${patientData.cardiovascular || "No especificado"}
+<b>3. RESPIRATORIO:</b> ${patientData.respiratorio || "No especificado"}
+<b>4. RENAL:</b> ${patientData.renal || "No especificado"}
+<b>5. GASTROINTESTINAL:</b> ${patientData.gastrointestinal || "No especificado"}
+<b>6. NUTRICIONAL/METABÓLICO: </b> ${
+          patientData.nutricional || "No especificado"
+        }
+<b>7. TERMORREGULACIÓN:</b> ${patientData.termorregulacion || "No especificado"}
+<b>8. PIEL:</b> ${patientData.piel || "No especificado"}
+<b>9. OTROS:</b> ${patientData.otros || "No especificado"}`;
+        document.getElementById("resultado").innerHTML = informe;
         document.getElementById("resultado").style.display = "block";
       }
 
