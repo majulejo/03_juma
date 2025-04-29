@@ -8,23 +8,22 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+
     <title>Evolución de Enfermería</title>
     <style>
       body {
-        font-family: Montserrat, sans-serif;
+        font-family: "Montserrat", sans-serif;
         margin: 20px;
         padding: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
         background-color: #f0f8ff;
-        /* Azul claro */
       }
       h1 {
         text-align: center;
         margin-bottom: 20px;
         font-size: 24px;
-        /* Tamaño ajustable */
       }
       .box-selector {
         display: flex;
@@ -32,23 +31,16 @@
         gap: 10px;
         margin-bottom: 20px;
         flex-wrap: wrap;
-        /* Permite que los botones se muevan a la siguiente línea */
       }
       .box-selector button {
         padding: 10px 15px;
-        /* Ajustar tamaño para móviles */
         font-size: 14px;
-        /* Reducir tamaño de fuente */
         cursor: pointer;
         border: none;
         border-radius: 5px;
         background-color: #007bff;
         color: white;
         min-width: 80px;
-        /* Ancho mínimo para mejorar legibilidad */
-      }
-      .box-selector button.active {
-        background-color: #0056b3;
       }
       .formulario {
         width: 100%;
@@ -58,23 +50,18 @@
       .campo {
         margin-bottom: 15px;
         text-align: center;
-        /* Centrar el contenido del campo */
       }
       .campo label {
         font-weight: bold;
         display: block;
         margin-bottom: 5px;
         font-size: 16px;
-        /* Tamaño ajustable */
       }
       .campo textarea {
         width: 95%;
-        /* Nuevo ancho del textarea */
         height: 80px;
-        /* Altura ajustada para mejor visualización */
         padding: 10px;
         font-size: 14px;
-        /* Fuente más pequeña para móviles */
         border: 1px solid #ccc;
         border-radius: 5px;
         resize: none;
@@ -84,109 +71,53 @@
         justify-content: space-between;
         margin-top: 20px;
         flex-wrap: wrap;
-        /* Permite que los botones se muevan a la siguiente línea */
         gap: 10px;
-        /* Espaciado entre botones */
       }
       .buttons button {
         padding: 10px 15px;
-        /* Ajustar tamaño para móviles */
         font-size: 14px;
-        /* Reducir tamaño de fuente */
         cursor: pointer;
         border: none;
         border-radius: 5px;
         background-color: #007bff;
         color: white;
         flex-grow: 1;
-        /* Expandir botones para ocupar espacio disponible */
         min-width: 120px;
-        /* Ancho mínimo para mejorar legibilidad */
       }
       .resultado {
         margin-top: 20px;
         padding: 20px;
-        border-radius: 5px;
-        white-space: pre-wrap;
-        font-family: Montserrat;
+        font-family: "Montserrat", sans-serif;
+        font-size: 14px;
+        line-height: 1.5;
         display: none;
       }
+      .resultado b {
+        font-weight: bold; /* Labels en negrita */
+      }
+
       /* Estilos para la impresión */
       @media print {
-        body * {
-          visibility: hidden;
+        body > *:not(.resultado) {
+          display: none !important;
         }
+
         .resultado {
-          visibility: visible;
+          display: block !important;
           position: absolute;
           top: auto;
           bottom: 2.5cm;
-          /* Para D2 */
           left: 3cm;
           right: 1cm;
           font-size: 14px;
-          overflow: hidden;
           max-height: 90vh;
-          white-space: normal;
-          font-family: Montserrat;
-          display: block;
-          text-align: justify;
+          font-family: "Montserrat", sans-serif;
           line-height: 1.5;
         }
-        .resultado {
-          font-size: 12px;
-          margin: 1cm;
-        }
-        .resultado b {
-          font-weight: bold;
-          display: block;
-          text-align: justify;
-        }
+
         .resultado.d1 {
-          top: 0cm;
-          /* Para D1 */
+          top: 2cm;
           bottom: auto;
-        }
-      }
-      /* Responsive Design */
-      @media (max-width: 768px) {
-        h1 {
-          font-size: 20px;
-        }
-        .box-selector button {
-          font-size: 12px;
-          padding: 8px 12px;
-        }
-        .campo label {
-          font-size: 14px;
-        }
-        .campo textarea {
-          font-size: 12px;
-          height: 60px;
-        }
-        .buttons button {
-          font-size: 12px;
-          padding: 8px 12px;
-        }
-      }
-      @media (max-width: 480px) {
-        h1 {
-          font-size: 18px;
-        }
-        .box-selector button {
-          font-size: 10px;
-          padding: 6px 10px;
-        }
-        .campo label {
-          font-size: 12px;
-        }
-        .campo textarea {
-          font-size: 10px;
-          height: 50px;
-        }
-        .buttons button {
-          font-size: 10px;
-          padding: 6px 10px;
         }
       }
     </style>
@@ -212,73 +143,46 @@
     <form class="formulario" id="formulario">
       <div class="campo">
         <label for="neurologico">1. NEUROLÓGICO:</label>
-        <textarea
-          id="neurologico"
-          placeholder="Ejemplo: Apertura de ojos y reacciona ante estímulos..."
-        ></textarea>
+        <textarea id="neurologico"></textarea>
       </div>
       <div class="campo">
         <label for="cardiovascular">2. CARDIOVASCULAR:</label>
-        <textarea
-          id="cardiovascular"
-          placeholder="Ejemplo: Estable hemodinámicamente sin drogas vaso activas..."
-        ></textarea>
+        <textarea id="cardiovascular"></textarea>
       </div>
       <div class="campo">
         <label for="respiratorio">3. RESPIRATORIO:</label>
-        <textarea
-          id="respiratorio"
-          placeholder="Ejemplo: Mantiene buenas saturaciones..."
-        ></textarea>
+        <textarea id="respiratorio"></textarea>
       </div>
       <div class="campo">
         <label for="renal">4. RENAL:</label>
-        <textarea
-          id="renal"
-          placeholder="Ejemplo: Buenas diuresis sin furosemida..."
-        ></textarea>
+        <textarea id="renal"></textarea>
       </div>
       <div class="campo">
         <label for="gastrointestinal">5. GASTROINTESTINAL:</label>
-        <textarea
-          id="gastrointestinal"
-          placeholder="Ejemplo: Tolera dieta enteral..."
-        ></textarea>
+        <textarea id="gastrointestinal"></textarea>
       </div>
       <div class="campo">
         <label for="nutricional">6. NUTRICIONAL/METABÓLICO:</label>
-        <textarea
-          id="nutricional"
-          placeholder="Ejemplo: Glucemias normales con perfusión de insulina..."
-        ></textarea>
+        <textarea id="nutricional"></textarea>
       </div>
       <div class="campo">
         <label for="termorregulacion">7. TERMORREGULACIÓN:</label>
-        <textarea
-          id="termorregulacion"
-          placeholder="Ejemplo: Afebril..."
-        ></textarea>
+        <textarea id="termorregulacion"></textarea>
       </div>
       <div class="campo">
         <label for="piel">8. PIEL:</label>
-        <textarea
-          id="piel"
-          placeholder="Ejemplo: Ausencia de escaras..."
-        ></textarea>
+        <textarea id="piel"></textarea>
       </div>
       <div class="campo">
         <label for="otros">9. OTROS:</label>
-        <textarea
-          id="otros"
-          placeholder="Ejemplo: Otros comentarios..."
-        ></textarea>
+        <textarea id="otros"></textarea>
       </div>
     </form>
     <!-- Botones de acción -->
     <div class="buttons">
       <button onclick="generarInforme()">Generar Informe</button>
-      <button onclick="imprimirD1()">Imprimir (D1)</button>
-      <button onclick="imprimirD2()">Imprimir (D2)</button>
+      <button onclick="imprimirD1()">Imprimir (Opción D1)</button>
+      <button onclick="imprimirD2()">Imprimir (Opción D2)</button>
       <button onclick="borrarDatos()">Borrar Datos</button>
     </div>
     <!-- Área de resultados -->
@@ -286,7 +190,6 @@
       <!-- Aquí se mostrará el informe -->
     </div>
     <script>
-      // Almacena el estado de los pacientes
       const pacientes = Array.from({ length: 12 }, () => ({
         neurologico: "",
         cardiovascular: "",
@@ -349,20 +252,32 @@
         guardarDatos(); // Guarda los datos antes de generar el informe
         const patientData = pacientes[selectedBox - 1];
         // Generar el contenido del informe
-        const informe = `BOX ${selectedBox} - ${turno}
------------------------------
-1. NEUROLÓGICO: ${patientData.neurologico || "No especificado"}
-<b>2. CARDIOVASCULAR:</b> ${patientData.cardiovascular || "No especificado"}
-<b>3. RESPIRATORIO:</b> ${patientData.respiratorio || "No especificado"}
-<b>4. RENAL:</b> ${patientData.renal || "No especificado"}
-<b>5. GASTROINTESTINAL:</b> ${patientData.gastrointestinal || "No especificado"}
-<b>6. NUTRICIONAL/METABÓLICO: </b> ${
-          patientData.nutricional || "No especificado"
-        }
-<b>7. TERMORREGULACIÓN:</b> ${patientData.termorregulacion || "No especificado"}
-<b>8. PIEL:</b> ${patientData.piel || "No especificado"}
-<b>9. OTROS:</b> ${patientData.otros || "No especificado"}`;
-        document.getElementById("resultado").innerHTML = informe;
+        const informe = `
+  <p><strong>BOX ${selectedBox} - ${turno}</strong></p>
+  <p><strong>1. NEUROLÓGICO:</strong> ${
+    patientData.neurologico || "No especificado"
+  }</p>
+  <p><strong>2. CARDIOVASCULAR:</strong> ${
+    patientData.cardiovascular || "No especificado"
+  }</p>
+  <p><strong>3. RESPIRATORIO:</strong> ${
+    patientData.respiratorio || "No especificado"
+  }</p>
+  <p><strong>4. RENAL:</strong> ${patientData.renal || "No especificado"}</p>
+  <p><strong>5. GASTROINTESTINAL:</strong> ${
+    patientData.gastrointestinal || "No especificado"
+  }</p>
+  <p><strong>6. NUTRICIONAL/METABÓLICO:</strong> ${
+    patientData.nutricional || "No especificado"
+  }</p>
+  <p><strong>7. TERMORREGULACIÓN:</strong> ${
+    patientData.termorregulacion || "No especificado"
+  }</p>
+  <p><strong>8. PIEL:</strong> ${patientData.piel || "No especificado"}</p>
+  <p><strong>9. OTROS:</strong> ${patientData.otros || "No especificado"}</p>
+`;
+
+        document.getElementById("resultado").innerHTML = informe; // Usar innerHTML
         document.getElementById("resultado").style.display = "block";
       }
 
@@ -395,7 +310,6 @@
         updateForm();
       }
 
-      // Inicialización
       selectBox(1);
     </script>
   </body>
