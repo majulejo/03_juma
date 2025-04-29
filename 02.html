@@ -9,7 +9,7 @@
       rel="stylesheet"
     />
 
-    <title>Evolución de Enfermería</title>
+    <title>02_Evolución de Enfermería</title>
     <style>
       body {
         font-family: "Montserrat", sans-serif;
@@ -42,6 +42,9 @@
         color: white;
         min-width: 80px;
       }
+      .box-selector button.active {
+        background-color: #0056b3;
+      }
       .formulario {
         width: 100%;
         max-width: 600px;
@@ -55,7 +58,7 @@
         font-weight: bold;
         display: block;
         margin-bottom: 5px;
-        font-size: 16px;
+        font-size: 14px;
       }
       .campo textarea {
         width: 95%;
@@ -88,7 +91,7 @@
         margin-top: 20px;
         padding: 20px;
         font-family: "Montserrat", sans-serif;
-        font-size: 14px;
+        font-size: 12px;
         line-height: 1.5;
         display: none;
       }
@@ -109,16 +112,35 @@
           bottom: 2.5cm;
           left: 3cm;
           right: 1cm;
-          font-size: 14px;
+          font-size: 12px;
           max-height: 90vh;
           font-family: "Montserrat", sans-serif;
           line-height: 1.5;
         }
 
         .resultado.d1 {
-          top: 2cm;
+          top: 0cm;
           bottom: auto;
         }
+		.campo {
+    margin-bottom: 2px !important; /* Reduce el espacio entre campos al imprimir */
+  }
+
+  .campo label {
+    margin-bottom: 2px !important; /* Reduce espacio entre etiqueta y textarea */
+    font-size: 11px;
+  }
+
+  .campo textarea {
+    height: 50px !important; /* Opcional: reduce altura del textarea */
+    font-size: 11px;
+    padding: 5px;
+  }
+  /* Opcional: reducir margen superior e inferior del contenedor de resultados */
+  .resultado {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
       }
     </style>
   </head>
@@ -143,46 +165,73 @@
     <form class="formulario" id="formulario">
       <div class="campo">
         <label for="neurologico">1. NEUROLÓGICO:</label>
-        <textarea id="neurologico"></textarea>
+        <textarea
+          id="neurologico"
+          placeholder="Ejemplo: Apertura de ojos y reacciona ante estímulos..."
+        ></textarea>
       </div>
       <div class="campo">
         <label for="cardiovascular">2. CARDIOVASCULAR:</label>
-        <textarea id="cardiovascular"></textarea>
+        <textarea
+          id="cardiovascular"
+          placeholder="Ejemplo: Estable hemodinámicamente sin drogas vaso activas..."
+        ></textarea>
       </div>
       <div class="campo">
         <label for="respiratorio">3. RESPIRATORIO:</label>
-        <textarea id="respiratorio"></textarea>
+        <textarea
+          id="respiratorio"
+          placeholder="Ejemplo: Mantiene buenas saturaciones..."
+        ></textarea>
       </div>
       <div class="campo">
         <label for="renal">4. RENAL:</label>
-        <textarea id="renal"></textarea>
+        <textarea
+          id="renal"
+          placeholder="Ejemplo: Buenas diuresis sin furosemida..."
+        ></textarea>
       </div>
       <div class="campo">
         <label for="gastrointestinal">5. GASTROINTESTINAL:</label>
-        <textarea id="gastrointestinal"></textarea>
+        <textarea
+          id="gastrointestinal"
+          placeholder="Ejemplo: Tolera dieta enteral..."
+        ></textarea>
       </div>
       <div class="campo">
         <label for="nutricional">6. NUTRICIONAL/METABÓLICO:</label>
-        <textarea id="nutricional"></textarea>
+        <textarea
+          id="nutricional"
+          placeholder="Ejemplo: Glucemias normales con perfusión de insulina..."
+        ></textarea>
       </div>
       <div class="campo">
         <label for="termorregulacion">7. TERMORREGULACIÓN:</label>
-        <textarea id="termorregulacion"></textarea>
+        <textarea
+          id="termorregulacion"
+          placeholder="Ejemplo: Afebril..."
+        ></textarea>
       </div>
       <div class="campo">
         <label for="piel">8. PIEL:</label>
-        <textarea id="piel"></textarea>
+        <textarea
+          id="piel"
+          placeholder="Ejemplo: Ausencia de escaras..."
+        ></textarea>
       </div>
       <div class="campo">
         <label for="otros">9. OTROS:</label>
-        <textarea id="otros"></textarea>
+        <textarea
+          id="otros"
+          placeholder="Ejemplo: Otros comentarios..."
+        ></textarea>
       </div>
     </form>
     <!-- Botones de acción -->
     <div class="buttons">
       <button onclick="generarInforme()">Generar Informe</button>
-      <button onclick="imprimirD1()">Imprimir (Opción D1)</button>
-      <button onclick="imprimirD2()">Imprimir (Opción D2)</button>
+      <button onclick="imprimirD1()">Imprimir (D1)</button>
+      <button onclick="imprimirD2()">Imprimir (D2)</button>
       <button onclick="borrarDatos()">Borrar Datos</button>
     </div>
     <!-- Área de resultados -->
