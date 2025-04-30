@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="shortcut icon" href="evolucion.png" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>guardar_Evolución de Enfermería</title>
+    <style>
+      body {
+        font-family: "Montserrat", sans-serif;
+        margin: 20px;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f0f8ff;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+      }
+      .box-selector {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+      .box-selector button {
+        padding: 10px 15px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: white;
+        min-width: 80px;
+      }
+      .box-selector button.active {
+        background-color: #0056b3;
+      }
+      .formulario {
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 20px;
+      }
+      .campo {
+        margin-bottom: 15px;
+        text-align: center;
+      }
+      .campo label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+        font-size: 14px;
+      }
+      .campo textarea {
+        width: 95%;
+        height: 80px;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        resize: none;
+      }
+      .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .buttons button {
+        padding: 10px 15px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: white;
+        flex-grow: 1;
+        min-width: 120px;
+      }
+      .resultado {
+        margin-top: 20px;
+        padding: 20px;
+        font-family: "Montserrat", sans-serif;
+        font-size: 12px;
+        line-height: 1.5;
+        display: none;
+      }
+      .resultado b {
+        font-weight: bold; /* Labels en negrita */
+      }
+
+      /* Estilos para la impresión */
+      @media print {
+        body > *:not(.resultado) {
+          display: none !important;
+        }
+
+        .resultado {
+          display: block !important;
+          position: absolute;
+          top: auto;
+          bottom: 2.5cm;
+          left: 3cm;
+          right: 1cm;
+          font-size: 12px;
+          max-height: 90vh;
+          font-family: "Montserrat", sans-serif;
+          line-height: 1.5;
+        }
+
+        .resultado.d1 {
+          top: 0cm;
+          bottom: auto;
+        }
+        .campo {
+          margin-bottom: 2px !important; /* Reduce el espacio entre campos al imprimir */
+        }
+
+        .campo label {
+          margin-bottom: 2px !important; /* Reduce espacio entre etiqueta y textarea */
+          font-size: 11px;
+        }
+
+        .campo textarea {
+          height: 50px !important; /* Opcional: reduce altura del textarea */
+          font-size: 11px;
+          padding: 5px;
+        }
+        /* Opcional: reducir margen superior e inferior del contenedor de resultados */
+        .resultado {
+          padding-top: 10px;
+          padding-bottom: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Evolución de Enfermería</h1>
+    <!-- Selector de Box/Paciente -->
+    <div class="box-selector">
+      <!-- Botones del 1 al 12 -->
+      <script>
+        for (let i = 1; i <= 12; i++) {
+          document.write(`<button onclick="selectBox(${i})">Box ${i}</button>`);
+        }
+      </script>
+    </div>
+
+    <!-- Formulario dinámico -->
+    <form class="formulario" id="formulario">
+      <div class="campo">
+<label for="neurologico">1. NEUROLÓGICO</label>
+      <textarea
+        id="neurologico"
+        placeholder="Ej. Consciente, orientado, RASS 0, sin cambios."
+      ></textarea></div>
+
+      <div class="campo">
+<label for="cardiovascular">2. CARDIOVASCULAR</label>
+      <textarea
+        id="cardiovascular"
+        placeholder="Ej. PAM 75 mmHg, FC 88 lpm, sin uso de aminas."
+      ></textarea></div>
+
+      <div class="campo">
+<label for="respiratorio">3. RESPIRATORIO</label>
+      <textarea
+        id="respiratorio"
+        placeholder="Ej. FiO₂ 40%, SatO₂ 98%, FR 16 rpm."
+      ></textarea></div>
+
+      <div class="campo">
+<label for="renal">4. RENAL</label>
+      <textarea
+        id="renal"
+        placeholder="Ej. Diuresis conservada, sin requerimientos."
+      ></textarea></div>
+
+      <div class="campo">
+<label for="gastrointestinal">5. GASTROINTESTINAL</label>
+      <textarea
+        id="gastrointestinal"
+        placeholder="Ej. Abdomen blando, buena tolerancia enteral."
+      ></textarea></div>
+
+      <div class="campo">
+<label for="nutricional">6. NUTRICIONAL/METABÓLICO</label>
+      <textarea
+        id="nutricional"
+        placeholder="Ej. Nutrición enteral a buena velocidad, sin vómitos."
+      ></textarea></div>
+
+      <div class="campo">
+<label for="termorregulacion">7. TERMORREGULACIÓN</label>
+      <textarea
+        id="termorregulacion"
+        placeholder="Ej. Afebril, temperatura estable."
+      ></textarea></div>
+
+      <div class="campo">
+<label for="piel">8. PIEL</label>
+      <textarea
+        id="piel"
+        placeholder="Ej. Buena integridad cutánea, sin lesiones."
+      ></textarea></div>
+
+      <div class="campo">
+<label for="otros">9. OTROS</label>
+      <textarea
+        id="otros"
+        placeholder="Ej. Familia presente, sin novedades."
+      ></textarea>
+    </form></div>
+
+    <!-- Botones de acción -->
+    <div class="buttons">
+      <button onclick="generarInforme()">Generar Informe</button>
+      <button onclick="imprimirAuto()">Imprimir</button>
+      <button onclick="borrarDatos()">Borrar Datos</button>
+    </div>
+    <!-- Botón para recuperar informes anteriores -->
+    <div style="margin: 10px 0">
+      <label for="fechaSeleccionada"><strong>Seleccionar fecha:</strong></label>
+      <input type="date" id="fechaSeleccionada" value="" />
+      <button onclick="cargarDatosFecha()">Cargar Fecha</button>
+    </div>
+    <!-- Área de resultados -->
+    <div class="resultado" id="resultado">
+      <!-- Aquí se mostrará el informe -->
+    </div>
+    <script>
+      const hoy = new Date().toISOString().slice(0, 10); // yyyy-mm-dd
+      let selectedBox = 1;
+      const campos = [
+        "neurologico",
+        "cardiovascular",
+        "respiratorio",
+        "renal",
+        "gastrointestinal",
+        "nutricional",
+        "termorregulacion",
+        "piel",
+        "otros",
+      ];
+
+      function getKey(box) {
+        return `evolucion_${hoy}_box${box}`;
+      }
+
+      function guardarDatos() {
+        const datos = {};
+        campos.forEach((campo) => {
+          datos[campo] = document.getElementById(campo).value;
+        });
+        localStorage.setItem(getKey(selectedBox), JSON.stringify(datos));
+      }
+
+      function cargarDatos() {
+        const data = localStorage.getItem(getKey(selectedBox));
+        if (data) {
+          const datos = JSON.parse(data);
+          campos.forEach((campo) => {
+            document.getElementById(campo).value = datos[campo] || "";
+          });
+        } else {
+          campos.forEach((campo) => {
+            document.getElementById(campo).value = "";
+          });
+        }
+      }
+
+      function selectBox(boxNumber) {
+  guardarDatos(); // guarda antes de cambiar
+  selectedBox = boxNumber;
+  cargarDatos();
+
+  // Quitar clase 'active' de todos los botones
+  document
+    .querySelectorAll(".box-selector button")
+    .forEach((btn) => btn.classList.remove("active"));
+
+  // Añadir clase 'active' al botón correcto
+  document.querySelectorAll(".box-selector button").forEach((btn) => {
+    if (btn.textContent === `Box ${boxNumber}`) {
+      btn.classList.add("active");
+    }
+  });
+}
+
+
+
+      function generarInforme(turno = "") {
+        guardarDatos();
+        const datos = {};
+        campos.forEach((campo) => {
+          datos[campo] =
+            document.getElementById(campo).value || "No especificado";
+        });
+
+        const informe = `
+            <p><strong>BOX ${selectedBox} - ${turno}</strong></p>
+            <p><strong>1. NEUROLÓGICO:</strong> ${datos.neurologico}</p>
+            <p><strong>2. CARDIOVASCULAR:</strong> ${datos.cardiovascular}</p>
+            <p><strong>3. RESPIRATORIO:</strong> ${datos.respiratorio}</p>
+            <p><strong>4. RENAL:</strong> ${datos.renal}</p>
+            <p><strong>5. GASTROINTESTINAL:</strong> ${datos.gastrointestinal}</p>
+            <p><strong>6. NUTRICIONAL/METABÓLICO:</strong> ${datos.nutricional}</p>
+            <p><strong>7. TERMORREGULACIÓN:</strong> ${datos.termorregulacion}</p>
+            <p><strong>8. PIEL:</strong> ${datos.piel}</p>
+            <p><strong>9. OTROS:</strong> ${datos.otros}</p>
+          `;
+
+        const res = document.getElementById("resultado");
+        res.innerHTML = informe;
+        res.style.display = "block";
+      }
+
+      function imprimirAuto() {
+        const hora = new Date().getHours();
+        const turno =
+          hora >= 8 && hora < 20
+            ? "Turno de 8 a 20 horas"
+            : "Turno de 20 a 8 horas";
+
+        const res = document.getElementById("resultado");
+        generarInforme(turno);
+        res.classList.toggle("d1", hora >= 8 && hora < 20);
+        res.classList.toggle("d2", hora < 8 || hora >= 20);
+        window.print();
+      }
+
+      function borrarDatos() {
+        localStorage.removeItem(getKey(selectedBox));
+        cargarDatos();
+      }
+
+      //añadir fecha para recuperar informes
+      function cargarDatosFecha() {
+        const fecha = document.getElementById("fechaSeleccionada").value;
+        if (!fecha) {
+          alert("Por favor selecciona una fecha.");
+          return;
+        }
+
+        const key = `evolucion_${fecha}_box${selectedBox}`;
+        const data = localStorage.getItem(key);
+        if (data) {
+          const datos = JSON.parse(data);
+          campos.forEach((campo) => {
+            document.getElementById(campo).value = datos[campo] || "";
+          });
+          alert(`Datos del ${fecha} cargados para Box ${selectedBox}`);
+        } else {
+          alert(
+            `No hay datos guardados para el ${fecha} en Box ${selectedBox}`
+          );
+        }
+      }
+
+      // Inicializar
+      window.onload = () => {
+        selectBox(1);
+      };
+    </script>
+  </body>
+</html>
