@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>09_Evolución de Enfermería</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f0f8ff;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      /* Contenedor principal de los Box */
+      .box-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        width: 100%;
+        max-width: 800px;
+      }
+
+      /* Estilo de los botones Box - Texto perfectamente centrado */
+      .box-btn {
+        width: 80px;
+        height: 40px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        font-weight: bold;
+        text-align: center;
+        padding: 0;
+        margin: 0;
+      }
+
+      .box-btn.active {
+        background-color: #0056b3;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Formulario */
+      .form-container {
+        width: 100%;
+        max-width: 800px;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      .form-group textarea {
+        width: 100%;
+        height: 80px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        resize: vertical;
+      }
+
+      /* Botones de acción */
+      .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .action-btn {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+
+      /* Selector de fecha */
+      .date-selector {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        margin: 20px 0;
+        flex-wrap: wrap;
+      }
+
+      .date-selector input,
+      .date-selector select {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      /* Resultado */
+      .result-container {
+        display: none;
+        width: 100%;
+        max-width: 800px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: white;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>09_Evolución de Enfermería</h1>
+
+    <!-- Selector de Box con texto centrado -->
+    <div class="box-container" id="boxContainer">
+      <!-- Los botones se generarán dinámicamente con JavaScript -->
+    </div>
+
+    <!-- Formulario -->
+    <div class="form-container">
+      <div class="form-group">
+        <label for="neurologico">1. NEUROLÓGICO</label>
+        <textarea
+          id="neurologico"
+          placeholder="Ej. Consciente, orientado, RASS 0, sin cambios."
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="cardiovascular">2. CARDIOVASCULAR</label>
+        <textarea
+          id="cardiovascular"
+          placeholder="Ej. PAM 75 mmHg, FC 88 lpm, sin uso de aminas."
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="respiratorio">3. RESPIRATORIO</label>
+        <textarea
+          id="respiratorio"
+          placeholder="Ej. FiO₂ 40%, SatO₂ 98%, FR 16 rpm."
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="renal">4. RENAL</label>
+        <textarea
+          id="renal"
+          placeholder="Ej. Diuresis conservada, sin requerimientos."
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="gastrointestinal">5. GASTROINTESTINAL</label>
+        <textarea
+          id="gastrointestinal"
+          placeholder="Ej. Abdomen blando, buena tolerancia enteral."
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="nutricional">6. NUTRICIONAL/METABÓLICO</label>
+        <textarea
+          id="nutricional"
+          placeholder="Ej. Nutrición enteral a buena velocidad, sin vómitos."
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="termorregulacion">7. TERMORREGULACIÓN</label>
+        <textarea
+          id="termorregulacion"
+          placeholder="Ej. Afebril, temperatura estable."
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="piel">8. PIEL</label>
+        <textarea
+          id="piel"
+          placeholder="Ej. Buena integridad cutánea, sin lesiones."
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="otros">9. OTROS</label>
+        <textarea
+          id="otros"
+          placeholder="Ej. Familia presente, sin novedades."
+        ></textarea>
+      </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="action-buttons">
+      <button class="action-btn" onclick="generarInforme()">
+        Generar Informe
+      </button>
+      <button class="action-btn" onclick="imprimirInforme()">Imprimir</button>
+      <button class="action-btn" onclick="limpiarFormulario()">
+        Borrar Datos
+      </button>
+    </div>
+
+    <!-- Selector de fecha -->
+    <div class="date-selector">
+      <label for="fecha">Seleccionar fecha:</label>
+      <input type="date" id="fecha" />
+
+      <!-- <label for="box">Seleccionar Box:</label> -->
+      <select id="box">
+        <option value="">Seleccionar Box</option>
+        <option value="1">Box 1</option>
+        <option value="2">Box 2</option>
+        <option value="3">Box 3</option>
+        <option value="4">Box 4</option>
+        <option value="5">Box 5</option>
+        <option value="6">Box 6</option>
+        <option value="7">Box 7</option>
+        <option value="8">Box 8</option>
+        <option value="9">Box 9</option>
+        <option value="10">Box 10</option>
+        <option value="11">Box 11</option>
+        <option value="12">Box 12</option>
+      </select>
+
+      <button class="action-btn" onclick="cargarDatos()">Cargar Fecha</button>
+    </div>
+
+    <!-- Resultado -->
+    <div class="result-container" id="resultado"></div>
+
+    <script>
+      // Variables globales
+      let boxActual = 1;
+      const campos = [
+        "neurologico",
+        "cardiovascular",
+        "respiratorio",
+        "renal",
+        "gastrointestinal",
+        "nutricional",
+        "termorregulacion",
+        "piel",
+        "otros",
+      ];
+
+      // Inicialización
+      document.addEventListener("DOMContentLoaded", function () {
+        crearBotonesBox();
+        seleccionarBox(1);
+      });
+
+      // Crea los botones de los Box
+      function crearBotonesBox() {
+        const container = document.getElementById("boxContainer");
+        container.innerHTML = "";
+
+        for (let i = 1; i <= 12; i++) {
+          const btn = document.createElement("button");
+          btn.className = "box-btn";
+          btn.textContent = `Box ${i}`;
+          btn.onclick = function () {
+            seleccionarBox(i);
+          };
+          container.appendChild(btn);
+        }
+      }
+
+      // Selecciona un Box específico
+      function seleccionarBox(numeroBox) {
+        // Guardar datos del box actual antes de cambiar
+        guardarDatos();
+
+        // Actualizar box actual
+        boxActual = numeroBox;
+
+        // Resaltar el botón seleccionado
+        const botones = document.querySelectorAll(".box-btn");
+        botones.forEach((btn) => {
+          btn.classList.remove("active");
+          if (btn.textContent === `Box ${numeroBox}`) {
+            btn.classList.add("active");
+          }
+        });
+
+        // Cargar datos del nuevo box
+        cargarDatosBox();
+      }
+
+      // Guarda los datos del box actual
+      function guardarDatos() {
+        const datos = {};
+
+        campos.forEach((campo) => {
+          datos[campo] = document.getElementById(campo).value;
+        });
+
+        localStorage.setItem(`box_${boxActual}`, JSON.stringify(datos));
+      }
+
+      // Carga los datos del box seleccionado
+      function cargarDatosBox() {
+        const datosGuardados = localStorage.getItem(`box_${boxActual}`);
+
+        if (datosGuardados) {
+          const datos = JSON.parse(datosGuardados);
+
+          campos.forEach((campo) => {
+            document.getElementById(campo).value = datos[campo] || "";
+          });
+        } else {
+          // Limpiar campos si no hay datos guardados
+          campos.forEach((campo) => {
+            document.getElementById(campo).value = "";
+          });
+        }
+      }
+
+      // Genera el informe
+      function generarInforme() {
+        guardarDatos();
+
+        const turno =
+          new Date().getHours() < 20
+            ? "Turno de 8 a 20 horas"
+            : "Turno de 20 a 8 horas";
+        let informeHTML = `<h3>BOX ${boxActual} - ${turno}</h3>`;
+
+        campos.forEach((campo) => {
+          const valor =
+            document.getElementById(campo).value || "No especificado";
+          informeHTML += `<p><strong>${campo.toUpperCase()}:</strong> ${valor}</p>`;
+        });
+
+        document.getElementById("resultado").innerHTML = informeHTML;
+        document.getElementById("resultado").style.display = "block";
+      }
+
+      // Imprime el informe
+      function imprimirInforme() {
+        generarInforme();
+        window.print();
+      }
+
+      // Limpia el formulario
+      function limpiarFormulario() {
+        campos.forEach((campo) => {
+          document.getElementById(campo).value = "";
+        });
+      }
+
+      // Carga datos por fecha y box
+      function cargarDatos() {
+        const fecha = document.getElementById("fecha").value;
+        const box = document.getElementById("box").value;
+
+        if (!fecha || !box) {
+          alert("Por favor seleccione una fecha y un box");
+          return;
+        }
+
+        const clave = `box_${box}_${fecha}`;
+        const datosGuardados = localStorage.getItem(clave);
+
+        if (datosGuardados) {
+          const datos = JSON.parse(datosGuardados);
+
+          campos.forEach((campo) => {
+            document.getElementById(campo).value = datos[campo] || "";
+          });
+
+          // Seleccionar el box correspondiente
+          seleccionarBox(parseInt(box));
+          alert(`Datos del Box ${box} (${fecha}) cargados correctamente`);
+        } else {
+          alert(
+            `No se encontraron datos para el Box ${box} en la fecha ${fecha}`
+          );
+        }
+      }
+    </script>
+  </body>
+</html>
