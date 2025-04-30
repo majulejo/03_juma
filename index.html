@@ -54,23 +54,19 @@
       .campo {
         margin-bottom: 15px;
         text-align: center;
-        /* Centrar el contenido del campo */
       }
       .campo label {
         font-weight: bold;
         display: block;
         margin-bottom: 5px;
-        font-size: 16px;
+        font-size: 14px;
         /* Tamaño ajustable */
       }
       .campo textarea {
         width: 95%;
-        /* Nuevo ancho del textarea */
         height: 80px;
-        /* Altura ajustada para mejor visualización */
         padding: 10px;
         font-size: 14px;
-        /* Fuente más pequeña para móviles */
         border: 1px solid #ccc;
         border-radius: 5px;
         resize: none;
@@ -80,24 +76,18 @@
         justify-content: space-between;
         margin-top: 20px;
         flex-wrap: wrap;
-        /* Permite que los botones se muevan a la siguiente línea */
         gap: 10px;
-        /* Espaciado entre botones */
       }
       .buttons button {
         padding: 10px 15px;
-        /* Ajustar tamaño para móviles */
         font-size: 14px;
-        /* Reducir tamaño de fuente */
         cursor: pointer;
         border: none;
         border-radius: 5px;
         background-color: #007bff;
         color: white;
         flex-grow: 1;
-        /* Expandir botones para ocupar espacio disponible */
         min-width: 120px;
-        /* Ancho mínimo para mejorar legibilidad */
       }
       .resultado {
         margin-top: 20px;
@@ -107,6 +97,9 @@
         font-family: monospace;
         display: none;
       }
+      .resultado b {
+        font-weight: bold;
+      }
       /* Estilos para la impresión */
       @media print {
         body * {
@@ -115,12 +108,12 @@
         .resultado {
           visibility: visible;
           position: absolute;
-          top: auto;
+          top: 0;
           bottom: 2cm;
           /* Para D2 */
           left: 3cm;
           right: 1cm;
-          font-size: 14px;
+          font-size: 12px;
           overflow: hidden;
           max-height: 90vh;
           white-space: pre-wrap;
