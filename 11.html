@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>09_Evolución de Enfermería</title>
+    <title>11_Evolución de Enfermería</title>
     <style>
       body {
-        font-family: Arial, sans-serif;
+        font-family: "Montserrat", sans-serif;
         margin: 20px;
         padding: 0;
         display: flex;
@@ -14,13 +14,11 @@
         align-items: center;
         background-color: #f0f8ff;
       }
-
       h1 {
         text-align: center;
         margin-bottom: 20px;
+        font-size: 24px;
       }
-
-      /* Contenedor principal de los Box */
       .box-container {
         display: flex;
         flex-wrap: wrap;
@@ -30,8 +28,6 @@
         width: 100%;
         max-width: 800px;
       }
-
-      /* Estilo de los botones Box - Texto perfectamente centrado */
       .box-btn {
         width: 80px;
         height: 40px;
@@ -40,54 +36,42 @@
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         font-size: 14px;
         font-weight: bold;
         text-align: center;
-        padding: 0;
-        margin: 0;
+        line-height: 40px;
       }
-
       .box-btn.active {
         background-color: #0056b3;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
       }
-
-      /* Formulario */
       .form-container {
         width: 100%;
         max-width: 800px;
       }
-
       .form-group {
         margin-bottom: 15px;
       }
-
       .form-group label {
         display: block;
         margin-bottom: 5px;
         font-weight: bold;
       }
-
       .form-group textarea {
-        width: 100%;
+        width: 95%;
         height: 80px;
         padding: 10px;
         border: 1px solid #ddd;
         border-radius: 5px;
         resize: vertical;
+        font-family: "Montserrat", sans-serif;
       }
-
-      /* Botones de acción */
       .action-buttons {
         display: flex;
         justify-content: center;
         gap: 15px;
-        margin: 20px 0;
+        margin: 10px 0;
       }
-
       .action-btn {
         padding: 10px 20px;
         background-color: #007bff;
@@ -96,26 +80,74 @@
         border-radius: 5px;
         cursor: pointer;
         font-size: 14px;
+        font-family: "Montserrat", sans-serif;
+        margin: 0 20px;
       }
-
-      /* Selector de fecha */
       .date-selector {
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 15px;
-        margin: 20px 0;
+        margin: 10px 0;
         flex-wrap: wrap;
       }
-
-      .date-selector input,
-      .date-selector select {
+      .date-selector label {
+        font-weight: bold;
+      }
+      #fecha {
         padding: 8px 12px;
         border: 1px solid #ddd;
         border-radius: 5px;
+        font-family: "Montserrat", sans-serif;
       }
-
-      /* Resultado */
+      /* Selector de Box personalizado */
+      /* Selector de Box personalizado - VERSIÓN QUE SE ABRE HACIA ARRIBA */
+      .custom-select-wrapper {
+        position: relative;
+        width: 150px;
+        margin-bottom: 5px;
+      }
+      .select-box {
+        width: 80%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: white;
+        cursor: pointer;
+        text-align: center;
+        font-weight: bold;
+      }
+      .box-options {
+        position: absolute;
+        bottom: 100%; /* Cambia esto para que se abra hacia arriba */
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 5px 5px 0 0; /* Bordes redondeados arriba */
+        max-height: 200px;
+        overflow-y: auto;
+        display: none;
+        z-index: 10;
+        box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* Sombra hacia arriba */
+        margin-bottom: 5px; /* Espacio entre el trigger y el menú */
+      }
+      .box-option {
+        padding: 10px;
+        cursor: pointer;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+      }
+      .box-option:hover {
+        background-color: #f0f8ff;
+      }
+      .box-option:first-child {
+        border-radius: 5px 5px 0 0;
+      }
+      .box-option:last-child {
+        border-bottom: none;
+        border-radius: 0 0 5px 5px;
+      }
       .result-container {
         display: none;
         width: 100%;
@@ -126,17 +158,40 @@
         background-color: white;
         margin-top: 20px;
       }
+      /* NUEVOS ESTILOS PARA IMPRESIÓN */
+      @media print {
+        body * {
+          visibility: hidden;
+        }
+        .printable-area,
+        .printable-area * {
+          visibility: visible;
+        }
+        .printable-area {
+          position: absolute;
+          left: 0;
+          right: 0;
+          page-break-after: always;
+        }
+        .turno-diurno {
+          top: 0;
+        }
+        .turno-nocturno {
+          bottom: 0;
+        }
+        .no-print {
+          display: none;
+        }
+      }
     </style>
   </head>
   <body>
-    <h1>09_Evolución de Enfermería</h1>
+    <h1>11_Evolución de Enfermería</h1>
 
-    <!-- Selector de Box con texto centrado -->
     <div class="box-container" id="boxContainer">
-      <!-- Los botones se generarán dinámicamente con JavaScript -->
+      <!-- Botones de Box se generarán aquí -->
     </div>
 
-    <!-- Formulario -->
     <div class="form-container">
       <div class="form-group">
         <label for="neurologico">1. NEUROLÓGICO</label>
@@ -145,7 +200,6 @@
           placeholder="Ej. Consciente, orientado, RASS 0, sin cambios."
         ></textarea>
       </div>
-
       <div class="form-group">
         <label for="cardiovascular">2. CARDIOVASCULAR</label>
         <textarea
@@ -153,7 +207,6 @@
           placeholder="Ej. PAM 75 mmHg, FC 88 lpm, sin uso de aminas."
         ></textarea>
       </div>
-
       <div class="form-group">
         <label for="respiratorio">3. RESPIRATORIO</label>
         <textarea
@@ -161,7 +214,6 @@
           placeholder="Ej. FiO₂ 40%, SatO₂ 98%, FR 16 rpm."
         ></textarea>
       </div>
-
       <div class="form-group">
         <label for="renal">4. RENAL</label>
         <textarea
@@ -169,7 +221,6 @@
           placeholder="Ej. Diuresis conservada, sin requerimientos."
         ></textarea>
       </div>
-
       <div class="form-group">
         <label for="gastrointestinal">5. GASTROINTESTINAL</label>
         <textarea
@@ -177,7 +228,6 @@
           placeholder="Ej. Abdomen blando, buena tolerancia enteral."
         ></textarea>
       </div>
-
       <div class="form-group">
         <label for="nutricional">6. NUTRICIONAL/METABÓLICO</label>
         <textarea
@@ -185,7 +235,6 @@
           placeholder="Ej. Nutrición enteral a buena velocidad, sin vómitos."
         ></textarea>
       </div>
-
       <div class="form-group">
         <label for="termorregulacion">7. TERMORREGULACIÓN</label>
         <textarea
@@ -193,7 +242,6 @@
           placeholder="Ej. Afebril, temperatura estable."
         ></textarea>
       </div>
-
       <div class="form-group">
         <label for="piel">8. PIEL</label>
         <textarea
@@ -201,7 +249,6 @@
           placeholder="Ej. Buena integridad cutánea, sin lesiones."
         ></textarea>
       </div>
-
       <div class="form-group">
         <label for="otros">9. OTROS</label>
         <textarea
@@ -211,48 +258,43 @@
       </div>
     </div>
 
-    <!-- Botones de acción -->
     <div class="action-buttons">
-      <button class="action-btn" onclick="generarInforme()">
-        Generar Informe
-      </button>
-      <button class="action-btn" onclick="imprimirInforme()">Imprimir</button>
-      <button class="action-btn" onclick="limpiarFormulario()">
-        Borrar Datos
-      </button>
+      <button class="action-btn" id="generarInforme">Generar Informe</button>
+      <button class="action-btn" id="imprimirInforme">Imprimir</button>
+      <button class="action-btn" id="limpiarFormulario">Borrar Datos</button>
     </div>
 
-    <!-- Selector de fecha -->
     <div class="date-selector">
       <label for="fecha">Seleccionar fecha:</label>
       <input type="date" id="fecha" />
 
-      <!-- <label for="box">Seleccionar Box:</label> -->
-      <select id="box">
-        <option value="">Seleccionar Box</option>
-        <option value="1">Box 1</option>
-        <option value="2">Box 2</option>
-        <option value="3">Box 3</option>
-        <option value="4">Box 4</option>
-        <option value="5">Box 5</option>
-        <option value="6">Box 6</option>
-        <option value="7">Box 7</option>
-        <option value="8">Box 8</option>
-        <option value="9">Box 9</option>
-        <option value="10">Box 10</option>
-        <option value="11">Box 11</option>
-        <option value="12">Box 12</option>
-      </select>
+      <div class="custom-select-wrapper">
+        <div class="select-box" id="selectBox">Seleccionar Box</div>
+        <div class="box-options" id="boxOptions">
+          <div class="box-option" data-value="1">Box 1</div>
+          <div class="box-option" data-value="2">Box 2</div>
+          <div class="box-option" data-value="3">Box 3</div>
+          <div class="box-option" data-value="4">Box 4</div>
+          <div class="box-option" data-value="5">Box 5</div>
+          <div class="box-option" data-value="6">Box 6</div>
+          <div class="box-option" data-value="7">Box 7</div>
+          <div class="box-option" data-value="8">Box 8</div>
+          <div class="box-option" data-value="9">Box 9</div>
+          <div class="box-option" data-value="10">Box 10</div>
+          <div class="box-option" data-value="11">Box 11</div>
+          <div class="box-option" data-value="12">Box 12</div>
+        </div>
+      </div>
 
-      <button class="action-btn" onclick="cargarDatos()">Cargar Fecha</button>
+      <button class="action-btn" id="cargarFecha">Cargar Fecha</button>
     </div>
 
-    <!-- Resultado -->
     <div class="result-container" id="resultado"></div>
 
     <script>
       // Variables globales
       let boxActual = 1;
+      let selectedBoxValue = null;
       const campos = [
         "neurologico",
         "cardiovascular",
@@ -268,10 +310,11 @@
       // Inicialización
       document.addEventListener("DOMContentLoaded", function () {
         crearBotonesBox();
+        setupBoxSelector();
+        setupEventListeners();
         seleccionarBox(1);
       });
 
-      // Crea los botones de los Box
       function crearBotonesBox() {
         const container = document.getElementById("boxContainer");
         container.innerHTML = "";
@@ -287,15 +330,51 @@
         }
       }
 
-      // Selecciona un Box específico
-      function seleccionarBox(numeroBox) {
-        // Guardar datos del box actual antes de cambiar
-        guardarDatos();
+      function setupBoxSelector() {
+        const selectBox = document.getElementById("selectBox");
+        const boxOptions = document.getElementById("boxOptions");
+        const options = boxOptions.querySelectorAll(".box-option");
 
-        // Actualizar box actual
+        selectBox.addEventListener("click", function (e) {
+          e.stopPropagation();
+          boxOptions.style.display =
+            boxOptions.style.display === "block" ? "none" : "block";
+        });
+
+        options.forEach((option) => {
+          option.addEventListener("click", function () {
+            selectedBoxValue = this.getAttribute("data-value");
+            selectBox.textContent = this.textContent;
+            boxOptions.style.display = "none";
+            seleccionarBox(parseInt(selectedBoxValue));
+          });
+        });
+
+        document.addEventListener("click", function () {
+          boxOptions.style.display = "none";
+        });
+      }
+
+      function setupEventListeners() {
+        document
+          .getElementById("generarInforme")
+          .addEventListener("click", generarInforme);
+        document
+          .getElementById("imprimirInforme")
+          .addEventListener("click", imprimirInforme);
+        document
+          .getElementById("limpiarFormulario")
+          .addEventListener("click", limpiarFormulario);
+        document
+          .getElementById("cargarFecha")
+          .addEventListener("click", cargarDatos);
+      }
+
+      function seleccionarBox(numeroBox) {
+        guardarDatos();
         boxActual = numeroBox;
 
-        // Resaltar el botón seleccionado
+        // Actualizar botones
         const botones = document.querySelectorAll(".box-btn");
         botones.forEach((btn) => {
           btn.classList.remove("active");
@@ -304,76 +383,46 @@
           }
         });
 
-        // Cargar datos del nuevo box
+        // Actualizar selector personalizado
+        if (numeroBox !== parseInt(selectedBoxValue)) {
+          selectedBoxValue = numeroBox.toString();
+          document.getElementById("selectBox").textContent = `Box ${numeroBox}`;
+          const options = document.querySelectorAll(".box-option");
+          options.forEach((opt) => {
+            if (opt.getAttribute("data-value") === selectedBoxValue) {
+              opt.click();
+            }
+          });
+        }
+
         cargarDatosBox();
       }
 
-      // Guarda los datos del box actual
       function guardarDatos() {
         const datos = {};
-
         campos.forEach((campo) => {
           datos[campo] = document.getElementById(campo).value;
         });
-
         localStorage.setItem(`box_${boxActual}`, JSON.stringify(datos));
       }
 
-      // Carga los datos del box seleccionado
       function cargarDatosBox() {
         const datosGuardados = localStorage.getItem(`box_${boxActual}`);
-
         if (datosGuardados) {
           const datos = JSON.parse(datosGuardados);
-
           campos.forEach((campo) => {
             document.getElementById(campo).value = datos[campo] || "";
           });
         } else {
-          // Limpiar campos si no hay datos guardados
           campos.forEach((campo) => {
             document.getElementById(campo).value = "";
           });
         }
       }
 
-      // Genera el informe
-      function generarInforme() {
-        guardarDatos();
-
-        const turno =
-          new Date().getHours() < 20
-            ? "Turno de 8 a 20 horas"
-            : "Turno de 20 a 8 horas";
-        let informeHTML = `<h3>BOX ${boxActual} - ${turno}</h3>`;
-
-        campos.forEach((campo) => {
-          const valor =
-            document.getElementById(campo).value || "No especificado";
-          informeHTML += `<p><strong>${campo.toUpperCase()}:</strong> ${valor}</p>`;
-        });
-
-        document.getElementById("resultado").innerHTML = informeHTML;
-        document.getElementById("resultado").style.display = "block";
-      }
-
-      // Imprime el informe
-      function imprimirInforme() {
-        generarInforme();
-        window.print();
-      }
-
-      // Limpia el formulario
-      function limpiarFormulario() {
-        campos.forEach((campo) => {
-          document.getElementById(campo).value = "";
-        });
-      }
-
-      // Carga datos por fecha y box
       function cargarDatos() {
         const fecha = document.getElementById("fecha").value;
-        const box = document.getElementById("box").value;
+        const box = selectedBoxValue;
 
         if (!fecha || !box) {
           alert("Por favor seleccione una fecha y un box");
@@ -385,12 +434,9 @@
 
         if (datosGuardados) {
           const datos = JSON.parse(datosGuardados);
-
           campos.forEach((campo) => {
             document.getElementById(campo).value = datos[campo] || "";
           });
-
-          // Seleccionar el box correspondiente
           seleccionarBox(parseInt(box));
           alert(`Datos del Box ${box} (${fecha}) cargados correctamente`);
         } else {
@@ -398,6 +444,50 @@
             `No se encontraron datos para el Box ${box} en la fecha ${fecha}`
           );
         }
+      }
+
+      function generarInforme() {
+        guardarDatos();
+
+        const ahora = new Date();
+        const turno =
+          ahora.getHours() < 20
+            ? "Turno de 8 a 20 horas"
+            : "Turno de 20 a 8 horas";
+        const esDiurno = ahora.getHours() < 20;
+
+        let informeHTML = `
+                <div class="printable-area ${
+                  esDiurno ? "turno-diurno" : "turno-nocturno"
+                }">
+                    <h3>BOX ${boxActual} - ${turno}</h3>
+            `;
+
+        campos.forEach((campo) => {
+          const valor =
+            document.getElementById(campo).value || "No especificado";
+          informeHTML += `<p><strong>${campo.toUpperCase()}:</strong> ${valor}</p>`;
+        });
+
+        informeHTML += `</div>`;
+
+        document.getElementById("resultado").innerHTML = informeHTML;
+        document.getElementById("resultado").style.display = "block";
+      }
+
+      function imprimirInforme() {
+        generarInforme();
+
+        // Esperar un momento para que se genere el contenido antes de imprimir
+        setTimeout(() => {
+          window.print();
+        }, 100);
+      }
+
+      function limpiarFormulario() {
+        campos.forEach((campo) => {
+          document.getElementById(campo).value = "";
+        });
       }
     </script>
   </body>

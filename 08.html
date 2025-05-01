@@ -2,14 +2,12 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link
-      rel="shortcut icon"
-      href="ccc.png"
-      type="image/x-icon"
-    />
+    <link rel="shortcut icon" href="ccc.png" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
     <title>08_Evolución de Enfermería</title>
@@ -38,6 +36,8 @@
       .box-selector button {
         padding: 10px 15px;
         font-size: 14px;
+        font-family: "Montserrat", sans-serif;
+        font-weight: bold;
         cursor: pointer;
         border: none;
         border-radius: 5px;
@@ -47,7 +47,11 @@
       }
       .box-selector button.active {
         background-color: #0056b3;
+        box-shadow: 0 0 5px #0000004d;
       }
+
+      /* Formulario */
+
       .formulario {
         width: 100%;
         max-width: 600px;
@@ -72,6 +76,9 @@
         border-radius: 5px;
         resize: none;
       }
+
+      /* Botones de acción */
+
       .buttons {
         display: flex;
         justify-content: space-between;
