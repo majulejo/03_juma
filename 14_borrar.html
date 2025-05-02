@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <title>13_turno alternativo</title>
+    <title>14_borrar</title>
     <style>
       body {
         font-family: "Montserrat", sans-serif;
@@ -260,7 +260,7 @@
     </style>
   </head>
   <body>
-    <h1>13_turno alternativo</h1>
+    <h1>14_borrar</h1>
 
     <!-- Selector de Box/Paciente -->
     <div class="box-selector">
@@ -493,8 +493,18 @@
         }, 100);
       }
       function borrarDatos() {
-        localStorage.removeItem(getKey(selectedBox));
-        cargarDatos();
+        // Obtener el número del box actualmente seleccionado
+        const mensajeConfirmacion = `Va a borrar los datos actuales del Box-${selectedBox}.`;
+
+        // Mostrar mensaje al usuario
+        if (!confirm(mensajeConfirmacion)) return; // Si el usuario cancela, no borra nada
+
+        // Limpiar los campos visibles en pantalla sin tocar el almacenamiento
+        campos.forEach((campo) => {
+          document.getElementById(campo).value = "";
+        });
+
+        alert(`Datos en pantalla del Box-${selectedBox} han sido borrados.`);
       }
 
       function cargarDatosFecha() {
