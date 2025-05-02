@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="shortcut icon" href="e.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="evolucion.png" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <title>14_borrar</title>
+    <title>14</title>
     <style>
       :root {
         /*TAMAÑO FUENTE*/
@@ -181,16 +181,41 @@
       }
 
       /* icono_balance */
-      .icono-balance {
-        width: 32px; /* Ajusta el tamaño del ícono */
-        height: 32px;
-        cursor: pointer;
-        margin-bottom: 0px; /* Espacio entre el ícono y fecha-container */
+      .icono-container {
+        position: relative;
+        display: inline-block;
+        width: 40px; /* Ajusta el tamaño del icono */
+        height: 40px;
       }
-      .icono-balance:hover {
-        transform: scale(1.1); /* Efecto de zoom al pasar el cursor */
-        transition: transform 0.3s ease-in-out; /* Animación suave */
+
+      .icono {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          transition: opacity 0.5s ease-in-out; /* Transición suave */
       }
+
+      /* Mostrar el icono verde por defecto */
+      .icono.verde {
+          opacity: 1;
+      }
+
+      /* Ocultar el icono azul por defecto */
+      .icono.azul {
+          opacity: 0;
+      }
+
+      /* Cuando se hace hover, la imagen verde desaparece y la azul aparece */
+      .icono-container:hover .verde {
+          opacity: 0;
+      }
+
+      .icono-container:hover .azul {
+          opacity: 1;
+      }
+
+      /* Fin icono_balance */
+
       .resultado {
         margin-top: 20px;
         padding: 20px;
@@ -300,6 +325,11 @@
           font-family: "Montserrat", sans-serif;
         }
 
+        /* Aplicar margen superior solo en turno diurno */
+        .resultado.diurno-print {
+          margin-top: 2cm !important;
+        }
+
         /* Contenedor especial para turno nocturno */
         .nocturno-print-container {
           position: absolute;
@@ -357,20 +387,20 @@
       }
 
       /* =============================== */
-/* FOOTER */
-/* =============================== */
+      /* FOOTER */
+      /* =============================== */
 
-footer  {
-    color: var(--fuente);
-    font-size: 10px ;
-    font-weight: bold;
-    text-align: center;
-    padding: 5px;
-    margin-bottom: 5px;
-    margin: 0 auto;
-    width: 100%;
-    z-index: 50;
-}
+      footer  {
+          color: var(--fuente);
+          font-size: 10px ;
+          font-weight: bold;
+          text-align: center;
+          padding: 5px;
+          margin-bottom: 5px;
+          margin: 0 auto;
+          width: 100%;
+          z-index: 50;
+      }
 
     </style>
   </head>
@@ -455,9 +485,11 @@ footer  {
 
     <!-- Enlace a balance -->
 
-    <a href="https://jolejuma.es/balance" target="_blank">
-      <img src="balance.png" alt="Balance" class="icono-balance" />
-    </a>
+    <a href="https://jolejuma.es/balance" target="_blank" class="icono-container">
+    <img src="balance_verde.png" alt="Balance" class="icono verde">
+    <img src="balance_azul.png" alt="Balance Azul" class="icono azul">
+</a>
+
     <!-- Botones de acción -->
     <div class="buttons">
       <button onclick="generarInforme()">Generar Informe</button>
@@ -494,7 +526,6 @@ footer  {
       <p>&copy; 2025 Informe Evolución Enfermería. Todos los derechos reservados.
           <br>C.G.Francisco Manuel--M.G.José Antonio--M.M. Francisco Javier</BR>
   </footer>
-  <script src="script_dark.js"></script>
 
 
     <!-- Área de resultados -->
@@ -555,31 +586,33 @@ footer  {
       }
 
       function generarInforme(turno = "") {
-        guardarDatos();
-        const datos = {};
-        campos.forEach(
-          (campo) =>
+    guardarDatos();
+    const datos = {};
+    campos.forEach(
+        (campo) =>
             (datos[campo] =
-              document.getElementById(campo).value || "No especificado")
-        );
+                document.getElementById(campo).value || "No especificado")
+    );
 
-        // Eliminamos la obtención de la hora que ya no necesitamos
-        const informe = `
-                      <p><strong>BOX ${selectedBox} - ${turno}</strong></p>
-                      ${campos
-                        .map(
-                          (campo) =>
-                            `<p><strong>${campo.toUpperCase()}:</strong> ${
-                              datos[campo]
-                            }</p>`
-                        )
-                        .join("")}
-                  `;
+    const informe = `
+        <p><strong>BOX ${selectedBox} - ${turno}</strong></p>
+        ${campos.map(
+            (campo) =>
+                `<p><strong>${campo.toUpperCase()}:</strong> ${datos[campo]}</p>`
+        ).join("")}
+    `;
 
-        const resultado = document.getElementById("resultado");
-        resultado.innerHTML = informe;
-        resultado.style.display = "block";
-      }
+    const resultado = document.getElementById("resultado");
+    resultado.innerHTML = informe;
+    resultado.style.display = "block";
+
+    // Aplicar clase para margen superior en turno diurno
+    resultado.classList.remove("diurno-print");
+    if (turno.includes("8 a 20 horas")) {
+        resultado.classList.add("diurno-print");
+    }
+}
+
       function imprimirAuto() {
         const esTurnoDiurno =
           new Date().getHours() >= 8 && new Date().getHours() < 20;
