@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>13_turno alternativo</title>
+    <title>14_turno alternativo</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -13,21 +13,24 @@
       h1 {
         text-align: center;
         color: #2c3e50;
+        font-size: 1.5em;
+        margin-bottom: 15px;
       }
       .box-container {
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         justify-content: center;
       }
       .box-btn {
-        padding: 10px 15px;
+        padding: 8px 12px;
         background-color: #3498db;
         color: white;
         border: none;
-        border-radius: 5px;
+        border-radius: 4px;
         cursor: pointer;
+        font-size: 0.9em;
       }
       .box-btn.active {
         background-color: #2980b9;
@@ -35,41 +38,44 @@
       }
       .form-container {
         background-color: white;
-        padding: 20px;
+        padding: 15px;
         border-radius: 8px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       }
       .campo {
-        margin-bottom: 15px;
+        margin-bottom: 10px;
       }
       .campo label {
         display: block;
         font-weight: bold;
         margin-bottom: 5px;
         color: #34495e;
+        font-size: 0.9em;
       }
       .campo textarea {
-        width: 100%;
-        height: 80px;
+        width: 95%;
+        height: 70px;
         padding: 10px;
         border: 1px solid #ddd;
         border-radius: 4px;
         resize: vertical;
+        font-size: 0.9em;
       }
       .action-buttons {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px;
-        margin: 20px 0;
+        gap: 8px;
+        margin: 20px 0px;
       }
       .action-btn {
-        padding: 12px 20px;
+        padding: 10px 15px;
         border: none;
-        border-radius: 5px;
+        border-radius: 4px;
         cursor: pointer;
         font-weight: bold;
         flex: 1;
-        min-width: 150px;
+        min-width: 140px;
+        font-size: 0.9em;
       }
       .primary-btn {
         background-color: #2ecc71;
@@ -81,40 +87,45 @@
       }
       .date-container {
         background-color: #ecf0f1;
-        padding: 15px;
-        border-radius: 5px;
-        margin-top: 20px;
+        padding: 12px;
+        border-radius: 6px;
+        margin-top: 15px;
+        font-size: 0.9em;
       }
       #resultado {
-        margin-top: 20px;
-        padding: 20px;
+        margin-top: 15px;
+        padding: 15px;
         background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         display: none;
+        font-size: 0.9em;
       }
+
       @media print {
+        @page {
+          margin: 0;
+        }
         body > *:not(#resultado) {
           display: none !important;
         }
         #resultado {
           display: block !important;
+          margin: 0;
+          padding: 0 1cm !important;
           border: none;
-          padding: 2cm;
-          font-size: 12pt;
-          line-height: 1.5;
         }
         .nocturno {
           position: fixed;
           bottom: 2cm;
-          left: 2cm;
-          right: 2cm;
+          left: 1cm;
+          right: 1cm;
         }
       }
     </style>
   </head>
   <body>
-    <h1>13_turno alternativo</h1>
+    <h1>14_turno alternativo</h1>
 
     <div class="box-container" id="boxButtons">
       <!-- Botones de Box se generan con JS -->
@@ -339,7 +350,6 @@
           datos[campo] = document.getElementById(campo).value;
         });
 
-        // Guardar con clave que incluye fecha y box
         localStorage.setItem(
           `evolucion_${fechaActual}_box${currentBox}`,
           JSON.stringify(datos)
