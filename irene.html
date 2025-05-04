@@ -17,11 +17,8 @@
 
         /*COLORES*/
         --fuente: #2e2925; /*--pantone black c--*/
-        --pantone: #368f3f; /*--pantone 7740c____#368f3f--*/
-        --principal: #92c99b; /*pantone 7740c__50--*/
-        --tabla: #cde2d5;
-        --fondo: #ebf5ed; /*--pantone 7740c__10--*/
-        --hover: #d9ebd8; /*pantone 7740c__80--*/
+        
+        
         --borde: #4fa66a; /*pantone 7740c__20--*/
         --celdas-th: var(--pantone37);
         --celdas-td: var(--pantone46);
@@ -407,7 +404,7 @@
     </style>
   </head>
   <body>
-    <h1>Evolución de Enfermería De Irene</h1>
+    <h1>Evolución de Enfermería De I.M.E.</h1>
 
     <!-- Selector de Box/Paciente -->
     <div class="box-selector">
@@ -421,7 +418,7 @@
     <!-- Formulario dinámico -->
     <form class="formulario" id="formulario">
       <div class="campo">
-        <label for="neurologico"Evolución de Enfermería</label>
+        <label for="neurologico">Evolución de Enfermería:</label>
         <textarea
           id="neurologico"
           placeholder="Ej. Consciente, orientado, RASS 0, sin cambios."
@@ -536,10 +533,7 @@
 
     const informe = `
         <p><strong>BOX ${selectedBox} - ${turno}</strong></p>
-        ${campos.map(
-            (campo) =>
-                `<p><strong>${campo.toUpperCase()}:</strong> ${datos[campo]}</p>`
-        ).join("")}
+        <p><strong>Evolución de Enfermería:</strong> ${datos.neurologico}</p>
     `;
 
     const resultado = document.getElementById("resultado");
