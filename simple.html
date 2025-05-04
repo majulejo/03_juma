@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="shortcut icon" href="evolucion.png" type="image/x-icon" />
+    <link rel="icon" href="evolucion.png?v=3" type="image/png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <title>IME</title>
+    <title>Evolución-2</title>
     <style>
       :root {
         
@@ -20,45 +20,11 @@
         
         
         --borde: #4fa66a; /*pantone 7740c__20--*/
-        --celdas-th: var(--pantone37);
-        --celdas-td: var(--pantone46);
-        --header: var(--pantone16);
-        --footer: var(--pantone17);
-        --rosa_1: #f5abcd;
-        --rosa_2: #f58ebd;
-        --rosa_hover: #db8fb2;
-        --rosa_active: #f55ba2;
-
-
-        --pantone82: #5ea565; /*  pantone con blanco  */
-        --pantone73: #72b179; /*  pantone con blanco  */
-        --pantone64: #86bc8c; /*  pantone con blanco  */
-        --pantone55: #9bc79f; /*  pantone con blanco  */
-        --pantone46: #afd2b2; /*  pantone con blanco  */
-        --pantone37: #c3ddc5; /*  pantone con blanco  */
-        --pantone28: #d7e9d9; /*  pantone con blanco  */
-        --pantone19: #ebf4ec; /*  pantone con blanco  */
-        --pantone00: #ffffff; /*  pantone con blanco  */
-        --pantone11: #489950; /*  pantone 100 con blanco 10 */
-        --pantone12: #58a25f; /*  pantone 100 con blanco 20 */
-        --pantone13: #64a96b; /*  pantone 100 con blanco 30 */
-        --pantone14: #6faf76; /*  pantone 100 con blanco 40 */
-        --pantone15: #79b47f; /*  pantone 100 con blanco 50 */
-        --pantone16: #81b987; /*  pantone 100 con blanco 60 */
-        --pantone17: #89bd8e; /*  pantone 100 con blanco 70 */
-        --pantone18: #8fc194; /*  pantone 100 con blanco 80 */
-        --pantone19: #95c49a; /*  pantone 100 con blanco 90 */
-        --pantone110: #9bc79f; /*  pantone 100 con blanco 100*/
-        --pantone101: #edf5ee; /*  pantone 10 con blanco 100 */
-        --pantone201: #deecdf; /*  pantone 20 con blanco 100 */
-        --pantone301: #d1e5d3; /*  pantone 30 con blanco 100 */
-        --pantone401: #c6dfc8; /*  pantone 40 con blanco 100 */
-        --pantone501: #bcdabf; /*  pantone 50 con blanco 100 */
-        --pantone601: #b4d5b7; /*  pantone 60 con blanco 100 */
-        --pantone701: #acd1b0; /*  pantone 70 con blanco 100 */
-        --pantone801: #a6cdaa; /*  pantone 80 con blanco 100 */
-        --pantone901: #a0caa4; /*  pantone 90 con blanco 100 */
-        --pantone1010: #9bc79f; /*  pantone100 con blanco 100 */
+        --azul_1:#abd1f5;
+        --azul_2: #8eb7f5;
+        --azul_hover: #8fb9db;
+        --azul_active: #5bb0f5;
+        
         /*          https://gradients.app/es/mix   */
       }
       body {
@@ -68,7 +34,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-color: var(--rosa_1);
+        background-color: var(--azul_1);
       }
       h1 {
         text-align: center;
@@ -91,19 +57,19 @@
         cursor: pointer;
         border: none;
         border-radius: 5px;
-        background-color: var(--rosa_2);
+        background-color: var(--azul_2);
         color: white;
         min-width: 80px;
       }
 
       .box-selector button:hover {
-        background-color:  var(--rosa_hover);
+        background-color:  var(--azul_hover);
         color: var(--fuente);
         transition: all 0.5s ease;
       }
 
       .box-selector button.active {
-        background-color: var(--rosa_active);
+        background-color: var(--azul_active);
         box-shadow: 0 0 5px #0000004d;
         transition: all 0.5s ease;
       }
@@ -133,12 +99,12 @@
         border: 1px solid var(--borde);
         border-radius: 5px;
         resize: none;
-        background-color: var(--rosa_2);
+        background-color: var(--azul_2);
         color: var(--fuente);
         outline: none;
       }
       .campo textarea:hover {
-        border: 1px solid var(--pantone00);
+        border: 1px solid #fff;
         transition: border 0.7s ease; /* Animación suave */
       }
       /* Botones de acción */
@@ -156,7 +122,7 @@
         cursor: pointer;
         border: none;
         border-radius: 5px;
-        background-color: var(--rosa_2);
+        background-color: var(--azul_2);
         transition: background-color 0.3s ease-in-out; /* Animación suave */
         color: white;
         flex-grow: 1;
@@ -165,18 +131,18 @@
       }
       /* Estado hover: cuando el usuario pasa el cursor */
       button:hover {
-        background-color: var(--rosa_hover);
+        background-color: var(--azul_hover);
       }
       /* Estilo normal del botón alternativo */
       .buttons .btn-alternativo {
-        background-color: var(--pantone00);
-        color: var(--pantone);
+        background-color: #fff;
+        color: var(--fuente);
         transition: background-color 0.3s ease-in-out;
       }
 
       /* Estilo cuando el usuario pasa el cursor */
       .buttons .btn-alternativo:hover {
-        background-color: var(--rosa_hover);
+        background-color: var(--azul_hover);
       }
 
       /* icono_balance */
@@ -256,14 +222,14 @@
         font-family: "Montserrat", sans-serif;
         border: 1px solid #ccc;
         border-radius: 4px;
-        background-color: var(--rosa_2);
-        color: var(--pantone00);
+        background-color: var(--azul_2);
+        color: #fff;
       }
 
       .cargar-fecha-btn {
         padding: 8px 15px;
         font-family: "Montserrat", sans-serif;
-        background-color: var(--rosa_active);
+        background-color: var(--azul_active);
         color: white;
         border: none;
         border-radius: 4px;
@@ -289,8 +255,8 @@
         padding: 5px;
         border: 1px solid #ccc;
         border-radius: 4px;
-        background-color: var(--rosa_2);
-        color: var(--pantone00);
+        background-color: var(--azul_2);
+        color: #fff;
       }
       /* ESTILOS DE IMPRESIÓN MEJORADOS */
       @media print {
@@ -404,7 +370,7 @@
     </style>
   </head>
   <body>
-    <h1>Evolución de Enfermería De I.M.E.</h1>
+    <h1>Evolución Abreviada de Enfermería</h1>
 
     <!-- Selector de Box/Paciente -->
     <div class="box-selector">
