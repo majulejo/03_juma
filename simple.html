@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="evolucion.png?v=3" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Evolución-2</title>
+    <style>
+      :root {
+        
+
+        /*COLORES*/
+        --fuente: #2e2925; /*--pantone black c--*/
+        
+        
+        --borde: #4fa66a; /*pantone 7740c__20--*/
+        --azul_1:#abd1f5;
+        --azul_2: #8eb7f5;
+        --azul_hover: #8fb9db;
+        --azul_active: #5bb0f5;
+        
+        /*          https://gradients.app/es/mix   */
+      }
+      body {
+        font-family: "Montserrat", sans-serif;
+        margin: 20px;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: var(--azul_1);
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: var(--fuente);
+      }
+      .box-selector {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+      .box-selector button {
+        padding: 10px 15px;
+        font-size: 14px;
+        font-family: "Montserrat", sans-serif;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--azul_2);
+        color: white;
+        min-width: 80px;
+      }
+
+      .box-selector button:hover {
+        background-color:  var(--azul_hover);
+        color: var(--fuente);
+        transition: all 0.5s ease;
+      }
+
+      .box-selector button.active {
+        background-color: var(--azul_active);
+        box-shadow: 0 0 5px #0000004d;
+        transition: all 0.5s ease;
+      }
+      /* Formulario */
+
+      .formulario {
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 0px;
+      }
+      .campo {
+        margin-bottom: 15px;
+        text-align: center;
+      }
+      .campo label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: var(--fuente);
+      }
+      .campo textarea {
+        width: 95%;
+        height: 80px;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid var(--borde);
+        border-radius: 5px;
+        resize: none;
+        background-color: var(--azul_2);
+        color: var(--fuente);
+        outline: none;
+      }
+      .campo textarea:hover {
+        border: 1px solid #fff;
+        transition: border 0.7s ease; /* Animación suave */
+      }
+      /* Botones de acción */
+
+      .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .buttons button {
+        padding: 10px 15px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--azul_2);
+        transition: background-color 0.3s ease-in-out; /* Animación suave */
+        color: white;
+        flex-grow: 1;
+        min-width: 120px;
+        font-weight: bold;
+      }
+      /* Estado hover: cuando el usuario pasa el cursor */
+      button:hover {
+        background-color: var(--azul_hover);
+      }
+      /* Estilo normal del botón alternativo */
+      .buttons .btn-alternativo {
+        background-color: #fff;
+        color: var(--fuente);
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      /* Estilo cuando el usuario pasa el cursor */
+      .buttons .btn-alternativo:hover {
+        background-color: var(--azul_hover);
+      }
+
+      /* icono_balance */
+      .icono-container {
+        position: relative;
+        display: inline-block;
+        width: 40px; /* Ajusta el tamaño del icono */
+        height: 40px;
+      }
+
+      .icono {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          transition: opacity 0.5s ease-in-out; /* Transición suave */
+      }
+
+      /* Mostrar el icono verde por defecto */
+      .icono.verde {
+          opacity: 1;
+      }
+
+      /* Ocultar el icono azul por defecto */
+      .icono.azul {
+          opacity: 0;
+      }
+
+      /* Cuando se hace hover, la imagen verde desaparece y la azul aparece */
+      .icono-container:hover .verde {
+          opacity: 0;
+      }
+
+      .icono-container:hover .azul {
+          opacity: 1;
+      }
+
+      /* Fin icono_balance */
+
+      .resultado {
+        margin-top: 20px;
+        padding: 20px;
+        font-family: "Montserrat", sans-serif;
+        font-size: 12px;
+        line-height: 1.5;
+        display: none;
+        background-color: white; /* Añadido para mejor legibilidad al imprimir */
+        width: 100%;
+        max-width: 600px;
+        box-sizing: border-box;
+      }
+      .resultado b {
+        font-weight: bold;
+      }
+      .resultado.turno-nocturno {
+        display: flex !important;
+        flex-direction: column-reverse;
+        justify-content: flex-end;
+      }
+
+      /* Nuevos estilos para el selector de box */
+      .fecha-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 10px 0;
+        flex-wrap: wrap;
+      }
+
+      .fecha-container label {
+        font-weight: bold;
+        font-family: "Montserrat", sans-serif;
+        color: var(--fuente);
+      }
+
+      .box-selector-dropdown {
+        padding: 8px 12px;
+        font-family: "Montserrat", sans-serif;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: var(--azul_2);
+        color: #fff;
+      }
+
+      .cargar-fecha-btn {
+        padding: 8px 15px;
+        font-family: "Montserrat", sans-serif;
+        background-color: var(--azul_active);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      @media (max-width: 480px) {
+        .fecha-container {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+      /* Fin de Nuevos estilos para el selector de box */
+
+      /* Estilos para la sección de fecha */
+      #fechaSeleccionada,
+      #fechaSeleccionada + button {
+        font-family: "Montserrat", sans-serif;
+        font-size: 14px;
+      }
+
+      #fechaSeleccionada {
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: var(--azul_2);
+        color: #fff;
+      }
+      /* ESTILOS DE IMPRESIÓN MEJORADOS */
+      @media print {
+        @page {
+          size: A4 portrait;
+          margin: 0;
+        }
+
+        body {
+          margin: 0 !important;
+          padding: 0 !important;
+          visibility: visible;
+          height: 100vh;
+        }
+
+        body > *:not(.resultado) {
+          display: none !important;
+        }
+
+        .resultado {
+          visibility: visible !important;
+          display: block !important;
+          position: relative;
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          padding: 20px;
+          background: white !important;
+          font-size: 12px !important;
+          box-sizing: border-box;
+          font-family: "Montserrat", sans-serif;
+        }
+
+        /* Aplicar margen superior solo en turno diurno */
+        .resultado.diurno-print {
+          margin-top: 2cm !important;
+        }
+
+        /* Contenedor especial para turno nocturno */
+        .nocturno-print-container {
+          position: absolute;
+          bottom: 2cm;
+          left: 3cm;
+          right: 1cm;
+        }
+
+        .resultado p {
+          page-break-inside: avoid;
+          margin: 5px 0;
+        }
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 20px;
+        }
+        .box-selector button {
+          font-size: 12px;
+          padding: 8px 12px;
+        }
+        .campo label {
+          font-size: 14px;
+        }
+        .campo textarea {
+          font-size: 12px;
+          height: 60px;
+        }
+        .buttons button {
+          font-size: 12px;
+          padding: 8px 12px;
+        }
+      }
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 18px;
+        }
+        .box-selector button {
+          font-size: 10px;
+          padding: 6px 10px;
+        }
+        .campo label {
+          font-size: 12px;
+        }
+        .campo textarea {
+          font-size: 10px;
+          height: 50px;
+        }
+        .buttons button {
+          font-size: 10px;
+          padding: 6px 10px;
+        }
+      }
+
+      /* =============================== */
+      /* FOOTER */
+      /* =============================== */
+
+      footer  {
+          color: var(--fuente);
+          font-size: 10px ;
+          font-weight: bold;
+          text-align: center;
+          padding: 5px;
+          margin-bottom: 5px;
+          margin: 0 auto;
+          width: 100%;
+          z-index: 50;
+      }
+
+    </style>
+  </head>
+  <body>
+    <h1>Evolución Abreviada de Enfermería</h1>
+
+    <!-- Selector de Box/Paciente -->
+    <div class="box-selector">
+      <script>
+        for (let i = 1; i <= 12; i++) {
+          document.write(`<button onclick="selectBox(${i})">Box ${i}</button>`);
+        }
+      </script>
+    </div>
+
+    <!-- Formulario dinámico -->
+    <form class="formulario" id="formulario">
+      <div class="campo">
+        <label for="neurologico">Evolución de Enfermería:</label>
+        <textarea
+          id="neurologico"
+          placeholder="Ej. Consciente, orientado, RASS 0, sin cambios."
+        ></textarea>
+      </div>
+      
+    </form>
+
+    <!-- Enlace a balance -->
+
+    <a href="https://jolejuma.es/balance" target="_blank" class="icono-container">
+    <img src="balance_verde.png" alt="Balance" class="icono verde">
+    <img src="balance_azul.png" alt="Balance Azul" class="icono azul">
+</a>
+
+    <!-- Botones de acción -->
+    <div class="buttons">
+      <button onclick="generarInforme()">Generar Informe</button>
+      <button onclick="imprimirAuto()">Imprimir</button>
+      <button onclick="borrarDatos()">Borrar Datos</button>
+      <!-- Nuevo botón para imprimir en turno alternativo -->
+      <button class="btn-alternativo" onclick="imprimirAlternativo()">
+        Imprimir en Turno Alternativo
+      </button>
+    </div>
+
+    <!-- Modificamos la sección de carga por fecha -->
+    <div class="fecha-container">
+      <label for="fechaSeleccionada">Histórico de Evoluciones:</label>
+      <input type="date" id="fechaSeleccionada" value="" />
+
+      <select class="box-selector-dropdown" id="boxSeleccionado">
+        <option value="">Seleccionar Box</option>
+        <script>
+          for (let i = 1; i <= 12; i++) {
+            document.write(`<option value="${i}">Box ${i}</option>`);
+          }
+        </script>
+      </select>
+
+      <button class="cargar-fecha-btn" onclick="cargarDatosFecha()">
+        Cargar Fecha
+      </button>
+    </div>
+
+    <!---------------FOOTER------------>
+
+    <footer>
+      <p>Elaborado especialmente para Irene M.E.<br>&copy; 2025 Informe Evolución Enfermería. Todos los derechos reservados.
+          <br>C.G.Francisco Manuel--M.G.José Antonio--M.M. Francisco Javier</BR>
+  </footer>
+
+
+    <!-- Área de resultados -->
+    <div class="resultado" id="resultado"></div>
+
+    <script>
+      const hoy = new Date().toISOString().slice(0, 10);
+      let selectedBox = 1;
+      const campos = [
+        "neurologico",
+        
+      ];
+
+      function getKey(box) {
+        return `evolucion_${hoy}_box${box}`;
+      }
+
+      function guardarDatos() {
+        const datos = {};
+        campos.forEach(
+          (campo) => (datos[campo] = document.getElementById(campo).value)
+        );
+        localStorage.setItem(getKey(selectedBox), JSON.stringify(datos));
+      }
+
+      function cargarDatos() {
+        const data = localStorage.getItem(getKey(selectedBox));
+        if (data) {
+          const datos = JSON.parse(data);
+          campos.forEach(
+            (campo) =>
+              (document.getElementById(campo).value = datos[campo] || "")
+          );
+        } else {
+          campos.forEach(
+            (campo) => (document.getElementById(campo).value = "")
+          );
+        }
+      }
+
+      function selectBox(boxNumber) {
+        guardarDatos();
+        selectedBox = boxNumber;
+        cargarDatos();
+        // Actualizar botón activo
+        document.querySelectorAll(".box-selector button").forEach((btn) => {
+          btn.classList.remove("active");
+          if (btn.textContent === `Box ${boxNumber}`)
+            btn.classList.add("active");
+        });
+      }
+
+      function generarInforme(turno = "") {
+    guardarDatos();
+    const datos = {};
+    campos.forEach(
+        (campo) =>
+            (datos[campo] =
+                document.getElementById(campo).value || "No especificado")
+    );
+
+    const informe = `
+        <p><strong>BOX ${selectedBox} - ${turno}</strong></p>
+        <p><strong>Evolución de Enfermería:</strong> ${datos.neurologico}</p>
+    `;
+
+    const resultado = document.getElementById("resultado");
+    resultado.innerHTML = informe;
+    resultado.style.display = "block";
+
+    // Aplicar clase para margen superior en turno diurno
+    resultado.classList.remove("diurno-print");
+    if (turno.includes("8 a 20 horas")) {
+        resultado.classList.add("diurno-print");
+    }
+}
+
+      function imprimirAuto() {
+        const esTurnoDiurno =
+          new Date().getHours() >= 8 && new Date().getHours() < 20;
+        const turno = esTurnoDiurno
+          ? "Turno de 8 a 20 horas"
+          : "Turno de 20 a 8 horas";
+
+        generarInforme(turno);
+
+        const resultado = document.getElementById("resultado");
+        resultado.style.display = "block";
+
+        if (!esTurnoDiurno) {
+          // Para turno nocturno: envolver el contenido en un contenedor especial
+          const contenido = resultado.innerHTML;
+          resultado.innerHTML = `
+                          <div class="nocturno-print-container">
+                              ${contenido}
+                          </div>
+                      `;
+        }
+
+        // Forzar renderizado antes de imprimir
+        void resultado.offsetHeight;
+
+        setTimeout(() => {
+          window.print();
+
+          // Restaurar el contenido original después de imprimir
+          if (!esTurnoDiurno) {
+            const contenedorNocturno = resultado.querySelector(
+              ".nocturno-print-container"
+            );
+            if (contenedorNocturno) {
+              resultado.innerHTML = contenedorNocturno.innerHTML;
+            }
+          }
+
+          resultado.style.display = "none";
+        }, 100);
+      }
+      function borrarDatos() {
+        // Obtener el número del box actualmente seleccionado
+        const mensajeConfirmacion = `Va a borrar los datos actuales del Box-${selectedBox}.`;
+
+        // Mostrar mensaje al usuario
+        if (!confirm(mensajeConfirmacion)) return; // Si el usuario cancela, no borra nada
+
+        // Limpiar los campos visibles en pantalla sin tocar el almacenamiento
+        campos.forEach((campo) => {
+          document.getElementById(campo).value = "";
+        });
+
+        alert(`Datos en pantalla del Box-${selectedBox} han sido borrados.`);
+      }
+
+      function cargarDatosFecha() {
+        const fecha = document.getElementById("fechaSeleccionada").value;
+        const boxSeleccionado =
+          document.getElementById("boxSeleccionado").value;
+
+        if (!fecha) return alert("Seleccione una fecha.");
+        if (!boxSeleccionado) return alert("Seleccione un box.");
+
+        const key = `evolucion_${fecha}_box${boxSeleccionado}`;
+        const data = localStorage.getItem(key);
+
+        if (data) {
+          const datos = JSON.parse(data);
+          campos.forEach(
+            (campo) =>
+              (document.getElementById(campo).value = datos[campo] || "")
+          );
+          selectedBox = boxSeleccionado; // Actualizamos el box seleccionado
+          actualizarBotonesBox();
+          alert(`Datos del ${fecha} cargados para Box ${boxSeleccionado}`);
+        } else {
+          alert(
+            `No hay datos guardados para el ${fecha} en Box ${boxSeleccionado}`
+          );
+        }
+      }
+
+      function actualizarBotonesBox() {
+        document.querySelectorAll(".box-selector button").forEach((btn) => {
+          btn.classList.remove("active");
+          if (btn.textContent === `Box ${selectedBox}`) {
+            btn.classList.add("active");
+          }
+        });
+      }
+
+      // imprimirAlternativo
+
+      function imprimirAlternativo() {
+        const esTurnoDiurno =
+          new Date().getHours() >= 8 && new Date().getHours() < 20;
+        const turnoAlternativo = esTurnoDiurno
+          ? "Turno de 20 a 8 horas"
+          : "Turno de 8 a 20 horas";
+
+        generarInforme(turnoAlternativo);
+
+        const resultado = document.getElementById("resultado");
+        resultado.style.display = "block";
+
+        // Creamos un contenedor auxiliar para la impresión nocturna SIN modificar resultado.innerHTML
+        if (esTurnoDiurno) {
+          const contenedorNocturno = document.createElement("div");
+          contenedorNocturno.classList.add("nocturno-print-container");
+          contenedorNocturno.innerHTML = resultado.innerHTML;
+          resultado.innerHTML = ""; // Limpiamos el resultado temporalmente
+          resultado.appendChild(contenedorNocturno);
+        }
+
+        // Forzar renderizado antes de imprimir
+        void resultado.offsetHeight;
+
+        setTimeout(() => {
+          window.print();
+
+          // Restaurar contenido original sin afectar los otros elementos
+          if (esTurnoDiurno) {
+            const contenedorNocturno = document.querySelector(
+              ".nocturno-print-container"
+            );
+            if (contenedorNocturno) {
+              resultado.innerHTML = contenedorNocturno.innerHTML;
+            }
+          }
+
+          resultado.style.display = "none";
+        }, 100);
+      }
+
+      window.onload = () => selectBox(1);
+    </script>
+  </body>
+</html>
