@@ -2,8 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <!-- <link rel="icon" href="evolucion.png?v=3" type="image/png"> -->
-    <link rel="icon" href="obras.png" type="image/png">
+    <link rel="icon" href="evolucion.png?v=3" type="image/png">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,14 +11,10 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <title>especial_vigilancia</title>
+    <title>Evolución de Enfermería</title>
     <style>
       :root {
-        /*TAMAÑO FUENTE*/
-        --font-grande: clamp(1.5rem, 3vw, 1.6rem);
-        --font-mediano: clamp(0.9rem, 2.5vw, 1.3rem);
-        --font-pequeño: clamp(0.7rem, 1.5vw, 1rem);
-
+        
         /*COLORES*/
         --fuente: #2e2925; /*--pantone black c--*/
         --pantone: #368f3f; /*--pantone 7740c____#368f3f--*/
@@ -375,7 +370,7 @@
     </style>
   </head>
   <body>
-    <h1>Especial Vigilancia</h1>
+    <h1>Evolución de enfermería</h1>
 
     <!-- Selector de Box/Paciente -->
     <div class="box-selector">
@@ -452,10 +447,10 @@
         ></textarea>
       </div>
       <div class="campo">
-        <label for="otros">10. ESPECIAL VIGILANCIA</label>
+        <label for="especial">10. ESPECIAL VIGILANCIA</label>
         <textarea
-          id="ESPECIAL"
-          placeholder="Ej. Pendiente de tac o de cursar pruebas cruzadas....."
+          id="especial"
+          placeholder="Ej. Mañana le hacen resonancia, pendiente de cursar pruebas cruzadas."
         ></textarea>
       </div>
     </form>
@@ -521,7 +516,8 @@
         "termorregulacion",
         "piel",
         "otros",
-        "vigilancia",
+        "especial",
+
       ];
 
       function getKey(box) {
