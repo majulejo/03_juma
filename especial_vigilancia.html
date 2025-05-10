@@ -2,7 +2,9 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="evolucion.png?v=3" type="image/png">
+    <!-- <link rel="icon" href="evolucion.png?v=3" type="image/png"> -->
+    <link rel="icon" href="obras.png" type="image/png">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -10,7 +12,7 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <title>Evolución de Enfermería</title>
+    <title>especial_vigilancia</title>
     <style>
       :root {
         /*TAMAÑO FUENTE*/
@@ -37,7 +39,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-color: #c3ddc5;
+        background-color: #79e5f8;
       }
       h1 {
         text-align: center;
@@ -373,7 +375,7 @@
     </style>
   </head>
   <body>
-    <h1>Evolución de Enfermería</h1>
+    <h1>Especial Vigilancia</h1>
 
     <!-- Selector de Box/Paciente -->
     <div class="box-selector">
@@ -449,6 +451,13 @@
           placeholder="Ej. Familia presente, sin novedades."
         ></textarea>
       </div>
+      <div class="campo">
+        <label for="otros">10. ESPECIAL VIGILANCIA</label>
+        <textarea
+          id="ESPECIAL"
+          placeholder="Ej. Pendiente de tac o de cursar pruebas cruzadas....."
+        ></textarea>
+      </div>
     </form>
 
     <!-- Enlace a balance -->
@@ -512,6 +521,7 @@
         "termorregulacion",
         "piel",
         "otros",
+        "vigilancia",
       ];
 
       function getKey(box) {
