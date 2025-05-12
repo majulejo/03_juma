@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Especial Vigilancia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat :wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --fuente: #2e2925;
+        --pantone: #368f3f;
+        --principal: #92c99b;
+        --hover: #d9ebd8;
+        --borde: #4fa66a;
+        --pantone15: #79b47f;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        margin: 20px;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: var(--principal);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .formulario-container {
+        width: 100%;
+        max-width: 800px;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .botones {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+      }
+
+      button,
+      select,
+      input[type="button"] {
+        padding: 10px 15px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--pantone);
+        color: white;
+        font-weight: bold;
+      }
+
+      button:hover {
+        background-color: #2f7331;
+      }
+
+      label {
+        font-weight: bold;
+        display: block;
+        margin-top: 10px;
+      }
+
+      textarea {
+        width: 100%;
+        height: 100px;
+        resize: vertical;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid var(--borde);
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+
+      .contador {
+        text-align: right;
+        font-size: 12px;
+        margin-top: 5px;
+        color: gray;
+      }
+
+      #resultado {
+        margin-top: 30px;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        max-width: 600px;
+        display: none;
+      }
+
+      #mensaje-box-seleccionado,
+      #mensaje-turno {
+        text-align: center;
+        font-weight: bold;
+        margin-top: 10px;
+        color: var(--fuente);
+        display: none;
+      }
+
+      @media print {
+        body * {
+          visibility: hidden !important;
+        }
+        #resultado,
+        #resultado * {
+          visibility: visible !important;
+          display: block !important;
+        }
+        #resultado {
+          position: absolute;
+          top: 2cm;
+          left: 2cm;
+          width: auto;
+          page-break-after: always;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Informe de Vigilancia Especial</h1>
+    <div class="formulario-container">
+      <div id="mensaje-box-seleccionado">
+        Ha seleccionado el Box <span id="numero-box-seleccionado"></span>
+      </div>
+
+      <div class="botones">
+        <button onclick="seleccionarBox(1)">Seleccionar Box 1</button>
+        <button onclick="seleccionarBox(2)">Seleccionar Box 2</button>
+        <button onclick="seleccionarBox(3)">Seleccionar Box 3</button>
+        <button onclick="seleccionarBox(4)">Seleccionar Box 4</button>
+      </div>
+
+      <div class="campos">
+        <div class="campo">
+          <label for="neurologico">1. NEUROLÓGICO</label>
+          <textarea
+            id="neurologico"
+            oninput="guardarDatos(); limitar(this, 150)"
+            disabled
+          ></textarea>
+          <div class="contador">
+            <span id="contador-neurologico">150</span> restantes
+          </div>
+        </div>
+        <div class="campo">
+          <label for="cardiovascular">2. CARDIOVASCULAR</label>
+          <textarea
+            id="cardiovascular"
+            oninput="guardarDatos(); limitar(this, 150)"
+            disabled
+          ></textarea>
+          <div class="contador">
+            <span id="contador-cardiovascular">150</span> restantes
+          </div>
+        </div>
+        <div class="campo">
+          <label for="respiratorio">3. RESPIRATORIO</label>
+          <textarea
+            id="respiratorio"
+            oninput="guardarDatos(); limitar(this, 150)"
+            disabled
+          ></textarea>
+          <div class="contador">
+            <span id="contador-respiratorio">150</span> restantes
+          </div>
+        </div>
+        <div class="campo">
+          <label for="renal">4. RENAL</label>
+          <textarea
+            id="renal"
+            oninput="guardarDatos(); limitar(this, 120)"
+            disabled
+          ></textarea>
+          <div class="contador">
+            <span id="contador-renal">120</span> restantes
+          </div>
+        </div>
+        <div class="campo">
+          <label for="gastrointestinal">5. GASTROINTESTINAL</label>
+          <textarea
+            id="gastrointestinal"
+            oninput="guardarDatos(); limitar(this, 120)"
+            disabled
+          ></textarea>
+          <div class="contador">
+            <span id="contador-gastrointestinal">120</span> restantes
+          </div>
+        </div>
+        <div class="campo">
+          <label for="nutricional">6. NUTRICIONAL/METABÓLICO</label>
+          <textarea
+            id="nutricional"
+            oninput="guardarDatos(); limitar(this, 150)"
+            disabled
+          ></textarea>
+          <div class="contador">
+            <span id="contador-nutricional">150</span> restantes
+          </div>
+        </div>
+        <div class="campo">
+          <label for="termorregulacion">7. TERMORREGULACIÓN</label>
+          <textarea
+            id="termorregulacion"
+            oninput="guardarDatos(); limitar(this, 120)"
+            disabled
+          ></textarea>
+          <div class="contador">
+            <span id="contador-termorregulacion">120</span> restantes
+          </div>
+        </div>
+        <div class="campo">
+          <label for="piel">8. PIEL</label>
+          <textarea
+            id="piel"
+            oninput="guardarDatos(); limitar(this, 100)"
+            disabled
+          ></textarea>
+          <div class="contador">
+            <span id="contador-piel">100</span> restantes
+          </div>
+        </div>
+        <div class="campo">
+          <label for="otros">9. OTROS</label>
+          <textarea
+            id="otros"
+            oninput="guardarDatos(); limitar(this, 100)"
+            disabled
+          ></textarea>
+          <div class="contador">
+            <span id="contador-otros">100</span> restantes
+          </div>
+        </div>
+        <div class="campo">
+          <label for="especial">10. ESPECIAL VIGILANCIA</label>
+          <textarea
+            id="especial"
+            oninput="guardarDatos(); limitar(this, 400)"
+            disabled
+          ></textarea>
+          <div class="contador">
+            <span id="contador-especial">400</span> restantes
+          </div>
+        </div>
+      </div>
+
+      <div class="botones">
+        <button onclick="generarInforme()">Generar Informe</button>
+        <button onclick="imprimirAuto()">Imprimir</button>
+        <button onclick="borrarDatos()">Borrar Datos</button>
+      </div>
+
+      <div id="mensaje-turno"></div>
+
+      <select
+        id="informesGuardados"
+        onchange="cargarInformeDesdeLista(this.value)"
+      ></select>
+      <button onclick="eliminarInforme()" style="background: red">
+        Eliminar Informe
+      </button>
+    </div>
+
+    <div id="resultado" class="resultado"></div>
+
+    <script>
+      const campos = [
+        "neurologico",
+        "cardiovascular",
+        "respiratorio",
+        "renal",
+        "gastrointestinal",
+        "nutricional",
+        "termorregulacion",
+        "piel",
+        "otros",
+        "especial",
+      ];
+
+      let selectedBox = null;
+
+      function seleccionarBox(num) {
+        selectedBox = num;
+        document.getElementById("numero-box-seleccionado").textContent = num;
+        document.getElementById("mensaje-box-seleccionado").style.display =
+          "block";
+        habilitarCampos();
+      }
+
+      function deshabilitarCampos() {
+        campos.forEach((campo) => {
+          document.getElementById(campo).disabled = true;
+          document.getElementById(campo).placeholder =
+            "Seleccione un Box primero";
+        });
+      }
+
+      function habilitarCampos() {
+        campos.forEach((campo) => {
+          document.getElementById(campo).disabled = false;
+          document.getElementById(campo).placeholder = "";
+        });
+      }
+
+      function getKey(box) {
+        const fecha = new Date().toISOString().split("T")[0];
+        return `evolucion_${fecha}_box${box}`;
+      }
+
+      function guardarDatos() {
+        if (!selectedBox) return;
+        const datos = {};
+        campos.forEach((campo) => {
+          datos[campo] = document.getElementById(campo).value || "";
+        });
+        localStorage.setItem(getKey(selectedBox), JSON.stringify(datos));
+        cargarListadoInformesGuardados();
+      }
+
+      function generarInforme() {
+        if (!selectedBox) {
+          alert("Por favor, seleccione un Box antes de generar el informe.");
+          return;
+        }
+
+        const datos = {};
+        campos.forEach((campo) => {
+          datos[campo] = document.getElementById(campo).value || "Sin Interés";
+        });
+
+        const horaActual = new Date().getHours();
+        const esTurnoDiurno = horaActual >= 8 && horaActual < 20;
+        const turnoTexto = esTurnoDiurno
+          ? "Turno de 8 a 20 horas"
+          : "Turno de 20 a 8 horas";
+
+        const encabezado = `<p><strong>BOX ${selectedBox} - ${turnoTexto}</strong></p>`;
+        const cuerpo = campos
+          .map((campo) => {
+            const campoFormateado =
+              campo === "especial"
+                ? "ESPECIAL VIGILANCIA"
+                : campo.toUpperCase();
+            return `<p><strong>${campoFormateado}:</strong> ${datos[campo]}</p>`;
+          })
+          .join("");
+
+        const resultadoDiv = document.getElementById("resultado");
+        resultadoDiv.innerHTML = encabezado + cuerpo;
+        resultadoDiv.style.display = "block";
+        document.getElementById(
+          "mensaje-turno"
+        ).textContent = `Turno seleccionado: ${turnoTexto}`;
+        document.getElementById("mensaje-turno").style.display = "block";
+      }
+
+      function imprimirAuto() {
+        if (!selectedBox) {
+          alert("Seleccione un Box antes de imprimir.");
+          return;
+        }
+
+        generarInforme();
+
+        const resultadoDiv = document.getElementById("resultado");
+        resultadoDiv.style.display = "block";
+
+        setTimeout(() => {
+          window.print();
+
+          setTimeout(() => {
+            resultadoDiv.style.display = "none";
+            document.getElementById("mensaje-turno").style.display = "none";
+          }, 1000);
+        }, 100);
+      }
+
+      function borrarDatos() {
+        if (!confirm(`¿Desea borrar los datos del Box-${selectedBox}?`)) return;
+        localStorage.removeItem(getKey(selectedBox));
+        alert("Datos borrados.");
+        campos.forEach((campo) => {
+          document.getElementById(campo).value = "";
+          limitar(document.getElementById(campo), getMaxCaracteres(campo));
+        });
+      }
+
+      function limitar(elemento, max) {
+        const valor = elemento.value;
+        const id = elemento.id;
+        if (valor.length > max) elemento.value = valor.slice(0, max);
+        document.getElementById("contador-" + id).textContent =
+          max - elemento.value.length;
+      }
+
+      function getMaxCaracteres(campo) {
+        const limites = {
+          neurologico: 150,
+          cardiovascular: 150,
+          respiratorio: 150,
+          renal: 120,
+          gastrointestinal: 120,
+          nutricional: 150,
+          termorregulacion: 120,
+          piel: 100,
+          otros: 100,
+          especial: 400,
+        };
+        return limites[campo];
+      }
+
+      function cargarListadoInformesGuardados() {
+        const select = document.getElementById("informesGuardados");
+        select.innerHTML =
+          '<option value="">-- Seleccionar Informe --</option>';
+        const informes = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key.startsWith("evolucion_")) {
+            const partes = key.split("_");
+            const fecha = partes[1];
+            const box = partes[2].replace("box", "");
+            informes.push({ key, fecha, box });
+          }
+        }
+        informes.sort((a, b) => b.fecha.localeCompare(a.fecha));
+        informes.forEach(({ key, fecha, box }) => {
+          const option = document.createElement("option");
+          const fechaLinda = new Date(fecha).toLocaleDateString("es-ES", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          });
+          option.value = key;
+          option.textContent = `[Box ${box}] - ${fechaLinda}`;
+          select.appendChild(option);
+        });
+      }
+
+      function cargarInformeDesdeLista(key) {
+        if (!key) return;
+        const data = localStorage.getItem(key);
+        if (!data) {
+          alert("No se encontraron datos para este informe.");
+          return;
+        }
+        const datos = JSON.parse(data);
+        const matchBox = key.match(/box(\d+)/);
+        const boxSeleccionado = matchBox ? parseInt(matchBox[1]) : null;
+        if (!boxSeleccionado) return;
+        selectedBox = boxSeleccionado;
+        document.getElementById("numero-box-seleccionado").textContent =
+          boxSeleccionado;
+        document.getElementById("mensaje-box-seleccionado").style.display =
+          "block";
+        campos.forEach((campo) => {
+          document.getElementById(campo).value = datos[campo] || "";
+          limitar(document.getElementById(campo), getMaxCaracteres(campo));
+        });
+        habilitarCampos();
+        document.getElementById("mensaje-turno").textContent =
+          "Informe cargado. Puede modificarlo y guardarlo con la fecha actual.";
+        document.getElementById("mensaje-turno").style.display = "block";
+      }
+
+      function eliminarInforme() {
+        const select = document.getElementById("informesGuardados");
+        const key = select.value;
+        if (!key) {
+          alert("Por favor, seleccione un informe para eliminar.");
+          return;
+        }
+        if (!confirm("¿Está seguro de que desea eliminar este informe?"))
+          return;
+        localStorage.removeItem(key);
+        alert("Informe eliminado correctamente.");
+        cargarListadoInformesGuardados();
+        document.getElementById("mensaje-turno").textContent = "";
+        document.getElementById("mensaje-turno").style.display = "none";
+      }
+
+      window.onbeforeprint = () => {
+        const resultadoDiv = document.getElementById("resultado");
+        resultadoDiv.style.display = "block";
+      };
+
+      window.onafterprint = () => {
+        const resultadoDiv = document.getElementById("resultado");
+        setTimeout(() => {
+          resultadoDiv.style.display = "none";
+        }, 500);
+      };
+
+      window.onload = () => {
+        deshabilitarCampos();
+        cargarListadoInformesGuardados();
+      };
+    </script>
+  </body>
+</html>

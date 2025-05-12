@@ -761,5 +761,24 @@
         cargarListadoInformesGuardados();
       };
     </script>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBxd0CXGNiOyKpg97Wil2EYStO_7Q6Dfak",
+        authDomain: "informes-uci.firebaseapp.com",
+        projectId: "informes-uci",
+        storageBucket: "informes-uci.firebasestorage.app",
+        messagingSenderId: "448318328600",
+        appId: "1:448318328600:web:5f1b5776088c09fcefd86d",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+    </script>
   </body>
 </html>
