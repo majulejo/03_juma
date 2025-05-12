@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Especial Vigilancia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat :wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --fuente: #2e2925;
+        --pantone: #368f3f;
+        --principal: #92c99b;
+        --hover: #d9ebd8;
+        --borde: #4fa66a;
+        --pantone15: #79b47f;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        margin: 20px;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: var(--principal);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: var(--fuente);
+      }
+
+      .box-selector {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+      }
+
+      .box-selector button {
+        padding: 10px 15px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--pantone15);
+        color: white;
+        min-width: 80px;
+      }
+
+      .box-selector button:hover {
+        background-color: white;
+        color: var(--fuente);
+        transition: all 0.5s ease;
+      }
+
+      .box-selector button.active {
+        background-color: var(--pantone);
+        box-shadow: 0 0 5px #0000004d;
+        transition: all 0.5s ease;
+      }
+
+      .formulario {
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 20px;
+      }
+
+      .campo {
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      .campo label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: var(--fuente);
+      }
+
+      .campo textarea {
+        width: 95%;
+        height: 80px;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid var(--borde);
+        border-radius: 5px;
+        resize: none;
+        background-color: #d1e5d3;
+        color: var(--fuente);
+        outline: none;
+      }
+
+      .contador {
+        text-align: right;
+        font-size: 12px;
+        margin-top: -5px;
+        color: var(--fuente);
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .buttons button,
+      .btn-alternativo {
+        padding: 10px 15px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: #489950;
+        color: white;
+        flex-grow: 1;
+        min-width: 120px;
+        font-weight: bold;
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      .buttons button:hover,
+      .btn-alternativo:hover {
+        background-color: var(--pantone15);
+      }
+
+      .btn-alternativo {
+        background-color: white;
+        color: var(--pantone);
+      }
+
+      .resultado {
+        margin-top: 20px;
+        padding: 20px;
+        font-family: "Montserrat", sans-serif;
+        font-size: 12px;
+        line-height: 1.5;
+        display: none;
+        background-color: white;
+        width: 100%;
+        max-width: 600px;
+        box-sizing: border-box;
+      }
+
+      #mensaje-box-seleccionado {
+        text-align: center;
+        font-weight: bold;
+        margin-top: -15px;
+        margin-bottom: 20px;
+        color: var(--fuente);
+        display: none;
+        font-size: 14px;
+      }
+
+      #mensaje-turno {
+        text-align: center;
+        font-weight: bold;
+        margin-top: 10px;
+        color: var(--fuente);
+        display: none;
+        font-size: 14px;
+      }
+
+      @media print {
+        @page {
+          size: A4 portrait;
+          margin: 0;
+        }
+        body {
+          margin: 0 !important;
+          padding: 0 !important;
+          visibility: visible;
+          height: 100vh;
+        }
+        body > *:not(.resultado) {
+          display: none !important;
+        }
+
+        .resultado {
+          visibility: visible !important;
+          display: block !important;
+          position: absolute;
+          width: 100%;
+          max-width: 600px;
+          padding: 20px;
+          background: white !important;
+          font-size: 12px !important;
+          box-sizing: border-box;
+          left: 3.5cm;
+        }
+
+        .resultado.diurno-print {
+          top: 2cm;
+          bottom: auto;
+        }
+
+        .resultado.nocturno-print {
+          bottom: 2cm;
+          top: auto;
+        }
+
+        .resultado p {
+          page-break-inside: avoid;
+          margin: 5px 0;
+        }
+      }
+
+      .campo textarea:disabled {
+        background-color: #e9ecef !important;
+        color: #6c757d !important;
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Especial Vigilancia</h1>
+
+    <!-- Selector de Box -->
+    <div class="box-selector">
+      <script>
+        for (let i = 1; i <= 12; i++) {
+          document.write(`<button onclick="selectBox(${i})">Box ${i}</button>`);
+        }
+      </script>
+    </div>
+
+    <!-- Mensaje de Box seleccionado -->
+    <div id="mensaje-box-seleccionado">
+      Ha seleccionado el Box <span id="numero-box-seleccionado"></span>
+    </div>
+
+    <!-- Formulario -->
+    <form class="formulario" id="formulario">
+      <div class="campo">
+        <label for="neurologico">1. NEUROLÓGICO</label>
+        <textarea
+          id="neurologico"
+          oninput="limitar(this, 150)"
+          disabled
+        ></textarea>
+        <div class="contador">
+          <span id="contador-neurologico">150</span> restantes
+        </div>
+      </div>
+      <div class="campo">
+        <label for="cardiovascular">2. CARDIOVASCULAR</label>
+        <textarea
+          id="cardiovascular"
+          oninput="limitar(this, 150)"
+          disabled
+        ></textarea>
+        <div class="contador">
+          <span id="contador-cardiovascular">150</span> restantes
+        </div>
+      </div>
+      <div class="campo">
+        <label for="respiratorio">3. RESPIRATORIO</label>
+        <textarea
+          id="respiratorio"
+          oninput="limitar(this, 150)"
+          disabled
+        ></textarea>
+        <div class="contador">
+          <span id="contador-respiratorio">150</span> restantes
+        </div>
+      </div>
+      <div class="campo">
+        <label for="renal">4. RENAL</label>
+        <textarea id="renal" oninput="limitar(this, 120)" disabled></textarea>
+        <div class="contador">
+          <span id="contador-renal">120</span> restantes
+        </div>
+      </div>
+      <div class="campo">
+        <label for="gastrointestinal">5. GASTROINTESTINAL</label>
+        <textarea
+          id="gastrointestinal"
+          oninput="limitar(this, 120)"
+          disabled
+        ></textarea>
+        <div class="contador">
+          <span id="contador-gastrointestinal">120</span> restantes
+        </div>
+      </div>
+      <div class="campo">
+        <label for="nutricional">6. NUTRICIONAL/METABÓLICO</label>
+        <textarea
+          id="nutricional"
+          oninput="limitar(this, 150)"
+          disabled
+        ></textarea>
+        <div class="contador">
+          <span id="contador-nutricional">150</span> restantes
+        </div>
+      </div>
+      <div class="campo">
+        <label for="termorregulacion">7. TERMORREGULACIÓN</label>
+        <textarea
+          id="termorregulacion"
+          oninput="limitar(this, 120)"
+          disabled
+        ></textarea>
+        <div class="contador">
+          <span id="contador-termorregulacion">120</span> restantes
+        </div>
+      </div>
+      <div class="campo">
+        <label for="piel">8. PIEL</label>
+        <textarea id="piel" oninput="limitar(this, 100)" disabled></textarea>
+        <div class="contador">
+          <span id="contador-piel">100</span> restantes
+        </div>
+      </div>
+      <div class="campo">
+        <label for="otros">9. OTROS</label>
+        <textarea id="otros" oninput="limitar(this, 100)" disabled></textarea>
+        <div class="contador">
+          <span id="contador-otros">100</span> restantes
+        </div>
+      </div>
+      <div class="campo">
+        <label for="especial">10. ESPECIAL VIGILANCIA</label>
+        <textarea
+          id="especial"
+          oninput="limitar(this, 400)"
+          disabled
+        ></textarea>
+        <div class="contador">
+          <span id="contador-especial">400</span> restantes
+        </div>
+      </div>
+    </form>
+
+    <!-- Botones -->
+    <div class="buttons">
+      <button onclick="generarInforme()">Generar Informe</button>
+      <button onclick="imprimirAuto()">Imprimir</button>
+      <button onclick="borrarDatos()">Borrar Datos</button>
+      <button class="btn-alternativo" onclick="imprimirAlternativo()">
+        Imprimir en Turno Alternativo
+      </button>
+    </div>
+
+    <!-- Desplegable de informes guardados -->
+    <div class="fecha-container">
+      <label for="informesGuardados">Seleccionar Informe Guardado</label>
+      <select
+        id="informesGuardados"
+        onchange="cargarInformeDesdeLista(this.value)"
+      >
+        <option value="">-- Seleccionar Informe --</option>
+      </select>
+      <button onclick="eliminarInforme()">Eliminar Informe</button>
+    </div>
+
+    <!-- Resultado -->
+    <div class="resultado" id="resultado"></div>
+
+    <!-- Mensaje de turno -->
+    <div id="mensaje-turno"></div>
+
+    <script>
+      const hoy = new Date().toISOString().slice(0, 10);
+      let selectedBox = null;
+
+      const campos = [
+        "neurologico",
+        "cardiovascular",
+        "respiratorio",
+        "renal",
+        "gastrointestinal",
+        "nutricional",
+        "termorregulacion",
+        "piel",
+        "otros",
+        "especial",
+      ];
+
+      function getKey(box) {
+        return `evolucion_${hoy}_box${box}`;
+      }
+
+      function guardarDatos() {
+        if (!selectedBox) return;
+
+        const fechaSeleccionada =
+          document.getElementById("fechaSeleccionada")?.value || hoy;
+        const key = `evolucion_${fechaSeleccionada}_box${selectedBox}`;
+        const datos = {};
+        campos.forEach((campo) => {
+          datos[campo] = document.getElementById(campo).value || "";
+        });
+        localStorage.setItem(key, JSON.stringify(datos));
+        cargarListadoInformesGuardados();
+      }
+
+      function cargarDatos() {
+        const fechaSeleccionada =
+          document.getElementById("fechaSeleccionada")?.value || hoy;
+        const key = `evolucion_${fechaSeleccionada}_box${selectedBox}`;
+        const data = localStorage.getItem(key);
+
+        if (data) {
+          const datos = JSON.parse(data);
+          campos.forEach((campo) => {
+            document.getElementById(campo).value = datos[campo] || "";
+            limitar(document.getElementById(campo), getMaxCaracteres(campo));
+          });
+        } else {
+          campos.forEach((campo) => {
+            document.getElementById(campo).value = "";
+            limitar(document.getElementById(campo), getMaxCaracteres(campo));
+          });
+        }
+      }
+
+      function selectBox(boxNumber) {
+        if (selectedBox !== null) guardarDatos(); // Guarda cambios anteriores
+        selectedBox = boxNumber;
+
+        // Cargar datos del Box actual
+        cargarDatos();
+
+        // Actualizar botones activos
+        document.querySelectorAll(".box-selector button").forEach((btn) => {
+          btn.classList.remove("active");
+          if (btn.textContent === `Box ${boxNumber}`)
+            btn.classList.add("active");
+        });
+
+        // Mostrar mensaje visual
+        document.getElementById("numero-box-seleccionado").textContent =
+          boxNumber;
+        document.getElementById("mensaje-box-seleccionado").style.display =
+          "block";
+
+        // Habilitar los campos
+        habilitarCampos();
+      }
+
+      function generarInforme() {
+        if (!selectedBox) {
+          alert("Por favor, seleccione un Box antes de generar el informe.");
+          return;
+        }
+
+        const datos = {};
+        campos.forEach((campo) => {
+          datos[campo] =
+            document.getElementById(campo).value || "No especificado";
+        });
+
+        const horaActual = new Date().getHours();
+        const esTurnoDiurno = horaActual >= 8 && horaActual < 20;
+        const turnoTexto = esTurnoDiurno
+          ? "Turno de 8 a 20 horas"
+          : "Turno de 20 a 8 horas";
+
+        const encabezado = `<p><strong>BOX ${selectedBox} - ${turnoTexto}</strong></p>`;
+        const cuerpo = campos
+          .map(
+            (campo) =>
+              `<p><strong>${campo.toUpperCase()}:</strong> ${datos[campo]}</p>`
+          )
+          .join("");
+
+        const resultadoDiv = document.getElementById("resultado");
+        resultadoDiv.innerHTML = encabezado + cuerpo;
+
+        resultadoDiv.classList.remove("diurno-print", "nocturno-print");
+        if (esTurnoDiurno) {
+          resultadoDiv.classList.add("diurno-print");
+        } else {
+          resultadoDiv.classList.add("nocturno-print");
+        }
+
+        resultadoDiv.style.display = "block";
+        document.getElementById(
+          "mensaje-turno"
+        ).textContent = `Turno seleccionado: ${turnoTexto}`;
+        document.getElementById("mensaje-turno").style.display = "block";
+      }
+
+      function imprimirAuto() {
+        if (!selectedBox) {
+          alert("Seleccione un Box antes de imprimir.");
+          return;
+        }
+
+        // 1. Generar el informe
+        generarInforme();
+
+        // 2. Asegurarse de que el informe esté visible
+        const resultadoDiv = document.getElementById("resultado");
+        resultadoDiv.style.display = "block";
+
+        // 3. Abrir ventana de impresión
+        window.print();
+
+        // 4. Ocultar el informe después de un breve retraso
+        setTimeout(() => {
+          resultadoDiv.style.display = "none";
+        }, 500); // Retraso suficiente para que el navegador procese la impresión
+      }
+      function imprimirAlternativo() {
+        if (!selectedBox) {
+          alert("Seleccione un Box antes de imprimir.");
+          return;
+        }
+
+        const datos = {};
+        campos.forEach((campo) => {
+          datos[campo] =
+            document.getElementById(campo).value || "No especificado";
+        });
+
+        const horaActual = new Date().getHours();
+        const esTurnoRealDiurno = horaActual >= 8 && horaActual < 20;
+        const esTurnoAlternativoDiurno = !esTurnoRealDiurno;
+        const turnoTexto = esTurnoAlternativoDiurno
+          ? "Turno de 8 a 20 horas"
+          : "Turno de 20 a 8 horas";
+
+        const encabezado = `<p><strong>BOX ${selectedBox} - ${turnoTexto}</strong></p>`;
+        const cuerpo = campos
+          .map(
+            (campo) =>
+              `<p><strong>${campo.toUpperCase()}:</strong> ${datos[campo]}</p>`
+          )
+          .join("");
+
+        const resultadoDiv = document.getElementById("resultado");
+        resultadoDiv.innerHTML = encabezado + cuerpo;
+
+        resultadoDiv.classList.remove("diurno-print", "nocturno-print");
+        if (esTurnoAlternativoDiurno) {
+          resultadoDiv.classList.add("diurno-print");
+        } else {
+          resultadoDiv.classList.add("nocturno-print");
+        }
+
+        resultadoDiv.style.display = "block";
+        document.getElementById(
+          "mensaje-turno"
+        ).textContent = `Turno ALTERNATIVO seleccionado: ${turnoTexto}`;
+        document.getElementById("mensaje-turno").style.display = "block";
+
+        window.print();
+        resultadoDiv.style.display = "none";
+        document.getElementById("mensaje-turno").style.display = "none";
+      }
+
+      function borrarDatos() {
+        if (!confirm(`¿Desea borrar los datos del Box-${selectedBox}?`)) return;
+        const key = getKey(selectedBox);
+        localStorage.removeItem(key);
+        alert("Datos borrados.");
+        campos.forEach((campo) => {
+          document.getElementById(campo).value = "";
+          limitar(document.getElementById(campo), getMaxCaracteres(campo));
+        });
+      }
+
+      function deshabilitarCampos() {
+        campos.forEach((campo) => {
+          document.getElementById(campo).disabled = true;
+          document.getElementById(campo).placeholder =
+            "Seleccione un Box primero";
+        });
+      }
+
+      function habilitarCampos() {
+        campos.forEach((campo) => {
+          document.getElementById(campo).disabled = false;
+          document.getElementById(campo).placeholder = "";
+        });
+      }
+
+      function limitar(elemento, max) {
+        const valor = elemento.value;
+        const id = elemento.id;
+        if (valor.length > max) {
+          elemento.value = valor.slice(0, max);
+        }
+        const restantes = max - elemento.value.length;
+        document.getElementById("contador-" + id).textContent = restantes;
+      }
+
+      function getMaxCaracteres(campo) {
+        const limites = {
+          neurologico: 150,
+          cardiovascular: 150,
+          respiratorio: 150,
+          renal: 120,
+          gastrointestinal: 120,
+          nutricional: 150,
+          termorregulacion: 120,
+          piel: 100,
+          otros: 100,
+          especial: 400,
+        };
+        return limites[campo];
+      }
+
+      function cargarListadoInformesGuardados() {
+        const select = document.getElementById("informesGuardados");
+        select.innerHTML =
+          '<option value="">-- Seleccionar Informe --</option>';
+
+        const informes = [];
+
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.getItem(localStorage.key(i));
+          if (key.startsWith("evolucion_")) {
+            const partes = key.split("_");
+            const fecha = partes[1];
+            const box = partes[2].replace("box", "");
+            informes.push({ key, fecha, box });
+          }
+        }
+
+        informes.sort((a, b) => b.fecha.localeCompare(a.fecha));
+
+        informes.forEach(({ key, fecha, box }) => {
+          const option = document.createElement("option");
+          const fechaLinda = new Date(fecha).toLocaleDateString("es-ES", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          });
+          option.value = key;
+          option.textContent = `[Box ${box}] - ${fechaLinda}`;
+          select.appendChild(option);
+        });
+      }
+
+      function cargarInformeDesdeLista(key) {
+        if (!key) return;
+
+        const data = localStorage.getItem(key);
+        if (!data) {
+          alert("No se encontraron datos para este informe.");
+          return;
+        }
+
+        const datos = JSON.parse(data);
+
+        // Extraer box de la clave (ej: evolucion_2025-04-05_box9 → box=9)
+        const matchBox = key.match(/box(\d+)/);
+        const boxSeleccionado = matchBox ? parseInt(matchBox[1]) : null;
+
+        if (!boxSeleccionado) {
+          alert("No se pudo determinar el Box de este informe.");
+          return;
+        }
+
+        selectedBox = boxSeleccionado;
+
+        // Actualizar botones activos y mensaje visual
+        document.querySelectorAll(".box-selector button").forEach((btn) => {
+          btn.classList.remove("active");
+          if (btn.textContent === `Box ${boxSeleccionado}`)
+            btn.classList.add("active");
+        });
+
+        // Mostrar mensaje visual del Box seleccionado
+        document.getElementById("numero-box-seleccionado").textContent =
+          boxSeleccionado;
+        document.getElementById("mensaje-box-seleccionado").style.display =
+          "block";
+
+        // Cargar los datos del informe seleccionado en los textarea
+        campos.forEach((campo) => {
+          const elemento = document.getElementById(campo);
+          elemento.value = datos[campo] || "";
+          limitar(elemento, getMaxCaracteres(campo));
+        });
+
+        // Habilitar los campos
+        habilitarCampos();
+
+        // Mostrar mensaje de modificación
+        const mensajeTurno = document.getElementById("mensaje-turno");
+        mensajeTurno.textContent =
+          "Informe cargado. Puede modificarlo y guardarlo con la fecha actual.";
+        mensajeTurno.style.display = "block";
+      }
+
+      function eliminarInforme() {
+        const select = document.getElementById("informesGuardados");
+        const key = select.value;
+        if (!key) {
+          alert("Por favor, seleccione un informe para eliminar.");
+          return;
+        }
+
+        const confirmacion = confirm(
+          "¿Está seguro de que desea eliminar este informe?"
+        );
+        if (!confirmacion) return;
+
+        localStorage.removeItem(key);
+        alert("Informe eliminado correctamente.");
+
+        cargarListadoInformesGuardados();
+        document.getElementById("mensaje-turno").textContent = "";
+        document.getElementById("mensaje-turno").style.display = "none";
+      }
+
+      function cargarListadoInformesGuardados() {
+        const select = document.getElementById("informesGuardados");
+        select.innerHTML =
+          '<option value="">-- Seleccionar Informe --</option>';
+
+        const informes = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key.startsWith("evolucion_")) {
+            const partes = key.split("_");
+            const fecha = partes[1];
+            const box = partes[2].replace("box", "");
+            informes.push({ key, fecha, box });
+          }
+        }
+
+        informes.sort((a, b) => b.fecha.localeCompare(a.fecha));
+
+        informes.forEach(({ key, fecha, box }) => {
+          const option = document.createElement("option");
+          const fechaLinda = new Date(fecha).toLocaleDateString("es-ES", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          });
+          option.value = key;
+          option.textContent = `[Box ${box}] - ${fechaLinda}`;
+          select.appendChild(option);
+        });
+      }
+
+      window.onload = () => {
+        deshabilitarCampos();
+        cargarListadoInformesGuardados();
+      };
+    </script>
+  </body>
+</html>
