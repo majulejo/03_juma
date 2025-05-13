@@ -2,12 +2,16 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>E4-Especial Vigilancia</title>
+    <link rel="icon" href="evolucion.png?v=3" type="image/png" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat :wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+    <title>Evolución de Enfermería</title>
     <style>
       :root {
         --fuente: #2e2925;
@@ -99,12 +103,13 @@
         outline: none;
       }
 
-      .contador {
+      .contador-global {
         text-align: right;
-        font-size: 12px;
-        margin-top: -5px;
-        color: var(--fuente);
-        margin-top: 5px;
+        font-weight: 400;
+        font-size: 10px;
+        color: var(--pantone);
+        margin-top: -10px;
+        margin-bottom: 10px;
       }
 
       .buttons {
@@ -199,15 +204,18 @@
           size: A4 portrait;
           margin: 0;
         }
+
         body {
           margin: 0 !important;
           padding: 0 !important;
           visibility: visible;
           height: 100vh;
         }
+
         body > *:not(.resultado) {
           display: none !important;
         }
+
         .resultado {
           visibility: visible !important;
           display: block !important;
@@ -220,14 +228,17 @@
           box-sizing: border-box;
           left: 3.5cm;
         }
+
         .resultado.diurno-print {
           top: 2cm;
           bottom: auto;
         }
+
         .resultado.nocturno-print {
           bottom: 2cm;
           top: auto;
         }
+
         .resultado p {
           page-break-inside: avoid;
           margin: 5px 0;
@@ -245,13 +256,7 @@
     <h1>Especial Vigilancia</h1>
 
     <!-- Selector de Box -->
-    <div class="box-selector">
-      <script>
-        for (let i = 1; i <= 12; i++) {
-          document.write(`<button onclick="selectBox(${i})">Box ${i}</button>`);
-        }
-      </script>
-    </div>
+    <div class="box-selector" id="boxSelector"></div>
 
     <!-- Mensaje de Box seleccionado -->
     <div id="mensaje-box-seleccionado">
@@ -262,113 +267,65 @@
     <form class="formulario" id="formulario">
       <div class="campo">
         <label for="neurologico">1. NEUROLÓGICO</label>
-        <textarea
-          id="neurologico"
-          oninput="guardarDatos(); limitar(this, 150)"
-          disabled
-        ></textarea>
-        <div class="contador">
-          <span id="contador-neurologico">150</span> restantes
-        </div>
+        <textarea id="neurologico" oninput="guardarDatos()" disabled></textarea>
       </div>
       <div class="campo">
         <label for="cardiovascular">2. CARDIOVASCULAR</label>
         <textarea
           id="cardiovascular"
-          oninput="guardarDatos(); limitar(this, 150)"
+          oninput="guardarDatos()"
           disabled
         ></textarea>
-        <div class="contador">
-          <span id="contador-cardiovascular">150</span> restantes
-        </div>
       </div>
       <div class="campo">
         <label for="respiratorio">3. RESPIRATORIO</label>
         <textarea
           id="respiratorio"
-          oninput="guardarDatos(); limitar(this, 150)"
+          oninput="guardarDatos()"
           disabled
         ></textarea>
-        <div class="contador">
-          <span id="contador-respiratorio">150</span> restantes
-        </div>
       </div>
       <div class="campo">
         <label for="renal">4. RENAL</label>
-        <textarea
-          id="renal"
-          oninput="guardarDatos(); limitar(this, 120)"
-          disabled
-        ></textarea>
-        <div class="contador">
-          <span id="contador-renal">120</span> restantes
-        </div>
+        <textarea id="renal" oninput="guardarDatos()" disabled></textarea>
       </div>
       <div class="campo">
         <label for="gastrointestinal">5. GASTROINTESTINAL</label>
         <textarea
           id="gastrointestinal"
-          oninput="guardarDatos(); limitar(this, 120)"
+          oninput="guardarDatos()"
           disabled
         ></textarea>
-        <div class="contador">
-          <span id="contador-gastrointestinal">120</span> restantes
-        </div>
       </div>
       <div class="campo">
         <label for="nutricional">6. NUTRICIONAL/METABÓLICO</label>
-        <textarea
-          id="nutricional"
-          oninput="guardarDatos(); limitar(this, 150)"
-          disabled
-        ></textarea>
-        <div class="contador">
-          <span id="contador-nutricional">150</span> restantes
-        </div>
+        <textarea id="nutricional" oninput="guardarDatos()" disabled></textarea>
       </div>
       <div class="campo">
         <label for="termorregulacion">7. TERMORREGULACIÓN</label>
         <textarea
           id="termorregulacion"
-          oninput="guardarDatos(); limitar(this, 120)"
+          oninput="guardarDatos()"
           disabled
         ></textarea>
-        <div class="contador">
-          <span id="contador-termorregulacion">120</span> restantes
-        </div>
       </div>
       <div class="campo">
         <label for="piel">8. PIEL</label>
-        <textarea
-          id="piel"
-          oninput="guardarDatos(); limitar(this, 100)"
-          disabled
-        ></textarea>
-        <div class="contador">
-          <span id="contador-piel">100</span> restantes
-        </div>
+        <textarea id="piel" oninput="guardarDatos()" disabled></textarea>
       </div>
       <div class="campo">
         <label for="otros">9. OTROS</label>
-        <textarea
-          id="otros"
-          oninput="guardarDatos(); limitar(this, 100)"
-          disabled
-        ></textarea>
-        <div class="contador">
-          <span id="contador-otros">100</span> restantes
-        </div>
+        <textarea id="otros" oninput="guardarDatos()" disabled></textarea>
       </div>
       <div class="campo">
         <label for="especial">10. ESPECIAL VIGILANCIA</label>
-        <textarea
-          id="especial"
-          oninput="guardarDatos(); limitar(this, 400)"
-          disabled
-        ></textarea>
-        <div class="contador">
-          <span id="contador-especial">400</span> restantes
-        </div>
+        <textarea id="especial" oninput="guardarDatos()" disabled></textarea>
+      </div>
+
+      <!-- Contador global -->
+      <div class="contador-global">
+        <strong>Total de caracteres utilizados:</strong>
+        <span id="contador-total">0</span> / <span id="total-maximo">1600</span>
       </div>
     </form>
 
@@ -391,9 +348,7 @@
         id="informesGuardados"
         onchange="cargarInformeDesdeLista(this.value)"
       >
-        <option class="seleccionarInforme" value="">
-          -- Seleccionar Informe --
-        </option>
+        <option value="">-- Seleccionar Informe --</option>
       </select>
       <button class="eliminarInforme" onclick="eliminarInforme()">
         Eliminar Informe
@@ -422,70 +377,53 @@
         "especial",
       ];
 
+      const TOTAL_CARACTERES = 1600;
+
       function getKey(box) {
-        const fecha = hoy;
-        const hora = new Date().toTimeString().slice(0, 5); // HH:mm
-        return `evolucion_${fecha}_${hora}_box${box}`;
+        return `evolucion_${hoy}_box${box}`;
       }
 
       function guardarDatos() {
-        if (!selectedBox) {
-          alert("Debe seleccionar un Box primero.");
-          return;
-        }
+        if (!selectedBox) return;
         const datos = {};
         campos.forEach((campo) => {
           datos[campo] = document.getElementById(campo).value || "";
         });
-
-        const fechaSeleccionada =
-          document.getElementById("fechaSeleccionada")?.value || hoy;
-        const horaActual = new Date().toTimeString().slice(0, 5); // HH:mm
-
-        // Clave única: evolucion_fecha_hora_boxX
-        const key = `evolucion_${fechaSeleccionada}_${horaActual}_box${selectedBox}`;
-        localStorage.setItem(key, JSON.stringify(datos));
-        cargarListadoInformesGuardados();
+        localStorage.setItem(getKey(selectedBox), JSON.stringify(datos));
+        actualizarContadorGlobal();
       }
+
       function cargarDatos() {
-        const key = `evolucion_${hoy}_box${selectedBox}`;
-        const data = localStorage.getItem(key);
+        const data = localStorage.getItem(getKey(selectedBox));
         if (data) {
           const datos = JSON.parse(data);
           campos.forEach((campo) => {
             document.getElementById(campo).value = datos[campo] || "";
-            limitar(document.getElementById(campo), getMaxCaracteres(campo));
           });
         } else {
           campos.forEach((campo) => {
             document.getElementById(campo).value = "";
-            limitar(document.getElementById(campo), getMaxCaracteres(campo));
           });
         }
+        actualizarContadorGlobal();
       }
 
       function selectBox(boxNumber) {
-        if (selectedBox !== null) {
-          guardarDatos(); // Guardar datos del box actual
-        }
+        if (selectedBox !== null) guardarDatos();
         selectedBox = boxNumber;
-        cargarDatos(); // Cargar datos del nuevo box
+        cargarDatos();
 
-        // Actualizar botones activos
+        // Actualizar botón activo
         document.querySelectorAll(".box-selector button").forEach((btn) => {
-          btn.classList.remove("active"); // Desactivar todos los botones
-          if (btn.textContent === `Box ${boxNumber}`) {
-            btn.classList.add("active"); // Activar solo el botón seleccionado
-          }
+          btn.classList.remove("active");
+          if (btn.textContent === `Box ${boxNumber}`)
+            btn.classList.add("active");
         });
 
-        // Mostrar mensaje visual
         document.getElementById("numero-box-seleccionado").textContent =
           boxNumber;
         document.getElementById("mensaje-box-seleccionado").style.display =
           "block";
-
-        // Habilitar campos
         habilitarCampos();
       }
 
@@ -494,7 +432,7 @@
           alert("Por favor, seleccione un Box antes de generar el informe.");
           return;
         }
-        guardarDatos(); // Guardar datos antes de generar el informe
+        guardarDatos();
         const datos = {};
         campos.forEach((campo) => {
           datos[campo] = document.getElementById(campo).value || "Sin Interés";
@@ -527,12 +465,13 @@
           resultadoDiv.classList.add("nocturno-print");
         }
 
-        resultadoDiv.style.display = "block"; // Asegurar visibilidad
+        resultadoDiv.style.display = "block";
         document.getElementById(
           "mensaje-turno"
         ).textContent = `Turno seleccionado: ${turnoTexto}`;
         document.getElementById("mensaje-turno").style.display = "block";
       }
+
       function imprimirAuto() {
         if (!selectedBox) {
           alert("Seleccione un Box antes de imprimir.");
@@ -552,12 +491,12 @@
 
       function borrarDatos() {
         if (!confirm(`¿Desea borrar los datos del Box-${selectedBox}?`)) return;
-        localStorage.removeItem(getKey(selectedBox)); // Elimina solo los datos del box actual
-        alert("Datos borrados.");
+        localStorage.removeItem(getKey(selectedBox));
         campos.forEach((campo) => {
           document.getElementById(campo).value = "";
-          limitar(document.getElementById(campo), getMaxCaracteres(campo));
         });
+        alert("Datos borrados.");
+        cargarListadoInformesGuardados();
       }
 
       function deshabilitarCampos() {
@@ -575,30 +514,6 @@
         });
       }
 
-      function limitar(elemento, max) {
-        const valor = elemento.value;
-        const id = elemento.id;
-        if (valor.length > max) elemento.value = valor.slice(0, max);
-        const restantes = max - elemento.value.length;
-        document.getElementById("contador-" + id).textContent = restantes;
-      }
-
-      function getMaxCaracteres(campo) {
-        const limites = {
-          neurologico: 150,
-          cardiovascular: 150,
-          respiratorio: 150,
-          renal: 120,
-          gastrointestinal: 120,
-          nutricional: 150,
-          termorregulacion: 120,
-          piel: 100,
-          otros: 100,
-          especial: 400,
-        };
-        return limites[campo];
-      }
-
       function cargarListadoInformesGuardados() {
         const select = document.getElementById("informesGuardados");
         select.innerHTML =
@@ -609,34 +524,16 @@
           const key = localStorage.key(i);
           if (key.startsWith("evolucion_")) {
             const partes = key.split("_");
-
-            // Validar que la clave tenga el formato esperado
-            if (partes.length !== 4) {
-              console.warn(`Clave mal formateada: ${key}`);
-              continue; // Ignorar claves con formato incorrecto
-            }
-
+            if (partes.length !== 4) continue;
             const fecha = partes[1];
-            const hora = partes[2]; // Hora en formato HH:mm
-            const box = partes[3].replace("box", ""); // Extraer el número del box
-
-            // Verificar que los valores sean válidos
-            if (!fecha || !hora || !box) {
-              console.warn(`Datos incompletos en la clave: ${key}`);
-              continue;
-            }
-
-            informes.push({ key, fecha, hora, box });
+            const box = partes[3].replace("box", "");
+            informes.push({ key, fecha, box });
           }
         }
 
-        // Ordenar por fecha y hora descendente
-        informes.sort(
-          (a, b) =>
-            b.fecha.localeCompare(a.fecha) || b.hora.localeCompare(a.hora)
-        );
+        informes.sort((a, b) => b.fecha.localeCompare(a.fecha));
 
-        informes.forEach(({ key, fecha, hora, box }) => {
+        informes.forEach(({ key, fecha, box }) => {
           const option = document.createElement("option");
           const fechaLinda = new Date(fecha).toLocaleDateString("es-ES", {
             year: "numeric",
@@ -644,7 +541,7 @@
             day: "2-digit",
           });
           option.value = key;
-          option.textContent = `[Box ${box}] - ${fechaLinda} - ${hora}`;
+          option.textContent = `[Box ${box}] - ${fechaLinda}`;
           select.appendChild(option);
         });
       }
@@ -670,13 +567,11 @@
           "block";
         campos.forEach((campo) => {
           document.getElementById(campo).value = datos[campo] || "";
-          limitar(document.getElementById(campo), getMaxCaracteres(campo));
         });
         habilitarCampos();
-        const mensajeTurno = document.getElementById("mensaje-turno");
-        mensajeTurno.textContent =
+        document.getElementById("mensaje-turno").textContent =
           "Informe cargado. Puede modificarlo y guardarlo con la fecha actual.";
-        mensajeTurno.style.display = "block";
+        document.getElementById("mensaje-turno").style.display = "block";
       }
 
       function eliminarInforme() {
@@ -693,14 +588,53 @@
         localStorage.removeItem(key);
         alert("Informe eliminado correctamente.");
         cargarListadoInformesGuardados();
+        document.getElementById("mensaje-turno").textContent = "";
+        document.getElementById("mensaje-turno").style.display = "none";
+      }
+
+      function actualizarContadorGlobal() {
+        let total = 0;
+        campos.forEach((campo) => {
+          const valor = document.getElementById(campo)?.value || "";
+          total += valor.length;
+        });
+        document.getElementById("contador-total").textContent = total;
+
+        const div = document.querySelector(".contador-global");
+        if (total >= TOTAL_CARACTERES) {
+          div.style.color = "red";
+        } else if (total > TOTAL_CARACTERES * 0.8) {
+          div.style.color = "orange";
+        } else {
+          div.style.color = "var(--fuente)";
+        }
+
+        return total;
+      }
+
+      function validarLimiteGlobal(elemento) {
+        const total = actualizarContadorGlobal();
+        if (total > TOTAL_CARACTERES) {
+          const exceso = total - TOTAL_CARACTERES;
+          const valorOriginal = elemento.value;
+          elemento.value = valorOriginal.slice(
+            0,
+            valorOriginal.length - exceso
+          );
+          alert(`Límite global de ${TOTAL_CARACTERES} caracteres alcanzado.`);
+        }
       }
 
       window.onload = () => {
         deshabilitarCampos();
         cargarListadoInformesGuardados();
 
-        // Crear los botones del selector de Box
         const boxSelector = document.getElementById("boxSelector");
+        if (!boxSelector) {
+          console.error("No se encontró el selector de Boxes.");
+          return;
+        }
+
         for (let i = 1; i <= 12; i++) {
           const btn = document.createElement("button");
           btn.textContent = `Box ${i}`;
