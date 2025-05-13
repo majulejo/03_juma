@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>Especial Vigilancia</title>
+    <title>E4-Especial Vigilancia</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat :wght@400;700&display=swap"
@@ -156,11 +156,11 @@
       #mensaje-box-seleccionado {
         text-align: center;
         font-weight: bold;
-        margin-top: -15px;
+        margin-top: 15px;
         margin-bottom: 20px;
-        color: var(--fuente);
+        color: var(--pantone);
         display: none;
-        font-size: 14px;
+        font-size: 20px;
       }
 
       #mensaje-turno {
@@ -409,7 +409,6 @@
     <script>
       const hoy = new Date().toISOString().slice(0, 10);
       let selectedBox = null;
-
       const campos = [
         "neurologico",
         "cardiovascular",
@@ -424,12 +423,16 @@
       ];
 
       function getKey(box) {
-        return `evolucion_${hoy}_box${box}`;
+        const fecha = hoy;
+        const hora = new Date().toTimeString().slice(0, 5); // HH:mm
+        return `evolucion_${fecha}_${hora}_box${box}`;
       }
 
       function guardarDatos() {
-        if (!selectedBox) return;
-
+        if (!selectedBox) {
+          alert("Debe seleccionar un Box primero.");
+          return;
+        }
         const datos = {};
         campos.forEach((campo) => {
           datos[campo] = document.getElementById(campo).value || "";
@@ -437,17 +440,16 @@
 
         const fechaSeleccionada =
           document.getElementById("fechaSeleccionada")?.value || hoy;
-        localStorage.setItem(
-          `evolucion_${fechaSeleccionada}_box${selectedBox}`,
-          JSON.stringify(datos)
-        );
+        const horaActual = new Date().toTimeString().slice(0, 5); // HH:mm
+
+        // Clave única: evolucion_fecha_hora_boxX
+        const key = `evolucion_${fechaSeleccionada}_${horaActual}_box${selectedBox}`;
+        localStorage.setItem(key, JSON.stringify(datos));
         cargarListadoInformesGuardados();
       }
-
       function cargarDatos() {
         const key = `evolucion_${hoy}_box${selectedBox}`;
         const data = localStorage.getItem(key);
-
         if (data) {
           const datos = JSON.parse(data);
           campos.forEach((campo) => {
@@ -463,15 +465,18 @@
       }
 
       function selectBox(boxNumber) {
-        if (selectedBox !== null) guardarDatos();
+        if (selectedBox !== null) {
+          guardarDatos(); // Guardar datos del box actual
+        }
         selectedBox = boxNumber;
-        cargarDatos();
+        cargarDatos(); // Cargar datos del nuevo box
 
         // Actualizar botones activos
         document.querySelectorAll(".box-selector button").forEach((btn) => {
-          btn.classList.remove("active");
-          if (btn.textContent === `Box ${boxNumber}`)
-            btn.classList.add("active");
+          btn.classList.remove("active"); // Desactivar todos los botones
+          if (btn.textContent === `Box ${boxNumber}`) {
+            btn.classList.add("active"); // Activar solo el botón seleccionado
+          }
         });
 
         // Mostrar mensaje visual
@@ -489,7 +494,7 @@
           alert("Por favor, seleccione un Box antes de generar el informe.");
           return;
         }
-
+        guardarDatos(); // Guardar datos antes de generar el informe
         const datos = {};
         campos.forEach((campo) => {
           datos[campo] = document.getElementById(campo).value || "Sin Interés";
@@ -514,8 +519,8 @@
 
         const resultadoDiv = document.getElementById("resultado");
         resultadoDiv.innerHTML = encabezado + cuerpo;
-
         resultadoDiv.classList.remove("diurno-print", "nocturno-print");
+
         if (esTurnoDiurno) {
           resultadoDiv.classList.add("diurno-print");
         } else {
@@ -528,85 +533,26 @@
         ).textContent = `Turno seleccionado: ${turnoTexto}`;
         document.getElementById("mensaje-turno").style.display = "block";
       }
-
       function imprimirAuto() {
         if (!selectedBox) {
           alert("Seleccione un Box antes de imprimir.");
           return;
         }
-
-        // 1. Generar el informe
         generarInforme();
-
-        // 2. Asegurar visibilidad del div #resultado
         const resultadoDiv = document.getElementById("resultado");
         resultadoDiv.style.display = "block";
-
-        // 3. Esperar un breve momento para asegurar que el DOM esté listo
         setTimeout(() => {
-          window.print(); // Llamar a la impresión cuando el contenido ya está visible
-
-          // 4. Opcional: Ocultar después de imprimir (ajustable)
+          window.print();
           setTimeout(() => {
             resultadoDiv.style.display = "none";
             document.getElementById("mensaje-turno").style.display = "none";
-          }, 1000); // Puedes ajustar este tiempo si es necesario
-        }, 100); // Pequeño retraso para garantizar visibilidad
-      }
-
-      function imprimirAlternativo() {
-        if (!selectedBox) {
-          alert("Seleccione un Box antes de imprimir.");
-          return;
-        }
-        const datos = {};
-        campos.forEach((campo) => {
-          datos[campo] =
-            document.getElementById(campo).value || "No especificado";
-        });
-        const horaActual = new Date().getHours();
-        const esTurnoRealDiurno = horaActual >= 8 && horaActual < 20;
-        const esTurnoAlternativoDiurno = !esTurnoRealDiurno;
-        const turnoTexto = esTurnoAlternativoDiurno
-          ? "Turno de 8 a 20 horas"
-          : "Turno de 20 a 8 horas";
-
-        const encabezado = `<p><strong>BOX ${selectedBox} - ${turnoTexto}</strong></p>`;
-
-        const cuerpo = campos
-          .map((campo) => {
-            const campoFormateado =
-              campo === "especial"
-                ? "ESPECIAL VIGILANCIA"
-                : campo.toUpperCase();
-            return `<p><strong>${campoFormateado}:</strong> ${datos[campo]}</p>`;
-          })
-          .join("");
-
-        const resultadoDiv = document.getElementById("resultado");
-        resultadoDiv.innerHTML = encabezado + cuerpo;
-        resultadoDiv.classList.remove("diurno-print", "nocturno-print");
-        if (esTurnoAlternativoDiurno) {
-          resultadoDiv.classList.add("diurno-print");
-        } else {
-          resultadoDiv.classList.add("nocturno-print");
-        }
-        resultadoDiv.style.display = "block";
-        document.getElementById(
-          "mensaje-turno"
-        ).textContent = `Turno ALTERNATIVO seleccionado: ${turnoTexto}`;
-        document.getElementById("mensaje-turno").style.display = "block";
-
-        window.print();
-        setTimeout(() => {
-          document.getElementById("resultado").style.display = "none";
-          document.getElementById("mensaje-turno").style.display = "none";
-        }, 500);
+          }, 500);
+        }, 100);
       }
 
       function borrarDatos() {
         if (!confirm(`¿Desea borrar los datos del Box-${selectedBox}?`)) return;
-        localStorage.removeItem(getKey(selectedBox));
+        localStorage.removeItem(getKey(selectedBox)); // Elimina solo los datos del box actual
         alert("Datos borrados.");
         campos.forEach((campo) => {
           document.getElementById(campo).value = "";
@@ -632,9 +578,7 @@
       function limitar(elemento, max) {
         const valor = elemento.value;
         const id = elemento.id;
-        if (valor.length > max) {
-          elemento.value = valor.slice(0, max);
-        }
+        if (valor.length > max) elemento.value = valor.slice(0, max);
         const restantes = max - elemento.value.length;
         document.getElementById("contador-" + id).textContent = restantes;
       }
@@ -659,22 +603,40 @@
         const select = document.getElementById("informesGuardados");
         select.innerHTML =
           '<option value="">-- Seleccionar Informe --</option>';
-
         const informes = [];
 
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
           if (key.startsWith("evolucion_")) {
             const partes = key.split("_");
+
+            // Validar que la clave tenga el formato esperado
+            if (partes.length !== 4) {
+              console.warn(`Clave mal formateada: ${key}`);
+              continue; // Ignorar claves con formato incorrecto
+            }
+
             const fecha = partes[1];
-            const box = partes[2].replace("box", "");
-            informes.push({ key, fecha, box });
+            const hora = partes[2]; // Hora en formato HH:mm
+            const box = partes[3].replace("box", ""); // Extraer el número del box
+
+            // Verificar que los valores sean válidos
+            if (!fecha || !hora || !box) {
+              console.warn(`Datos incompletos en la clave: ${key}`);
+              continue;
+            }
+
+            informes.push({ key, fecha, hora, box });
           }
         }
 
-        informes.sort((a, b) => b.fecha.localeCompare(a.fecha));
+        // Ordenar por fecha y hora descendente
+        informes.sort(
+          (a, b) =>
+            b.fecha.localeCompare(a.fecha) || b.hora.localeCompare(a.hora)
+        );
 
-        informes.forEach(({ key, fecha, box }) => {
+        informes.forEach(({ key, fecha, hora, box }) => {
           const option = document.createElement("option");
           const fechaLinda = new Date(fecha).toLocaleDateString("es-ES", {
             year: "numeric",
@@ -682,40 +644,34 @@
             day: "2-digit",
           });
           option.value = key;
-          option.textContent = `[Box ${box}] - ${fechaLinda}`;
+          option.textContent = `[Box ${box}] - ${fechaLinda} - ${hora}`;
           select.appendChild(option);
         });
       }
 
       function cargarInformeDesdeLista(key) {
         if (!key) return;
-
         const data = localStorage.getItem(key);
         if (!data) {
           alert("No se encontraron datos para este informe.");
           return;
         }
-
         const datos = JSON.parse(data);
         const matchBox = key.match(/box(\d+)/);
         const boxSeleccionado = matchBox ? parseInt(matchBox[1]) : null;
-
         if (!boxSeleccionado) {
           alert("No se pudo determinar el Box de este informe.");
           return;
         }
-
         selectedBox = boxSeleccionado;
         document.getElementById("numero-box-seleccionado").textContent =
           boxSeleccionado;
         document.getElementById("mensaje-box-seleccionado").style.display =
           "block";
-
         campos.forEach((campo) => {
           document.getElementById(campo).value = datos[campo] || "";
           limitar(document.getElementById(campo), getMaxCaracteres(campo));
         });
-
         habilitarCampos();
         const mensajeTurno = document.getElementById("mensaje-turno");
         mensajeTurno.textContent =
@@ -726,59 +682,32 @@
       function eliminarInforme() {
         const select = document.getElementById("informesGuardados");
         const key = select.value;
-
         if (!key) {
           alert("Por favor, seleccione un informe para eliminar.");
           return;
         }
-
         const confirmacion = confirm(
           "¿Está seguro de que desea eliminar este informe?"
         );
         if (!confirmacion) return;
-
         localStorage.removeItem(key);
         alert("Informe eliminado correctamente.");
-
         cargarListadoInformesGuardados();
-        document.getElementById("mensaje-turno").textContent = "";
-        document.getElementById("mensaje-turno").style.display = "none";
       }
 
-      window.onbeforeprint = () => {
-        const resultadoDiv = document.getElementById("resultado");
-        resultadoDiv.style.display = "block";
-      };
-
-      window.onafterprint = () => {
-        const resultadoDiv = document.getElementById("resultado");
-        setTimeout(() => {
-          resultadoDiv.style.display = "none";
-        }, 500);
-      };
       window.onload = () => {
         deshabilitarCampos();
         cargarListadoInformesGuardados();
-      };
-    </script>
-    <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
-      // TODO: Add SDKs for Firebase products that you want to use
-      // https://firebase.google.com/docs/web/setup#available-libraries
 
-      // Your web app's Firebase configuration
-      const firebaseConfig = {
-        apiKey: "AIzaSyBxd0CXGNiOyKpg97Wil2EYStO_7Q6Dfak",
-        authDomain: "informes-uci.firebaseapp.com",
-        projectId: "informes-uci",
-        storageBucket: "informes-uci.firebasestorage.app",
-        messagingSenderId: "448318328600",
-        appId: "1:448318328600:web:5f1b5776088c09fcefd86d",
+        // Crear los botones del selector de Box
+        const boxSelector = document.getElementById("boxSelector");
+        for (let i = 1; i <= 12; i++) {
+          const btn = document.createElement("button");
+          btn.textContent = `Box ${i}`;
+          btn.onclick = () => selectBox(i);
+          boxSelector.appendChild(btn);
+        }
       };
-
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
     </script>
   </body>
 </html>
