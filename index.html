@@ -142,6 +142,18 @@
       .buttons .btn-alternativo:hover {
         background-color: var(--hover);
       }
+/* btn-copiar botón de copiar */
+.btn-copiar {
+  background-color: #c0072f;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.btn-copiar:hover {
+  background-color: #aa2a45;
+}
 
       /* icono_balance */
       .icono-container {
@@ -257,55 +269,65 @@
         color: white;
       }
       /* ESTILOS DE IMPRESIÓN MEJORADOS */
-      @media print {
-        @page {
-          size: A4 portrait;
-          margin: 0;
-        }
+    @media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
 
-        body {
-          margin: 0 !important;
-          padding: 0 !important;
-          visibility: visible;
-          height: 100vh;
-        }
+  body {
+    visibility: hidden;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
 
-        body > *:not(.resultado) {
-          display: none !important;
-        }
+  body > * {
+    display: none !important;
+  }
 
-        .resultado {
-          visibility: visible !important;
-          display: block !important;
-          position: relative;
-          width: 100%;
-          height: 100%;
-          margin: 0;
-          padding: 20px;
-          background: white !important;
-          font-size: 12px !important;
-          box-sizing: border-box;
-          font-family: "Montserrat", sans-serif;
-        }
+  .resultado {
+    visibility: visible !important;
+    display: block !important;
+    position: absolute;
+    left: 3cm;
+    right: 0.8cm;
+    font-family: "Montserrat", sans-serif;
+    font-size: 12px;
+    line-height: 1.2;
+    background: white !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
 
-        /* Aplicar margen superior solo en turno diurno */
-        .resultado.diurno-print {
-          margin-top: 2cm !important;
-        }
+  .resultado.diurno-print {
+    top: 2cm;
+  }
 
-        /* Contenedor especial para turno nocturno */
-        .nocturno-print-container {
-          position: absolute;
-          bottom: 2cm;
-          left: 3.5cm;
-          right: 0cm;
-        }
+  .resultado.nocturno-print {
+        top: auto;
+        bottom: 2cm;
+  }
 
-        .resultado p {
-          page-break-inside: avoid;
-          margin: 5px 0;
-        }
-      }
+  .resultado p {
+  margin: 2px 0 !important;
+  page-break-inside: avoid;
+  line-height: 1.2;
+}
+
+.resultado p:first-of-type {
+  margin-bottom: 0px !important;
+}
+
+
+
+}
+
+
+
+
 
       /* Responsive Design */
       @media (max-width: 768px) {
@@ -454,15 +476,19 @@
 </a>
 
     <!-- Botones de acción -->
-    <div class="buttons">
-      <button onclick="generarInforme()">Generar Informe</button>
-      <button onclick="imprimirAuto()">Imprimir</button>
-      <button onclick="borrarDatos()">Borrar Datos</button>
-      <!-- Nuevo botón para imprimir en turno alternativo -->
-      <button class="btn-alternativo" onclick="imprimirAlternativo()">
-        Imprimir en Turno Alternativo
-      </button>
-    </div>
+<div class="buttons">
+  <button onclick="generarInforme()">Generar Informe</button>
+  <button onclick="imprimirAuto()">Imprimir</button>
+  <button onclick="borrarDatos()">Borrar Datos</button>
+  <button class="btn-alternativo" onclick="imprimirAlternativo()">Imprimir en Turno Alternativo</button>
+</div>
+
+<!-- Botón copiar informe (inicialmente oculto) -->
+<div style="text-align: center; margin-top: 10px;">
+  <button id="btnCopiar" class="btn-copiar" onclick="copiarInforme()" style="display: none;">📋 Copiar Informe</button>
+</div>
+
+
 
     <!-- Modificamos la sección de carga por fecha -->
     <div class="fecha-container">
@@ -548,75 +574,56 @@
         });
       }
 
-      function generarInforme(turno = "") {
-    guardarDatos();
-    const datos = {};
-    campos.forEach(
-        (campo) =>
-            (datos[campo] =
-                document.getElementById(campo).value || "No especificado")
-    );
+   function generarInforme(turno = "") {
+  guardarDatos();
 
-    const informe = `
-        <p><strong>BOX ${selectedBox} - ${turno}</strong></p>
-        ${campos.map(
-            (campo) =>
-                `<p><strong>${campo.toUpperCase()}:</strong> ${datos[campo]}</p>`
-        ).join("")}
-    `;
+  if (!turno) {
+    const hora = new Date().getHours();
+    turno = hora >= 8 && hora < 20 ? "Turno de 8 a 20 horas" : "Turno de 20 a 8 horas";
+  }
 
-    const resultado = document.getElementById("resultado");
-    resultado.innerHTML = informe;
-    resultado.style.display = "block";
+  const datos = {};
+  campos.forEach(campo => {
+    datos[campo] = document.getElementById(campo).value || "No especificado";
+  });
 
-    // Aplicar clase para margen superior en turno diurno
-    resultado.classList.remove("diurno-print");
-    if (turno.includes("8 a 20 horas")) {
-        resultado.classList.add("diurno-print");
-    }
+  const informe =
+  `<p><strong>BOX ${selectedBox} - ${turno}</strong></p>` +
+  campos.map(campo =>
+    `<p><strong>${campo.toUpperCase()}:</strong> ${datos[campo]}</p>`
+  ).join("");
+
+
+  const resultado = document.getElementById("resultado");
+  resultado.innerHTML = informe;
+  resultado.style.display = "block";
+
+  resultado.classList.remove("diurno-print", "nocturno-print");
+  if (turno.includes("8 a 20 horas")) {
+    resultado.classList.add("diurno-print");
+  } else {
+    resultado.classList.add("nocturno-print");
+  }
+
+  document.getElementById("btnCopiar").style.display = "inline-block";
 }
 
-      function imprimirAuto() {
-        const esTurnoDiurno =
-          new Date().getHours() >= 8 && new Date().getHours() < 20;
-        const turno = esTurnoDiurno
-          ? "Turno de 8 a 20 horas"
-          : "Turno de 20 a 8 horas";
 
-        generarInforme(turno);
 
-        const resultado = document.getElementById("resultado");
-        resultado.style.display = "block";
+     function imprimirAuto() {
+  const hora = new Date().getHours();
+  const turno = hora >= 8 && hora < 20 ? "Turno de 8 a 20 horas" : "Turno de 20 a 8 horas";
 
-        if (!esTurnoDiurno) {
-          // Para turno nocturno: envolver el contenido en un contenedor especial
-          const contenido = resultado.innerHTML;
-          resultado.innerHTML = `
-                          <div class="nocturno-print-container">
-                              ${contenido}
-                          </div>
-                      `;
-        }
+  generarInforme(turno);
 
-        // Forzar renderizado antes de imprimir
-        void resultado.offsetHeight;
+  void resultado.offsetHeight;
 
-        setTimeout(() => {
-          window.print();
+  setTimeout(() => {
+    window.print();
+    resultado.style.display = "none";
+  }, 100);
+}
 
-          // Restaurar el contenido original después de imprimir
-          if (!esTurnoDiurno) {
-            const contenedorNocturno = resultado.querySelector(
-              ".nocturno-print-container"
-            );
-            if (contenedorNocturno) {
-              resultado.innerHTML = contenedorNocturno.innerHTML;
-            }
-          }
-
-          resultado.style.display = "none";
-        }, 100);
-      }
       function borrarDatos() {
         // Obtener el número del box actualmente seleccionado
         const mensajeConfirmacion = `Va a borrar los datos actuales del Box-${selectedBox}.`;
@@ -670,48 +677,47 @@
 
       // imprimirAlternativo
 
-      function imprimirAlternativo() {
-        const esTurnoDiurno =
-          new Date().getHours() >= 8 && new Date().getHours() < 20;
-        const turnoAlternativo = esTurnoDiurno
-          ? "Turno de 20 a 8 horas"
-          : "Turno de 8 a 20 horas";
+    function imprimirAlternativo() {
+  const hora = new Date().getHours();
+  const turnoAlternativo = hora >= 8 && hora < 20 
+    ? "Turno de 20 a 8 horas" 
+    : "Turno de 8 a 20 horas";
 
-        generarInforme(turnoAlternativo);
+  generarInforme(turnoAlternativo);
 
-        const resultado = document.getElementById("resultado");
-        resultado.style.display = "block";
+  void resultado.offsetHeight;
 
-        // Creamos un contenedor auxiliar para la impresión nocturna SIN modificar resultado.innerHTML
-        if (esTurnoDiurno) {
-          const contenedorNocturno = document.createElement("div");
-          contenedorNocturno.classList.add("nocturno-print-container");
-          contenedorNocturno.innerHTML = resultado.innerHTML;
-          resultado.innerHTML = ""; // Limpiamos el resultado temporalmente
-          resultado.appendChild(contenedorNocturno);
-        }
+  setTimeout(() => {
+    window.print();
+    resultado.style.display = "none";
+  }, 100);
+}
 
-        // Forzar renderizado antes de imprimir
-        void resultado.offsetHeight;
 
-        setTimeout(() => {
-          window.print();
+      // copiar informe
+     function copiarInforme() {
+  const resultado = document.getElementById("resultado");
+  const texto = resultado.innerText || resultado.textContent;
 
-          // Restaurar contenido original sin afectar los otros elementos
-          if (esTurnoDiurno) {
-            const contenedorNocturno = document.querySelector(
-              ".nocturno-print-container"
-            );
-            if (contenedorNocturno) {
-              resultado.innerHTML = contenedorNocturno.innerHTML;
-            }
-          }
+  if (!texto.trim()) {
+    alert("No hay informe generado para copiar.");
+    return;
+  }
 
-          resultado.style.display = "none";
-        }, 100);
-      }
+  navigator.clipboard.writeText(texto)
+    .then(() => {
+      alert("Informe copiado al portapapeles.\n\nPara copiarlo de nuevo, genere nuevamente el informe.");
+      document.getElementById("btnCopiar").style.display = "none";
+    })
+    .catch((err) => {
+      console.error("Error al copiar:", err);
+      alert("Error al copiar el informe.");
+    });
+}
+
 
       window.onload = () => selectBox(1);
     </script>
   </body>
 </html>
+
