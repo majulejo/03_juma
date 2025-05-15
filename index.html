@@ -2,8 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="evolucion.png?v=3" type="image/png">
-
+<link rel="icon" href="evolucion.png?v=3" type="image/png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,11 +10,18 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <title>Evolución de Enfermería</title>
+        <!-- Desactivar caché con meta tags en el  head -->
+    <link rel="stylesheet" href="styles.css?v=<?php echo time(); ?>">
+<script src="script.js?v=<?php echo time(); ?>"></script>
+<link rel="shortcut icon" href="ccc.png?v=2" type="image/x-icon">
+
+        <!-- Fin Desactivar caché con meta tags en el  head -->
+
+    <title>Evolución de  Enfermería</title>
     <style>
       :root {
         
-        /*COLORES*/
+/*COLORES*/
         --fuente: #2e2925; /*--pantone black c--*/
         --pantone: #368f3f; /*--pantone 7740c____#368f3f--*/
         --principal: #92c99b; /*pantone 7740c__50--*/
@@ -25,6 +31,7 @@
         --pantone15: #79b47f; /*  pantone 100 con blanco 50 */
         /*          https://gradients.app/es/mix   */
       }
+      
       body {
         font-family: "Montserrat", sans-serif;
         margin: 20px;
@@ -32,7 +39,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        background-color: #92c99b;
+        background-color: var(--pantone37);
       }
       h1 {
         text-align: center;
@@ -61,7 +68,7 @@
       }
 
       .box-selector button:hover {
-        background-color: white;
+        background-color: var(--pantone00);
         color: var(--fuente);
         transition: all 0.5s ease;
       }
@@ -97,12 +104,12 @@
         border: 1px solid var(--borde);
         border-radius: 5px;
         resize: none;
-        background-color:  #d1e5d3;
+        background-color: var(--pantone301);
         color: var(--fuente);
         outline: none;
       }
       .campo textarea:hover {
-        border: 1px solid white;
+        border: 1px solid var(--pantone00);
         transition: border 0.7s ease; /* Animación suave */
       }
       /* Botones de acción */
@@ -120,7 +127,7 @@
         cursor: pointer;
         border: none;
         border-radius: 5px;
-        background-color:  #489950;
+        background-color: var(--pantone11);
         transition: background-color 0.3s ease-in-out; /* Animación suave */
         color: white;
         flex-grow: 1;
@@ -133,7 +140,7 @@
       }
       /* Estilo normal del botón alternativo */
       .buttons .btn-alternativo {
-        background-color: white;
+        background-color: var(--pantone00);
         color: var(--pantone);
         transition: background-color 0.3s ease-in-out;
       }
@@ -147,8 +154,8 @@
       .icono-container {
         position: relative;
         display: inline-block;
-        width: 40px; /* Ajusta el tamaño del icono */
-        height: 40px;
+        width: 30px; /* Ajusta el tamaño del icono */
+        height: 30px;
       }
 
       .icono {
@@ -181,7 +188,7 @@
 
       .resultado {
         margin-top: 20px;
-        padding: 20px;
+        padding: 20px 10px;
         font-family: "Montserrat", sans-serif;
         font-size: 12px;
         line-height: 1.5;
@@ -221,7 +228,7 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         background-color: var(--pantone15);
-        color: white;
+        color: var(--pantone00);
       }
 
       .cargar-fecha-btn {
@@ -254,7 +261,7 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         background-color: var(--pantone15);
-        color: white;
+        color: var(--pantone00);
       }
       /* ESTILOS DE IMPRESIÓN MEJORADOS */
       @media print {
@@ -275,30 +282,35 @@
         }
 
         .resultado {
+          padding-left: 0 !important;
+          margin-left: 0 !important;
           visibility: visible !important;
           display: block !important;
           position: relative;
           width: 100%;
           height: 100%;
           margin: 0;
-          padding: 20px;
+          padding: 20px 0px;
           background: white !important;
           font-size: 12px !important;
           box-sizing: border-box;
           font-family: "Montserrat", sans-serif;
+          line-height: 1.2 !important;
         }
 
         /* Aplicar margen superior solo en turno diurno */
         .resultado.diurno-print {
           margin-top: 2cm !important;
+          padding-left: 3cm !important;
+          padding-right: 1cm !important;
         }
 
         /* Contenedor especial para turno nocturno */
         .nocturno-print-container {
           position: absolute;
           bottom: 2cm;
-          left: 3.5cm;
-          right: 0cm;
+          left: 3cm !important;
+          right: 1cm;
         }
 
         .resultado p {
@@ -355,7 +367,7 @@
 
       footer  {
           color: var(--fuente);
-          font-size: 10px ;
+          font-size: 8px ;
           font-weight: bold;
           text-align: center;
           padding: 5px;
@@ -368,7 +380,7 @@
     </style>
   </head>
   <body>
-    <h1>Evolución de enfermería</h1>
+    <h1>Evolución de Enfermería</h1>
 
     <!-- Selector de Box/Paciente -->
     <div class="box-selector">
@@ -466,7 +478,7 @@
 
     <!-- Modificamos la sección de carga por fecha -->
     <div class="fecha-container">
-      <label for="fechaSeleccionada">Histórico de Evoluciones</label>
+      <label for="fechaSeleccionada">Historico de Evoluciones:</label>
       <input type="date" id="fechaSeleccionada" value="" />
 
       <select class="box-selector-dropdown" id="boxSeleccionado">
@@ -487,7 +499,7 @@
 
     <footer>
       <p>&copy; 2025 Informe Evolución Enfermería. Todos los derechos reservados.
-          <br>C.G.Francisco Manuel--M.G.José Antonio--M.M. Francisco Javier</BR>
+          <br>--C.G.Francisco Manuel--M.G.José Antonio--M.M. Francisco Javier--</BR>
   </footer>
 
 
