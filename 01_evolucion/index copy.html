@@ -14,6 +14,11 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
     <title>Evolución de Enfermería</title>
     <style>
@@ -97,15 +102,17 @@
 
       .campo textarea {
         width: 95%;
-        height: 80px;
+        min-height: 80px;
         padding: 10px;
         font-size: 14px;
         border: 1px solid var(--borde);
         border-radius: 5px;
-        resize: none;
+        resize: vertical;
         background-color: #d1e5d3;
         color: var(--fuente);
         outline: none;
+        overflow: auto;
+        overflow-y: hidden;
       }
 
       .campo textarea:disabled {
@@ -207,6 +214,9 @@
         font-weight: bold;
         margin-top: 10px;
         color: var(--fuente);
+        position: relative;
+        overflow: visible !important;
+        z-index: 1000;
       }
 
       #informesGuardados,
@@ -317,6 +327,91 @@
         font-style: italic;
         color: #666; /* gris medio */
       }
+
+      /* Estilo personalizado para Choices.js */
+      /* CONTENEDOR Y LISTA COMPLETA DEL DESPLEGABLE */
+      .choices {
+        font-family: "Montserrat", sans-serif;
+        font-size: 14px;
+        font-weight: bold;
+        background-color: transparent;
+        color: var(--fuente);
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        min-width: unset;
+        position: relative;
+        z-index: 1050;
+      }
+
+      .choices__inner {
+        background-color: var(--pantone15);
+        color: var(--fuente);
+        padding: 10px 15px;
+        border-radius: 5px;
+        border: none;
+        min-height: auto;
+        width: 90%;
+      }
+
+      .choices__placeholder {
+        color: var(--fuente);
+        opacity: 1;
+      }
+
+      .choices[data-type*="select-one"].is-open .choices__list--dropdown {
+        top: 100% !important;
+        top: auto !important;
+        margin-top: 4px !important;
+        max-height: 300px !important;
+        overflow-y: auto !important;
+        position: absolute !important;
+        z-index: 9999 !important;
+      }
+
+      .choices__list--dropdown,
+      .choices__list[aria-expanded] {
+        background-color: #f0f8f2;
+        border: 1px solid var(--borde);
+        border-radius: 6px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        font-size: 14px;
+        max-height: 80vh !important;
+        overflow-y: auto !important;
+      }
+
+      .choices__item--selectable {
+        padding: 8px 12px;
+        border-radius: 4px;
+        background-color: var(--hover);
+      }
+
+      .choices__item--selectable:hover {
+        background-color: var(--pantone);
+        color: white;
+      }
+
+      .choices__list--dropdown .choices__item--choice-group {
+        background-color: var(--pantone15);
+        color: white;
+        padding: 6px 10px;
+        font-weight: bold;
+        border-radius: 4px;
+        margin-top: 4px;
+      }
+
+      .choices__heading {
+        font-weight: 600;
+        font-size: 12px;
+        padding: 10px;
+        border-bottom: 1px solid #f7f7f7;
+        color: var(--fuente);
+      }
+
+      .choices__list--single .choices__item {
+        width: 90%;
+      }
+
       /* mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm */
       /* mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm */
       /* mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm */
@@ -878,6 +973,11 @@
           btn.onclick = () => selectBox(i);
           boxSelector.appendChild(btn);
         }
+        new Choices("#informesGuardados", {
+          searchEnabled: false,
+          itemSelectText: "",
+          shouldSort: false,
+        });
       };
     </script>
   </body>
