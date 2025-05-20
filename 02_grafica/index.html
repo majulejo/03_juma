@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nombre y apellidos</title>
+
+    <!-- Fuente Poppins -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins :wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Estilos CSS -->
+    <style>
+      /* Reset básico */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        outline: none;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+      }
+
+      header {
+        background-color: #333;
+        color: white;
+        padding: 1em;
+        text-align: center;
+      }
+
+      main {
+        padding: 20px;
+      }
+
+      .datos {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #f0f0f0;
+        border-radius: 8px;
+      }
+
+      .datos label {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      .datos input[type="text"],
+      .datos input[type="date"] {
+        padding: 6px;
+        width: 60%;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+
+      .acciones {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .acciones button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+      }
+
+      .contenedor-columnas {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .columna {
+        flex: 1;
+        min-width: 250px;
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .columna h2 {
+        margin-top: 0;
+      }
+
+      .columna label {
+        display: block;
+        margin-top: 10px;
+        text-transform: uppercase;
+      }
+
+      .columna input[type="text"] {
+        width: 100%;
+        padding: 5px;
+        margin-top: 5px;
+        box-sizing: border-box;
+        border-radius: 6px;
+      }
+      /* agua endógena */
+      .solo-visual {
+        background-color: #ebe9e99c; /* Gris claro */
+        color: #555; /* Texto más tenue */
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        pointer-events: none;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Estilo solo para impresión */
+      @media print {
+        body {
+          margin: 0 !important;
+          padding: 0 !important;
+          height: 305mm; /* Tamaño vertical de A4 */
+          width: 215mm; /* Tamaño horizontal de A4 */
+          overflow: hidden;
+        }
+
+        * {
+          visibility: hidden;
+        }
+
+        .print-only {
+          visibility: visible;
+        }
+
+        .print-only input {
+          visibility: visible;
+          position: absolute;
+          font-size: 12pt;
+          font-weight: 500;
+          border: none;
+          background: transparent;
+          font-family: "Poppins", sans-serif;
+        }
+
+        #print_nombre {
+          left: 3.5cm;
+          top: 0.5cm;
+          width: 15cm;
+          white-space: nowrap;
+        }
+
+        #print_fecha {
+          left: 15cm;
+          top: 0.5cm;
+        }
+        /* pvc */
+        #print_campo1 {
+          left: 5cm;
+          top: 9.4cm;
+        }
+        /* oxigenación */
+        #print_campo2 {
+          left: 5cm;
+          top: 10cm;
+        }
+        /* saturacion */
+        #print_campo3 {
+          left: 5cm;
+          top: 10.6cm;
+        }
+        /* vaciuo */
+        #print_campo4 {
+          left: 5cm;
+          top: 11.2cm;
+        }
+        /* glucemia */
+        #print_campo5 {
+          left: 5cm;
+          top: 11.7cm;
+        }
+        /* insulina  */
+        #print_campo6 {
+          left: 5cm;
+          top: 12.2cm;
+        }
+        /* el 7 no está */
+        /* diuresis  la linea superior está a 12.6 pero la pongo a 12.8*/
+        #print_campo8 {
+          left: 4cm;
+          top: 12.8cm;
+        }
+        #print_campo9 {
+          left: 4cm;
+          top: 13.6cm;
+        }
+        /* vomitos sudor */
+        #print_campo10 {
+          left: 7.5cm;
+          top: 14.1cm;
+        }
+        /* sng */
+        #print_campo11 {
+          left: 4cm;
+          top: 14.6cm;
+        }
+        /* otros */
+        #print_campo12 {
+          left: 4cm;
+          top: 15.2cm;
+        }
+        /* control de residuos */
+        #print_campo13 {
+          left: 7cm;
+          top: 15.7cm;
+        }
+        /* p.i. */
+        #print_campo14 {
+          left: 4cm;
+          top: 16.3cm;
+        }
+        /* el 15 no está */
+        /* fluidoterapia 1*/
+        #print_campo16 {
+          left: 2.5cm;
+          top: 17.2cm;
+        }
+        /*fluidoterapia 2*/
+
+        #print_campo17 {
+          left: 2.5cm;
+          top: 17.7cm;
+        }
+        /*fluidoterapia 3*/
+
+        #print_campo18 {
+          left: 2.5cm;
+          top: 18.2cm;
+        }
+        /*fluidoterapia4 */
+
+        #print_campo19 {
+          left: 2.5cm;
+          top: 18.7cm;
+        }
+        /*fluidoterapia5 */
+
+        #print_campo20 {
+          left: 2.5cm;
+          top: 19.3cm;
+        }
+        /*fluidoterapia6 */
+
+        #print_campo21 {
+          left: 2.5cm;
+          top: 19.8cm;
+        }
+        /*fluidoterapia7 */
+
+        #print_campo22 {
+          left: 2.5cm;
+          top: 20.3cm;
+        }
+
+        /*------------------------------------------------*/
+        /*MEDICAION SANGRE AGUA ENDOGENA*/
+        /* medicación */
+        #print_campo23 {
+          left: 6cm;
+          top: 20.9cm;
+        }
+        /* sangre */
+        #print_campo24 {
+          left: 6cm;
+          top: 21.4cm;
+        }
+        /* agua endógena */
+        #print_campo25 {
+          left: 6cm;
+          top: 21.8cm;
+        }
+
+        /*-----------------------------------------------*/
+        /*NUTRICION*/
+        /* oral */
+        #print_campo26 {
+          left: 5cm;
+          top: 22.5cm;
+        }
+        /* enteral */
+        #print_campo27 {
+          left: 5cm;
+          top: 23.1cm;
+        }
+        /* parenteral */
+        #print_campo28 {
+          left: 5cm;
+          top: 23.6cm;
+        }
+        /* el 29 no está */
+
+        /*------------------------------------------------*/
+        /* MEDICACION */
+        /* medicación 1 */
+        #print_campo30 {
+          left: 2.5cm;
+          top: 24.7cm;
+        }
+        /* medicación 1 */
+
+        #print_campo31 {
+          left: 2.5cm;
+          top: 25.2cm;
+        }
+        /* medicación  2*/
+
+        #print_campo32 {
+          left: 2.5cm;
+          top: 25.7cm;
+        }
+        /* medicación 3*/
+
+        #print_campo33 {
+          left: 2.5cm;
+          top: 26.2cm;
+        }
+        /* medicación 4 */
+
+        #print_campo34 {
+          left: 2.5cm;
+          top: 26.7cm;
+        }
+        /* medicación 5 */
+
+        #print_campo35 {
+          left: 2.5cm;
+          top: 27.2cm;
+        }
+        /* medicación 6 */
+
+        #print_campo36 {
+          left: 2.5cm;
+          top: 27.7cm;
+        }
+        /* medicación 7 */
+
+        #print_campo37 {
+          left: 2.5cm;
+          top: 28.2cm;
+        }
+        /* medicación 8 */
+
+        #print_campo38 {
+          left: 2.5cm;
+          top: 28.7cm;
+        }
+        /* medicación 9 */
+
+        #print_campo39 {
+          left: 2.5cm;
+          top: 29.2cm;
+        }
+        /* medicación 10 */
+
+        #print_campo40 {
+          left: 2.5cm;
+          top: 29.7cm;
+        }
+        /* medicación 11 */
+
+        #print_campo41 {
+          left: 2.5cm;
+          top: 30.2cm;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Página 1-Nombre y apellidos</h1>
+    </header>
+
+    <main>
+      <!-- Datos: Nombre y Fecha -->
+      <div class="datos">
+        <label for="nombre">Nombre y Apellidos:</label>
+        <input type="text" id="nombre" placeholder="Juan Pérez" />
+
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha" placeholder="2025-04-05" />
+      </div>
+
+      <!-- Botón Imprimir -->
+      <div class="acciones">
+        <button onclick="window.print()">Imprimir</button>
+      </div>
+
+      <!-- Formulario principal -->
+      <div class="contenedor-columnas">
+        <!-- Columna 1 -->
+        <div class="columna">
+          <div class="grupo1">
+            <h2>Oxigenación y Control de Glucemias</h2>
+            <label for="campo1">PVC</label
+            ><input type="text" id="campo1" placeholder="Valor 1" />
+            <label for="campo2">OXIGENACIÓN</label
+            ><input type="text" id="campo2" placeholder="Valor 1" />
+            <label for="campo3">SATURACIÓN</label
+            ><input type="text" id="campo3" placeholder="Valor 1" />
+            <label for="campo4">EVA/ESCID</label
+            ><input type="text" id="campo4" placeholder="Valor 1" />
+            <label for="campo5">GLUCEMIA</label
+            ><input type="text" id="campo5" />
+            <label for="campo6">INSULINA</label
+            ><input type="text" id="campo6" placeholder="Valor 1" />
+          </div>
+        </div>
+
+        <!-- Columna 2 -->
+        <div class="columna">
+          <div class="grupo2">
+            <h2>Perdidas</h2>
+            <label for="campo8">DIURESIS</label
+            ><input type="text" id="campo8" /> <label for="campo9">HECES</label
+            ><input type="text" id="campo9" />
+            <label for="campo10">VOMITOS, SUDOR,FIEBRE</label>
+            <input type="text" id="campo10" placeholder="TQN" />
+            <label for="campo11">S.N.G.</label
+            ><input type="text" id="campo11" />
+            <label for="campo12">Otros</label
+            ><input type="text" id="campo12" />
+            <label for="campo13">CONTROL DE RESIDUOS</label
+            ><input type="text" id="campo13" /> <label for="campo14">P.I.</label
+            ><input type="text" id="campo14" />
+          </div>
+        </div>
+
+        <!-- Columna 3 -->
+        <div class="columna">
+          <div class="grupo3">
+            <h2>Ingresos/Fluidoterapia</h2>
+            <label for="campo16">Fluidoterapia 1</label
+            ><input type="text" id="campo16" />
+            <label for="campo17">Fluidoterapia 2</label
+            ><input type="text" id="campo17" />
+            <label for="campo18">Fluidoterapia 3</label
+            ><input type="text" id="campo18" />
+            <label for="campo19">Fluidoterapia 4</label
+            ><input type="text" id="campo19" />
+            <label for="campo20">Fluidoterapia 5</label
+            ><input type="text" id="campo20" />
+            <label for="campo21">Fluidoterapia 6</label
+            ><input type="text" id="campo21" />
+            <label for="campo22">Fluidoterapia 7</label
+            ><input type="text" id="campo22" />
+          </div>
+        </div>
+
+        <!-- Columna 4 -->
+        <div class="columna">
+          <div class="grupo4">
+            <h2>Ingresos/Medicación, sangre y plasma, Agua Endógena</h2>
+            <label for="campo23">SF+MEDICACIÓN</label
+            ><input type="text" id="campo23" />
+            <label for="campo24">SANGRE/PLASMA</label
+            ><input type="text" id="campo24" />
+            <label for="campo25">AGUA ENDÓGENA</label
+            ><input type="text" id="campo25" class="solo-visual" readonly />
+          </div>
+        </div>
+
+        <!-- Columna 5 -->
+        <div class="columna">
+          <div class="grupo5">
+            <h2>Nutrición</h2>
+            <label for="campo26">Oral</label><input type="text" id="campo26" />
+            <label for="campo27">Enteral</label
+            ><input type="text" id="campo27" />
+            <label for="campo28">Parenteral</label
+            ><input type="text" id="campo28" />
+          </div>
+        </div>
+
+        <!-- Columna 6 -->
+        <div class="columna">
+          <div class="grupo6">
+            <h2>Medicación</h2>
+            <label for="campo30">MEDICACIÓN 1</label
+            ><input type="text" id="campo30" />
+            <label for="campo31">MEDICACIÓN 2</label
+            ><input type="text" id="campo31" />
+            <label for="campo32">MEDICACIÓN 3</label
+            ><input type="text" id="campo32" />
+            <label for="campo33">MEDICACIÓN 4</label
+            ><input type="text" id="campo33" />
+            <label for="campo34">MEDICACIÓN 5</label
+            ><input type="text" id="campo34" />
+            <label for="campo35">MEDICACIÓN 6</label
+            ><input type="text" id="campo35" />
+            <label for="campo36">MEDICACIÓN 7</label
+            ><input type="text" id="campo36" />
+            <label for="campo37">MEDICACIÓN 8</label
+            ><input type="text" id="campo37" />
+            <label for="campo38">MEDICACIÓN 9</label
+            ><input type="text" id="campo38" />
+            <label for="campo39">MEDICACIÓN 10</label
+            ><input type="text" id="campo39" />
+            <label for="campo40">MEDICACIÓN 11</label
+            ><input type="text" id="campo40" />
+            <label for="campo41">MEDICACIÓN 12</label
+            ><input type="text" id="campo41" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Campos ocultos para impresión -->
+      <div
+        class="print-only"
+        style="position: absolute; left: 0; top: 0; visibility: hidden"
+      >
+        <input type="text" id="print_nombre" readonly />
+        <input type="text" id="print_fecha" readonly />
+        <input type="text" id="print_campo1" readonly />
+        <input type="text" id="print_campo2" readonly />
+        <input type="text" id="print_campo3" readonly />
+        <input type="text" id="print_campo4" readonly />
+        <input type="text" id="print_campo5" readonly />
+        <input type="text" id="print_campo6" readonly />
+        <input type="text" id="print_campo8" readonly />
+        <input type="text" id="print_campo9" readonly />
+        <input type="text" id="print_campo10" readonly />
+        <input type="text" id="print_campo11" readonly />
+        <input type="text" id="print_campo12" readonly />
+        <input type="text" id="print_campo13" readonly />
+        <input type="text" id="print_campo14" readonly />
+        <input type="text" id="print_campo16" readonly />
+        <input type="text" id="print_campo17" readonly />
+        <input type="text" id="print_campo18" readonly />
+        <input type="text" id="print_campo19" readonly />
+        <input type="text" id="print_campo20" readonly />
+        <input type="text" id="print_campo21" readonly />
+        <input type="text" id="print_campo22" readonly />
+        <input type="text" id="print_campo23" readonly />
+        <input type="text" id="print_campo24" readonly />
+        <!-- <input type="text" id="print_campo25" readonly /> <--agua endogena -->
+        <input type="text" id="print_campo26" readonly />
+        <input type="text" id="print_campo27" readonly />
+        <input type="text" id="print_campo28" readonly />
+        <input type="text" id="print_campo30" readonly />
+        <input type="text" id="print_campo31" readonly />
+        <input type="text" id="print_campo32" readonly />
+        <input type="text" id="print_campo33" readonly />
+        <input type="text" id="print_campo34" readonly />
+        <input type="text" id="print_campo35" readonly />
+        <input type="text" id="print_campo36" readonly />
+        <input type="text" id="print_campo37" readonly />
+        <input type="text" id="print_campo38" readonly />
+        <input type="text" id="print_campo39" readonly />
+        <input type="text" id="print_campo40" readonly />
+        <input type="text" id="print_campo41" readonly />
+        <!-- Agrega más campos ocultos si los usas -->
+      </div>
+    </main>
+
+    <!-- Script para preparar impresión -->
+    <script>
+      function prepararImpresion() {
+        const mapeo = {
+          nombre: "print_nombre",
+          fecha: "print_fecha",
+          campo1: "print_campo1",
+          campo2: "print_campo2",
+          campo3: "print_campo3",
+          campo4: "print_campo4",
+          campo5: "print_campo5",
+          campo6: "print_campo6",
+          campo8: "print_campo8",
+          campo9: "print_campo9",
+          campo10: "print_campo10",
+          campo11: "print_campo11",
+          campo12: "print_campo12",
+          campo13: "print_campo13",
+          campo14: "print_campo14",
+          campo16: "print_campo16",
+          campo17: "print_campo17",
+          campo18: "print_campo18",
+          campo19: "print_campo19",
+          campo20: "print_campo20",
+          campo21: "print_campo21",
+          campo22: "print_campo22",
+          campo23: "print_campo23",
+          campo24: "print_campo24",
+          //campo25: "print_campo25",
+          campo26: "print_campo26",
+          campo27: "print_campo27",
+          campo28: "print_campo28",
+          campo30: "print_campo30",
+          campo31: "print_campo31",
+          campo32: "print_campo32",
+          campo33: "print_campo33",
+          campo34: "print_campo34",
+          campo35: "print_campo35",
+          campo36: "print_campo36",
+          campo37: "print_campo37",
+          campo38: "print_campo38",
+          campo39: "print_campo39",
+          campo40: "print_campo40",
+          campo41: "print_campo41",
+
+          // Añade más pares {idOriginal: idPrint} si hay más campos
+        };
+
+        Object.entries(mapeo).forEach(([idOriginal, idPrint]) => {
+          const original = document.getElementById(idOriginal);
+          const printField = document.getElementById(idPrint);
+
+          if (original && printField) {
+            // Si el campo tiene valor, lo pasamos. Si no, lo dejamos vacío
+            printField.value = original.value.trim() || "";
+          }
+        });
+      }
+
+      window.onbeforeprint = prepararImpresion;
+    </script>
+  </body>
+</html>

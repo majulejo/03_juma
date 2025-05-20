@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teléfonos y resto de información</title>
+    <!-- Fuente Poppins -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins :wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Estilos CSS -->
+    <style>
+      /* Reset básico */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        outline: none;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+      }
+      header {
+        background-color: #333;
+        color: white;
+        padding: 1em;
+        text-align: center;
+      }
+      main {
+        padding: 20px;
+      }
+      .datos {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 40px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #f0f0f0;
+        border-radius: 8px;
+      }
+
+      .grupo-contacto input[type="text"],
+      .grupo-contacto input[type="tel"] {
+        padding: 6px;
+        width: 100%;
+        max-width: 180px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 8px;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .grupo-contacto label {
+        font-weight: bold;
+        margin-bottom: 4px;
+      }
+
+      .grupo-contacto input[type="text"],
+      .grupo-contacto input[type="tel"],
+      .grupo-contacto textarea {
+        padding: 6px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 8px;
+        font-family: "Poppins", sans-serif;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .grupo-alergias textarea {
+        resize: vertical;
+        min-height: 60px;
+      }
+
+      .datos label {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+      .datos input[type="text"] {
+        padding: 6px;
+        width: 60%;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .acciones {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .acciones button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+      }
+      .contenedor-columnas {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .columna {
+        flex: 1;
+        min-width: 250px;
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+      .columna h2 {
+        margin-top: 0;
+      }
+      .columna label {
+        display: block;
+        margin-top: 10px;
+      }
+      .columna input[type="text"] {
+        width: 100%;
+        padding: 5px;
+        margin-top: 5px;
+        box-sizing: border-box;
+      }
+      /* teléfonos */
+      .grupo-contacto {
+        margin-bottom: 1em;
+      }
+      .grupo-contacto input {
+        margin-right: 10px;
+        width: calc(50% - 10px);
+      }
+      /* En la sección normal (no de impresión) */
+      #alergias {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        box-sizing: border-box;
+        min-height: 60px;
+        resize: vertical;
+        font-family: "Poppins", sans-serif;
+      }
+      .vgmr-group {
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+      }
+
+      .vgmr-group label {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .vgmr-inputs {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .vgmr-inputs input[type="date"] {
+        flex: 1;
+        min-width: 140px;
+      }
+
+      /* Estilo solo para impresión */
+      @media print {
+        body {
+          margin: 0 !important;
+          padding: 0 !important;
+          height: 305mm; /* Tamaño vertical de A4 */
+          width: 215mm; /* Tamaño horizontal de A4 */
+          overflow: visible !important; /* Cambiado de hidden a visible */
+        }
+        * {
+          visibility: hidden;
+        }
+        .print-only {
+          visibility: visible;
+        }
+        .print-only input,
+        .print-only textarea {
+          visibility: visible;
+          position: absolute;
+          font-size: 12pt;
+          font-weight: 500;
+          border: none;
+          background: transparent;
+          font-family: "Poppins", sans-serif;
+          resize: none;
+          overflow: visible;
+        }
+        #print_alergias {
+          position: absolute;
+          left: 14cm;
+          top: 1.5cm;
+          width: 7cm;
+          min-height: 1cm;
+          max-height: 3cm; /* Altura máxima antes de reducir fuente */
+          white-space: pre-wrap;
+          word-wrap: break-word;
+          overflow: visible;
+          font-size: 10pt;
+          line-height: 1.2;
+        }
+        .grupo-contacto input[type="text"],
+        .grupo-contacto input[type="tel"] {
+          display: inline-block;
+          width: auto;
+          font-size: 10pt;
+          border: none;
+          background: transparent;
+        }
+      }
+      /* Teléfonos y alergias */
+      #print_telefono1_nombre {
+        left: 2.5cm;
+        top: 3cm;
+        width: 7cm;
+        white-space: nowrap;
+      }
+      #print_telefono1_numero {
+        left: 6.5cm;
+        top: 3cm;
+        width: 7cm;
+      }
+      #print_telefono2_nombre {
+        left: 2.5cm;
+        top: 3.5cm;
+        width: 7cm;
+      }
+      #print_telefono2_numero {
+        left: 6.5cm;
+        top: 3.5cm;
+        width: 7cm;
+      }
+
+      /* Niveles */
+      #print_campo42_nombre {
+        left: 4.2cm;
+        top: 14.8cm;
+      }
+      #print_campo42_fecha {
+        left: 7.2cm;
+        top: 14.8cm;
+      }
+      #print_campo43_nombre {
+        left: 4.2cm;
+        top: 15.3cm;
+      }
+      #print_campo43_fecha {
+        left: 7.2cm;
+        top: 15.3cm;
+      }
+      #print_campo44_nombre {
+        left: 4.2cm;
+        top: 15.8cm;
+      }
+      #print_campo44_fecha {
+        left: 7.2cm;
+        top: 15.8cm;
+      }
+      #print_campo45_nombre {
+        left: 4.2cm;
+        top: 16.3cm;
+      }
+      #print_campo45_fecha {
+        left: 7.2cm;
+        top: 16.3cm;
+      }
+      #print_campo46_nombre {
+        left: 4.2cm;
+        top: 16.8cm;
+      }
+      #print_campo46_fecha {
+        left: 7.2cm;
+        top: 16.8cm;
+      }
+      /* Pruebas analíticas/serologias */
+      /* inmunologia */
+      #print_campo47_fecha {
+        left: 6cm;
+        top: 17.3cm;
+      }
+      /* serologia */
+      #print_campo48_fecha {
+        left: 6cm;
+        top: 17.8cm;
+      }
+      /* virologia */
+      #print_campo49_fecha {
+        left: 6cm;
+        top: 18.3cm;
+      }
+      /* f.hepatica */
+      #print_campo50_fecha {
+        left: 6cm;
+        top: 18.8cm;
+      }
+      /* serologia 1 */
+
+      #print_campo51_nombre {
+        left: 3.5cm;
+        top: 19.3cm;
+      }
+      #print_campo51_fecha {
+        left: 7.5cm;
+        top: 19.3cm;
+      }
+      /* serologia 2 */
+
+      #print_campo52_nombre {
+        left: 3.5cm;
+        top: 19.8cm;
+      }
+      #print_campo52_fecha {
+        left: 7.5cm;
+        top: 19.8cm;
+      }
+
+      /* CULTIVOS */
+      #print_campo53_fecha {
+        left: 6cm;
+        top: 20.3cm;
+      }
+      #print_campo54_fecha {
+        left: 6cm;
+        top: 20.8cm;
+      }
+      #print_campo55_fecha {
+        left: 6cm;
+        top: 21.3cm;
+      }
+      #print_campo56_nombre {
+        left: 4cm;
+        top: 21.8cm;
+      }
+      #print_campo56_fecha {
+        left: 7.5cm;
+        top: 21.8cm;
+      }
+
+      /* VGMR */
+      #print_campo57_nombre {
+        left: 4cm;
+        top: 22.3cm;
+      }
+      #print_campo57_fecha {
+        left: 6cm;
+        top: 22.3cm;
+      }
+      #print_campo57_proximo {
+        left: 9.5cm;
+        top: 22.3cm;
+      }
+      /* Catéteres y Tipo */
+      /* cateter1 */
+      #print_campo58_nombre {
+        left: 3.6cm;
+        top: 24.4cm;
+      }
+
+      #print_campo58_fecha {
+        left: 8cm;
+        top: 24.4cm;
+      }
+      /* cateter2 */
+
+      #print_campo59_nombre {
+        left: 3.6cm;
+        top: 24.9cm;
+      }
+
+      #print_campo59_fecha {
+        left: 8cm;
+        top: 24.9cm;
+      }
+      /* cateter3 */
+      /* Cada bloque separado por 0.5cm más */
+      #print_campo60_nombre {
+        left: 3.6cm;
+        top: 25.4cm;
+      }
+      #print_campo60_fecha {
+        left: 8cm;
+        top: 25.4cm;
+      }
+
+      #print_campo61_nombre {
+        left: 3.6cm;
+        top: 25.9cm;
+      }
+      #print_campo61_fecha {
+        left: 8cm;
+        top: 25.9cm;
+      }
+
+      #print_campo62_nombre {
+        left: 3.6cm;
+        top: 26.4cm;
+      }
+      #print_campo62_fecha {
+        left: 8cm;
+        top: 26.4cm;
+      }
+
+      #print_campo63_nombre {
+        left: 3.6cm;
+        top: 26.9cm;
+      }
+      #print_campo63_fecha {
+        left: 8cm;
+        top: 26.9cm;
+      }
+
+      #print_campo64_nombre {
+        left: 3.6cm;
+        top: 27.4cm;
+      }
+      #print_campo64_fecha {
+        left: 8cm;
+        top: 27.4cm;
+      }
+      /* cateter 8  */
+      #print_campo65_nombre {
+        left: 3.6cm;
+        top: 27.9cm;
+      }
+      #print_campo65_fecha {
+        left: 8cm;
+        top: 27.9cm;
+      }
+
+      #print_campo66_nombre {
+        left: 3.6cm;
+        top: 28.4cm;
+      }
+      #print_campo66_fecha {
+        left: 8cm;
+        top: 28.4cm;
+      }
+
+      #print_campo67_nombre {
+        left: 3.6cm;
+        top: 28.9cm;
+      }
+      #print_campo67_fecha {
+        left: 8cm;
+        top: 28.9cm;
+      }
+
+      #print_campo68_nombre {
+        left: 3.6cm;
+        top: 29.4cm;
+      }
+      #print_campo68_fecha {
+        left: 8cm;
+        top: 29.4cm;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Teléfonos y resto de información</h1>
+    </header>
+    <main>
+      <!-- Datos: Teléfonos -->
+      <div class="datos">
+        <div class="grupo-contacto">
+          <label for="telefono1_nombre">Teléfono 1:</label><br />
+          <input
+            type="text"
+            id="telefono1_nombre"
+            placeholder="Nombre del contacto"
+          />
+          <input
+            type="tel"
+            id="telefono1_numero"
+            placeholder="611123456"
+            oninput="validarTelefono(this)"
+          />
+        </div>
+
+        <div class="grupo-contacto">
+          <label for="telefono2_nombre">Teléfono 2:</label><br />
+          <input
+            type="text"
+            id="telefono2_nombre"
+            placeholder="Nombre del contacto"
+          />
+          <input
+            type="tel"
+            id="telefono2_numero"
+            placeholder="611123456"
+            oninput="validarTelefono(this)"
+          />
+        </div>
+
+        <div class="grupo-contacto grupo-alergias">
+          <label for="alergias">Alergias:</label><br />
+          <textarea id="alergias" placeholder="NAMC" rows="3"></textarea>
+        </div>
+      </div>
+
+      <!-- Botón Imprimir -->
+      <div class="acciones">
+        <button onclick="window.print()">Imprimir</button>
+      </div>
+      <!-- Formulario principal -->
+      <div class="contenedor-columnas">
+        <!-- Columna 1 -->
+        <div class="columna">
+          <div class="grupoHoja3-1">
+            <h2>Niveles</h2>
+            <label for="#print_campo42_nombre">Niveles 1</label
+            ><input type="text" id="campo42_nombre" placeholder="Niveles 1" />
+            <input type="date" id="campo42_fecha" />
+
+            <label for="campo43_nombre">Niveles 2</label
+            ><input type="text" id="campo43_nombre" placeholder="Niveles 2" />
+            <input type="date" id="campo43_fecha" />
+
+            <label for="campo44_nombre">Niveles 3</label
+            ><input type="text" id="campo44_nombre" placeholder="Niveles 3" />
+            <input type="date" id="campo44" />
+
+            <label for="campo45_nombre">Niveles 4</label
+            ><input type="text" id="campo45_nombre" placeholder="Niveles 4" />
+            <input type="date" id="campo45_fecha" />
+
+            <label for="campo46_nombre">Niveles 5</label
+            ><input type="text" id="campo46_nombre" placeholder="Niveles 5" />
+            <input type="date" id="campo46_fecha" />
+          </div>
+        </div>
+        <!-- Columna 2 -->
+        <div class="columna">
+          <div class="grupoHoja3-3">
+            <h2>Pruebas Analíticas</h2>
+            <label for="campo47">Inmunologia</label
+            ><input type="date" id="campo47_fecha" />
+            <label for="campo48">Serología</label
+            ><input type="date" id="campo48_fecha" />
+            <label for="campo49">Virología</label
+            ><input type="date" id="campo49_fecha" />
+            <label for="campo50">F. Hepática</label>
+            <input type="date" id="campo50_fecha" />
+            <label for="campo51">Otras Pruebas 1</label>
+            <input
+              type="text"
+              id="campo51_nombre"
+              placeholder="Otras Pruebas 1"
+            /><input type="date" id="campo51_fecha" />
+            <label for="#print_campo52_nombre">Otras Pruebas 2</label
+            ><input
+              type="text"
+              id="campo52_nombre"
+              placeholder="Otras Pruebas 2"
+            />
+            <input type="date" id="campo52_fecha" />
+          </div>
+        </div>
+        <!-- Columna 3 -->
+        <div class="columna">
+          <div class="grupoHoja3-2">
+            <h2>Cultivos</h2>
+            <label for="campo53">Hemocultivos</label
+            ><input type="date" id="campo53_fecha" placeholder="Hemocultivos" />
+            <label for="campo54">Esputos/BAS</label
+            ><input type="date" id="campo54_fecha" placeholder="Esputos/BAS" />
+            <label for="campo55">Urocultivos</label
+            ><input type="date" id="campo55_fecha" placeholder="Urocultivos" />
+
+            <label for="campo56">Otros</label
+            ><input
+              type="text"
+              id="campo56_nombre"
+              placeholder="Cultivos"
+            /><input type="date" id="campo56_fecha" />
+            <div class="grupo-contacto">
+              <label for="campo57">VGMR</label>
+              <input type="date" id="campo57_fecha" />
+              <input type="date" id="campo57_proximo" readonly />
+            </div>
+          </div>
+        </div>
+        <!-- Columna 4 -->
+        <div class="columna">
+          <div class="grupoHoja3-4">
+            <h2>Catéteres y tipo</h2>
+            <!-- cateter1 -->
+            <label for="campo58_nombre">Catéter y tipo 1</label>
+            <input
+              type="text"
+              id="campo58_nombre"
+              placeholder="Nombre del catéter"
+            />
+
+            <label for="campo58_fecha">Fecha de inserción</label>
+            <input type="date" id="campo58_fecha" />
+            <!-- cateter2 -->
+
+            <label for="campo59_nombre">Catéter y tipo 2</label>
+            <input
+              type="text"
+              id="campo59_nombre"
+              placeholder="Nombre del catéter"
+            />
+
+            <label for="campo59_fecha">Fecha de inserción</label>
+            <input type="date" id="campo59_fecha" />
+            <!-- cateter3 -->
+
+            <label for="campo60_nombre">Catéter y tipo 3</label>
+            <input
+              type="text"
+              id="campo60_nombre"
+              placeholder="Nombre del catéter"
+            />
+
+            <label for="campo60_fecha">Fecha de inserción</label>
+            <input type="date" id="campo60_fecha" />
+            <!-- cateter4 -->
+            <label for="campo61_nombre">Catéter y tipo 4</label>
+            <input
+              type="text"
+              id="campo61_nombre"
+              placeholder="Nombre del catéter"
+            />
+
+            <label for="campo61_fecha">Fecha de inserción</label>
+            <input type="date" id="campo61_fecha" />
+            <!-- cateter5 -->
+
+            <label for="campo62_nombre">Catéter y tipo 5</label>
+            <input
+              type="text"
+              id="campo62_nombre"
+              placeholder="Nombre del catéter"
+            />
+            <label for="campo62_fecha">Fecha de inserción</label>
+            <input type="date" id="campo62_fecha" />
+
+            <!-- cateter6 -->
+            <label for="campo63_nombre">Catéter y tipo 6</label>
+            <input
+              type="text"
+              id="campo63_nombre"
+              placeholder="Nombre del catéter"
+            />
+            <label for="campo63_fecha">Fecha de inserción</label>
+            <input type="date" id="campo63_fecha" />
+
+            <!-- cateter7 -->
+            <label for="campo64_nombre">Catéter y tipo 7</label>
+            <input
+              type="text"
+              id="campo64_nombre"
+              placeholder="Nombre del catéter"
+            />
+            <label for="campo64_fecha">Fecha de inserción</label>
+            <input type="date" id="campo64_fecha" />
+
+            <!-- cateter8 -->
+            <label for="campo65_nombre">Catéter y tipo 8</label>
+            <input
+              type="text"
+              id="campo65_nombre"
+              placeholder="Nombre del catéter"
+            />
+            <label for="campo65_fecha">Fecha de inserción</label>
+            <input type="date" id="campo65_fecha" />
+
+            <!-- cateter9 -->
+            <label for="campo66_nombre">Catéter y tipo 9</label>
+            <input
+              type="text"
+              id="campo66_nombre"
+              placeholder="Nombre del catéter"
+            />
+            <label for="campo66_fecha">Fecha de inserción</label>
+            <input type="date" id="campo66_fecha" />
+
+            <!-- cateter10 -->
+            <label for="campo67_nombre">Catéter y tipo 10</label>
+            <input
+              type="text"
+              id="campo67_nombre"
+              placeholder="Nombre del catéter"
+            />
+            <label for="campo67_fecha">Fecha de inserción</label>
+            <input type="date" id="campo67_fecha" />
+
+            <!-- cateter11 -->
+            <label for="campo68_nombre">Catéter y tipo 11</label>
+            <input
+              type="text"
+              id="campo68_nombre"
+              placeholder="Nombre del catéter"
+            />
+            <label for="campo68_fecha">Fecha de inserción</label>
+            <input type="date" id="campo68_fecha" />
+          </div>
+        </div>
+      </div>
+      <!-- Campos ocultos para impresión -->
+      <div
+        class="print-only"
+        style="position: absolute; left: 0; top: 0; visibility: hidden"
+      >
+        <input type="text" id="print_telefono1_nombre" readonly />
+        <input type="text" id="print_telefono1_numero" readonly />
+        <input type="text" id="print_telefono2_nombre" readonly />
+        <input type="text" id="print_telefono2_numero" readonly />
+        <!-- <input type="text" id="print_alergias" readonly /> -->
+        <textarea id="print_alergias" readonly class="print-only"></textarea>
+        <input type="text" id="print_campo42_nombre" readonly />
+        <input type="date" id="print_campo42_fecha" readonly />
+        <input type="text" id="print_campo43_nombre" readonly />
+        <input type="date" id="print_campo43_fecha" readonly />
+        <input type="text" id="print_campo44_nombre" readonly />
+        <input type="date" id="print_campo44_fecha" readonly />
+        <input type="text" id="print_campo45_nombre" readonly />
+        <input type="date" id="print_campo45_fecha" readonly />
+        <input type="text" id="print_campo46_nombre" readonly />
+        <input type="date" id="print_campo46_fecha" readonly />
+        <input type="date" id="print_campo47_fecha" readonly />
+        <input type="date" id="print_campo48_fecha" readonly />
+        <input type="date" id="print_campo49_fecha" readonly />
+        <input type="date" id="print_campo50_fecha" readonly />
+        <input type="text" id="print_campo51_nombre" readonly />
+        <input type="date" id="print_campo51_fecha" readonly />
+        <input type="text" id="print_campo52_nombre" readonly />
+        <input type="date" id="print_campo52_fecha" readonly />
+        <input type="date" id="print_campo53_fecha" readonly />
+        <input type="date" id="print_campo54_fecha" readonly />
+        <input type="date" id="print_campo55_fecha" readonly />
+        <input type="text" id="print_campo56_nombre" readonly />
+        <input type="date" id="print_campo56_fecha" readonly />
+        <input type="text" id="print_campo57_nombre" readonly />
+        <input type="date" id="print_campo57_fecha" readonly />
+        <input type="text" id="print_campo57_proximo" readonly />
+        <input type="text" id="print_campo58_nombre" readonly />
+        <input type="date" id="print_campo58_fecha" readonly />
+        <input type="text" id="print_campo59_nombre" readonly />
+        <input type="date" id="print_campo59_fecha" readonly />
+        <input type="text" id="print_campo60_nombre" readonly />
+        <input type="date" id="print_campo60_fecha" readonly />
+        <input type="text" id="print_campo61_nombre" readonly />
+        <input type="date" id="print_campo61_fecha" readonly />
+        <input type="text" id="print_campo62_nombre" readonly />
+        <input type="date" id="print_campo62_fecha" readonly />
+        <input type="text" id="print_campo63_nombre" readonly />
+        <input type="date" id="print_campo63_fecha" readonly />
+        <input type="text" id="print_campo64_nombre" readonly />
+        <input type="date" id="print_campo64_fecha" readonly />
+        <input type="text" id="print_campo65_nombre" readonly />
+        <input type="date" id="print_campo65_fecha" readonly />
+        <input type="text" id="print_campo66_nombre" readonly />
+        <input type="date" id="print_campo66_fecha" readonly />
+        <input type="text" id="print_campo67_nombre" readonly />
+        <input type="date" id="print_campo67_fecha" readonly />
+        <input type="text" id="print_campo68_nombre" readonly />
+        <input type="date" id="print_campo68_fecha" readonly />
+
+        <!-- Agrega más campos ocultos si los usas -->
+      </div>
+    </main>
+    <!-- Script para preparar impresión -->
+    <script>
+      // Limitar caracteres de input
+      document.querySelectorAll("input[type='text']").forEach((input) => {
+        if (input.id === "alergias") {
+          input.setAttribute("maxlength", "200");
+        } else {
+          input.setAttribute("maxlength", "20");
+          input.addEventListener("input", function () {
+            if (this.value.length > 20) {
+              this.value = this.value.substring(0, 20);
+            }
+          });
+        }
+      });
+
+      // Validación de teléfonos
+      function validarTelefono(input) {
+        input.value = input.value.replace(/[^0-9]/g, "");
+        if (input.value.length > 9) {
+          input.value = input.value.slice(0, 9);
+        }
+      }
+
+      // Ajustar tamaño de fuente dinámicamente
+      function ajustarTamañoFuente(inputElemento) {
+        if (!inputElemento) return;
+
+        let tamanoFuente = 10; // pt
+        inputElemento.style.fontSize = tamanoFuente + "pt";
+
+        while (
+          inputElemento.scrollHeight > inputElemento.clientHeight &&
+          tamanoFuente > 6
+        ) {
+          tamanoFuente -= 0.5;
+          inputElemento.style.fontSize = tamanoFuente + "pt";
+        }
+      }
+
+      // Copiar valores a campos ocultos de impresión
+      function prepararImpresion() {
+        const mapeo = {
+          telefono1_nombre: "print_telefono1_nombre",
+          telefono1_numero: "print_telefono1_numero",
+          telefono2_nombre: "print_telefono2_nombre",
+          telefono2_numero: "print_telefono2_numero",
+          alergias: "print_alergias",
+
+          campo42_fecha: "print_campo42_fecha",
+          campo43_fecha: "print_campo43_fecha",
+          campo44_fecha: "print_campo44_fecha",
+          campo45_fecha: "print_campo45_fecha",
+          campo46_fecha: "print_campo46_fecha",
+          campo47_fecha: "print_campo47_fecha",
+          campo48_fecha: "print_campo48_fecha",
+          campo49_fecha: "print_campo49_fecha",
+          campo50_fecha: "print_campo50_fecha",
+          campo51_fecha: "print_campo51_fecha",
+          campo52_fecha: "print_campo52_fecha",
+          campo53_fecha: "print_campo53_fecha",
+          campo54_fecha: "print_campo54_fecha",
+          campo55_fecha: "print_campo55_fecha",
+          campo56_fecha: "print_campo56_fecha",
+          campo57_fecha: "print_campo57_fecha",
+          campo58_fecha: "print_campo58_fecha",
+          campo59_fecha: "print_campo59_fecha",
+          campo60_fecha: "print_campo60_fecha",
+          campo61_fecha: "print_campo61_fecha",
+
+          // Campos auxiliares con nombres
+          campo42_nombre: "print_campo42_nombre",
+          campo43_nombre: "print_campo43_nombre",
+          campo44_nombre: "print_campo44_nombre",
+          campo45_nombre: "print_campo45_nombre",
+          campo46_nombre: "print_campo46_nombre",
+          campo47_nombre: "print_campo47_nombre",
+          campo48_nombre: "print_campo48_nombre",
+          campo49_nombre: "print_campo49_nombre",
+          campo50_nombre: "print_campo50_nombre",
+          campo51_nombre: "print_campo51_nombre",
+          campo52_nombre: "print_campo52_nombre",
+          campo56_nombre: "print_campo56_nombre",
+          campo57_nombre: "print_campo57_nombre",
+          campo57_proximo: "print_campo57_proximo",
+
+          // Catéteres - Nombres
+          campo62_nombre: "print_campo62_nombre",
+          campo63_nombre: "print_campo63_nombre",
+          campo64_nombre: "print_campo64_nombre",
+          campo65_nombre: "print_campo65_nombre",
+          campo66_nombre: "print_campo66_nombre",
+          campo67_nombre: "print_campo67_nombre",
+          campo68_nombre: "print_campo68_nombre",
+
+          // Catéteres - Fechas
+          campo62_fecha: "print_campo62_fecha",
+          campo63_fecha: "print_campo63_fecha",
+          campo64_fecha: "print_campo64_fecha",
+          campo65_fecha: "print_campo65_fecha",
+          campo66_fecha: "print_campo66_fecha",
+          campo67_fecha: "print_campo67_fecha",
+          campo68_fecha: "print_campo68_fecha",
+        };
+
+        Object.entries(mapeo).forEach(([idOriginal, idPrint]) => {
+          const original = document.getElementById(idOriginal);
+          const printField = document.getElementById(idPrint);
+          if (original && printField) {
+            printField.value = original.value.trim() || "";
+          }
+        });
+
+        // Ajustar tamaño de fuente del campo de alergias
+        ajustarTamañoFuente(document.getElementById("print_alergias"));
+      }
+
+      document
+        .getElementById("campo57_fecha")
+        .addEventListener("change", function () {
+          const fecha = new Date(this.value);
+          if (!isNaN(fecha.getTime())) {
+            // Sumar 5 días
+            fecha.setDate(fecha.getDate() + 5);
+            const yyyy = fecha.getFullYear();
+            const mm = String(fecha.getMonth() + 1).padStart(2, "0");
+            const dd = String(fecha.getDate()).padStart(2, "0");
+            document.getElementById(
+              "campo57_proximo"
+            ).value = `${yyyy}-${mm}-${dd}`;
+          } else {
+            document.getElementById("campo57_proximo").value = "";
+          }
+        });
+
+      window.onbeforeprint = prepararImpresion;
+      // Rellenar campo57_proximo automáticamente con 5 días después, en formato DD-MM-YYYY
+    </script>
+  </body>
+</html>

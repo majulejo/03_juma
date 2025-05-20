@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edad/H. Clinica/Cama/Hoja Nª</title>
+
+    <!-- Fuente Poppins -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins :wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Estilos CSS -->
+    <style>
+      /* Reset básico */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+      }
+
+      header {
+        background-color: #333;
+        color: white;
+        padding: 1em;
+        text-align: center;
+      }
+
+      main {
+        padding: 20px;
+      }
+
+      .datos {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #f0f0f0;
+        border-radius: 8px;
+      }
+
+      .datos label {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      .datos input[type="text"],
+      .datos input[type="date"] {
+        padding: 6px;
+        width: 40%;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      .acciones {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .acciones button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+      }
+
+      .contenedor-columnas {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .columna {
+        flex: 1;
+        min-width: 250px;
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .columna h2 {
+        margin-top: 0;
+      }
+
+      .columna label {
+        display: block;
+        margin-top: 10px;
+      }
+
+      .columna input[type="text"] {
+        width: 100%;
+        padding: 5px;
+        margin-top: 5px;
+        box-sizing: border-box;
+      }
+
+      /* Estilo solo para impresión */
+      @media print {
+        body {
+          margin: 0 !important;
+          padding: 0 !important;
+          height: 297mm; /* Tamaño vertical de A4 */
+          width: 210mm; /* Tamaño horizontal de A4 */
+          overflow: hidden;
+        }
+
+        * {
+          visibility: hidden;
+        }
+
+        .print-only {
+          visibility: visible;
+        }
+
+        .print-only input {
+          visibility: visible;
+          position: absolute;
+          font-size: 14pt;
+          font-weight: 500;
+          border: none;
+          background: transparent;
+          font-family: "Poppins", sans-serif;
+        }
+
+        
+
+        #print_campo69 {
+          left: 0.5cm;
+          top: 0.9cm;
+        }
+
+        
+        #print_campo70 {
+          left: 5.5cm;
+          top: 0.9cm;
+        }
+        #print_campo71 {
+          left: 10cm;
+          top: 0.9cm;
+        }
+        #print_campo72 {
+          left: 15.5cm;
+          top: 0.9cm;
+        }
+      }
+
+
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Edad/H. Clinica/Cama/Hoja Nª</h1>
+    </header>
+
+    <main>
+      <!-- Datos: Nombre y Fecha -->
+      
+
+      <!-- Botón Imprimir -->
+      <div class="acciones">
+        <button onclick="window.print()">Imprimir</button>
+      </div>
+
+      <!-- Formulario principal -->
+      <div class="contenedor-columnas">
+        <!-- Columna 1 -->
+        <div class="columna">
+          <div class="grupoHoja2">
+            <h2>Edad/H. Clinica/Cama/Hoja Nª</h2>
+            <label for="campo69">Edad</label
+            ><input type="text" id="campo69" placeholder="Edad" />
+            <label for="campo70">Nº Hª Clínica</label
+            ><input type="text" id="campo70" placeholder="Nº Hª Clínica"/>
+            <label for="campo71">Cama</label
+            ><input type="text" id="campo71" placeholder="Cama"/>
+            <label for="campo72">Hoja Nº</label
+            ><input type="text" id="campo72"placeholder="Hoja Nº" />
+            </div>
+        </div>
+
+        
+
+      <!-- Campos ocultos para impresión -->
+      <div
+        class="print-only"
+        style="position: absolute; left: 0; top: 0; visibility: hidden"
+      >
+        
+        <input type="text" id="print_campo69" readonly />
+        <input type="text" id="print_campo71" readonly />
+        <input type="text" id="print_campo72" readonly />
+        <input type="text" id="print_campo73" readonly />
+        
+        <!-- Agrega más campos ocultos si los usas -->
+      </div>
+    </main>
+
+    <!-- Script para preparar impresión -->
+    <script>
+      function prepararImpresion() {
+        const mapeo = {
+          
+          campo1: "print_campo69",
+          campo2: "print_campo70",
+          campo3: "print_campo71",
+          campo4: "print_campo72",
+          
+
+          // Añade más pares {idOriginal: idPrint} si hay más campos
+        };
+
+        Object.entries(mapeo).forEach(([idOriginal, idPrint]) => {
+          const original = document.getElementById(idOriginal);
+          const printField = document.getElementById(idPrint);
+
+          if (original && printField) {
+            // Si el campo tiene valor, lo pasamos. Si no, lo dejamos vacío
+            printField.value = original.value.trim() || "";
+          }
+        });
+      }
+
+      window.onbeforeprint = prepararImpresion;
+    </script>
+  </body>
+</html>
+
