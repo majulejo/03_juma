@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="calculadora.png" type="image/x-icon" />
+  <title>Calculadora de Dosis por Fármaco</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('pared.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      margin: 20px auto;
+    }
+
+    h2 {
+      color: #fff;
+      font-size: 1.5em;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      color: #fff;
+      font-size: 1em;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      background-color: rgba(255, 255, 255, 0.8);
+      color: #000;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+
+    button {
+      display: block;
+      margin-top: 20px;
+      padding: 12px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #resultados {
+      margin-top: 20px;
+      color: #fff;
+      font-size: 1em;
+    }
+
+    .resultado {
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: 95%;
+        padding: 15px;
+      }
+
+      h2 {
+        font-size: 1.2em;
+      }
+
+      label,
+      input,
+      select,
+      button {
+        font-size: 0.95em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Calculadora de Dosis por Fármaco</h2>
+
+    <!-- Campo de búsqueda -->
+    <label for="buscadorFarmaco">Buscar Fármaco:</label>
+    <input type="text" id="buscadorFarmaco" placeholder="Ej: Dopamina">
+
+    <label for="farmaco">Selecciona un Fármaco:</label>
+    <select id="farmaco" onchange="mostrarDatosFarma()">
+      <!-- Opciones generadas dinámicamente -->
+    </select>
+
+    <label for="peso">Peso del Paciente (kg):</label>
+    <input type="number" id="peso" step="0.1" placeholder="Ej: 70">
+
+    <label for="mlh">Velocidad de Infusión (ml/h):</label>
+    <input type="number" id="mlh" step="0.1" placeholder="Ej: 6">
+
+    <div id="datosFarma"></div>
+
+    <button onclick="calcularDosis()">Calcular Dosis</button>
+
+    <div id="resultados"></div>
+  </div>
+
+  <script>
+    const medicamentos = [
+      { nombre: "NORADRENALINA", mg: 25, mlDisolucion: 250, dilucion: 0.1 },
+      { nombre: "DEXMEDETOMIDINA", mg: 1, mlDisolucion: 250, dilucion: 0.004 },
+      { nombre: "DOPAMINA", mg: 400, mlDisolucion: 250, dilucion: 1.6 },
+      { nombre: "DOBUTAMINA", mg: 250, mlDisolucion: 250, dilucion: 1 },
+      { nombre: "ADRENALINA", mg: 10, mlDisolucion: 250, dilucion: 0.04 },
+      { nombre: "ISOPROTERENOL", mg: 1, mlDisolucion: 250, dilucion: 0.004 },
+      { nombre: "NITROGLICERINA", mg: 50, mlDisolucion: 250, dilucion: 0.2 },
+      { nombre: "AMIODARONA", mg: 900, mlDisolucion: 250, dilucion: 3.6 },
+      { nombre: "FENTANILO", mg: 0.75, mlDisolucion: 50, dilucion: 0.015 },
+      { nombre: "REMIFENTANILO", mg: 5, mlDisolucion: 50, dilucion: 0.1 },
+      { nombre: "PROPOFOL", mg: 1000, mlDisolucion: 50, dilucion: 20 },
+      { nombre: "MIDAZOLAM", mg: 150, mlDisolucion: 50, dilucion: 3 },
+      { nombre: "ATRACURIO", mg: 250, mlDisolucion: 50, dilucion: 5 },
+      { nombre: "VECURONIO", mg: 50, mlDisolucion: 50, dilucion: 1 },
+      { nombre: "CIS ATRACURIO", mg: 60, mlDisolucion: 50, dilucion: 1.2 },
+      { nombre: "VALPROATO", mg: 800, mlDisolucion: 250, dilucion: 3.2 },
+      { nombre: "LEVOSIMENDAN", mg: 12.5, mlDisolucion: 500, dilucion: 0.025 }
+    ];
+
+    // Ordenar alfabéticamente
+    medicamentos.sort((a, b) => a.nombre.localeCompare(b.nombre));
+
+    const selectFarmaco = document.getElementById("farmaco");
+    const buscadorInput = document.getElementById("buscadorFarmaco");
+    const datosFarmaDiv = document.getElementById("datosFarma");
+    const resultadosDiv = document.getElementById("resultados");
+
+    function rellenarSelect(filtrados = medicamentos) {
+      selectFarmaco.innerHTML = ""; // Limpiar opciones anteriores
+
+      if (filtrados.length === 0) {
+        const option = document.createElement("option");
+        option.textContent = "No encontrado";
+        option.disabled = true;
+        selectFarmaco.appendChild(option);
+        return;
+      }
+
+      filtrados.forEach((med, index) => {
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent = med.nombre;
+        selectFarmaco.appendChild(option);
+      });
+
+      mostrarDatosFarma(); // Mostrar info del primer elemento después de filtrar
+    }
+
+    buscadorInput.addEventListener("input", () => {
+      const filtro = buscadorInput.value.toLowerCase();
+      const filtrados = medicamentos.filter(med => med.nombre.toLowerCase().includes(filtro));
+      rellenarSelect(filtrados);
+    });
+
+    function mostrarDatosFarma() {
+      const index = parseInt(selectFarmaco.value);
+      if (isNaN(index)) return;
+
+      const med = medicamentos[index];
+      datosFarmaDiv.innerHTML = `
+        <p><strong>Fármaco:</strong> ${med.nombre}</p>
+        <p><strong>Cantidad total:</strong> ${med.mg} mg</p>
+        <p><strong>Volumen de disolución:</strong> ${med.mlDisolucion} ml</p>
+        <p><strong>Concentración:</strong> ${med.dilucion} mg/ml</p>
+      `;
+      resultadosDiv.innerHTML = ""; // Limpiar resultados anteriores
+    }
+
+    function calcularDosis() {
+      const index = parseInt(selectFarmaco.value);
+      if (isNaN(index)) {
+        alert("Por favor, selecciona un fármaco válido.");
+        return;
+      }
+
+      const peso = parseFloat(document.getElementById("peso").value);
+      const mlh = parseFloat(document.getElementById("mlh").value);
+
+      if (isNaN(peso) || isNaN(mlh)) {
+        alert("Por favor, introduce valores válidos para peso y ml/h.");
+        return;
+      }
+
+      const med = medicamentos[index];
+
+      const ugKgMin = (mlh * med.dilucion * 1000) / (peso * 60); // Pasamos a microgramos
+      const mgKgH = (mlh * med.dilucion) / peso;
+      const mgH = mlh * med.dilucion;
+
+      resultadosDiv.innerHTML = `
+        <div class="resultado"><strong>μg/kg/min:</strong> ${ugKgMin.toFixed(6)}</div>
+        <div class="resultado"><strong>mg/kg/h:</strong> ${mgKgH.toFixed(6)}</div>
+        <div class="resultado"><strong>mg/h:</strong> ${mgH.toFixed(6)}</div>
+      `;
+    }
+
+    // Inicializar
+    rellenarSelect();
+    mostrarDatosFarma();
+  </script>
+</body>
+</html>
