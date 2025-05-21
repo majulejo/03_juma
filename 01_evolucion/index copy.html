@@ -194,7 +194,7 @@
       #mensaje-box-seleccionado {
         text-align: center;
         font-weight: bold;
-        margin-top: 15px;
+        margin-top: 5px;
         margin-bottom: 20px;
         color: var(--pantone);
         display: none;
@@ -329,17 +329,13 @@
       }
 
       /* Estilo personalizado para Choices.js */
-      /* CONTENEDOR Y LISTA COMPLETA DEL DESPLEGABLE */
+      /* CONTENEDOR DE CHOICES */
       .choices {
         font-family: "Montserrat", sans-serif;
         font-size: 14px;
         font-weight: bold;
-        background-color: transparent;
+        width: 100%;
         color: var(--fuente);
-        border: none;
-        box-shadow: none;
-        padding: 0;
-        min-width: unset;
         position: relative;
         z-index: 1050;
       }
@@ -347,11 +343,11 @@
       .choices__inner {
         background-color: var(--pantone15);
         color: var(--fuente);
-        padding: 10px 15px;
         border-radius: 5px;
-        border: none;
+        border: 1px solid var(--borde);
+        padding: 10px 15px;
+        width: 100%;
         min-height: auto;
-        width: 90%;
       }
 
       .choices__placeholder {
@@ -359,31 +355,44 @@
         opacity: 1;
       }
 
+      /* LISTA DESPLEGADA HACIA ARRIBA */
       .choices[data-type*="select-one"].is-open .choices__list--dropdown {
-        top: 100% !important;
-        top: auto !important;
-        margin-top: 4px !important;
-        max-height: 300px !important;
-        overflow-y: auto !important;
         position: absolute !important;
-        z-index: 9999 !important;
+        bottom: 100% !important;
+        top: auto !important;
+        left: 0 !important;
+        margin-bottom: 6px !important;
+        background-color: white;
+        border: 1px solid var(--borde);
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        max-height: none;
+        overflow-y: auto;
+        width: 100%;
+        z-index: 9999;
       }
 
+      /* LISTA COMPLETA */
       .choices__list--dropdown,
       .choices__list[aria-expanded] {
-        background-color: #f0f8f2;
-        border: 1px solid var(--borde);
-        border-radius: 6px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         font-size: 14px;
-        max-height: 80vh !important;
-        overflow-y: auto !important;
+        padding: 0;
+        background-color: white;
+        border-radius: 5px;
+        overflow-y: auto;
       }
 
+      .choices__list--dropdown {
+        max-height: none !important;
+        height: auto !important;
+        overflow-y: visible !important;
+      }
+
+      /* ÍTEMS */
       .choices__item--selectable {
-        padding: 8px 12px;
-        border-radius: 4px;
-        background-color: var(--hover);
+        padding: 10px 14px;
+        background-color: #e8f4eb;
+        border-bottom: 1px solid #d7e8da;
       }
 
       .choices__item--selectable:hover {
@@ -391,26 +400,75 @@
         color: white;
       }
 
-      .choices__list--dropdown .choices__item--choice-group {
+      /* GRUPOS (Box X) */
+      .choices__item--choice-group {
         background-color: var(--pantone15);
         color: white;
-        padding: 6px 10px;
+        font-style: italic;
         font-weight: bold;
-        border-radius: 4px;
-        margin-top: 4px;
+        padding: 6px 14px;
+        font-size: 13px;
       }
 
-      .choices__heading {
-        font-weight: 600;
-        font-size: 12px;
-        padding: 10px;
-        border-bottom: 1px solid #f7f7f7;
-        color: var(--fuente);
-      }
-
+      /* ÍTEM SELECCIONADO ARRIBA */
       .choices__list--single .choices__item {
-        width: 90%;
+        width: 100%;
       }
+      /* fin del choice */
+
+      /* icono_balance */
+      .icono-container {
+        position: relative;
+        display: inline-block;
+        width: 30px; /* Ajusta el tamaño del icono */
+        height: 30px;
+        margin-bottom: 10px;
+      }
+
+      .icono {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          transition: opacity 0.5s ease-in-out; /* Transición suave */
+      }
+
+      /* Mostrar el icono verde por defecto */
+      .icono.verde {
+          opacity: 1;
+      }
+
+      /* Ocultar el icono azul por defecto */
+      .icono.azul {
+          opacity: 0;
+      }
+
+      /* Cuando se hace hover, la imagen verde desaparece y la azul aparece */
+      .icono-container:hover .verde {
+          opacity: 0;
+      }
+
+      .icono-container:hover .azul {
+          opacity: 1;
+      }
+
+      /* Fin icono_balance */
+
+      /* =============================== */
+      /* FOOTER */
+      /* =============================== */
+
+      footer  {
+          color: var(--fuente);
+          font-size: 10px ;
+          font-weight: bold;
+          text-align: center;
+          padding: 5px;
+          margin-bottom: 5px;
+          margin: 0 auto;
+          width: 100%;
+          z-index: 50;
+      }
+      /* fin del footer */
 
       /* mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm */
       /* mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm */
@@ -472,6 +530,16 @@
     <!-- Selector de Box -->
     <div class="box-selector" id="boxSelector"></div>
 
+    <!-- Enlace a balance -->
+
+    <a
+      href="https://jolejuma.es/balance"
+      target="_blank"
+      class="icono-container"
+    >
+      <img src="balance_verde.png" alt="Balance" class="icono verde" />
+      <img src="balance_azul.png" alt="Balance Azul" class="icono azul" />
+    </a>
     <!-- Mensaje de Box seleccionado -->
     <div id="mensaje-box-seleccionado">
       Ha seleccionado el Box <span id="numero-box-seleccionado"></span>
@@ -555,9 +623,7 @@
 
     <!-- Desplegable de informes guardados -->
     <div class="fecha-container">
-      <label class="informeGuardado" for="informesGuardados"
-        >Seleccionar Informe Guardado</label
-      >
+      <label class="informeGuardado" for="informesGuardados"></label>
       <select
         id="informesGuardados"
         onchange="cargarInformeDesdeLista(this.value)"
@@ -587,6 +653,10 @@
 
     <!-- Mensaje de turno -->
     <div id="mensaje-turno"></div>
+    <footer>
+      <p>&copy; 2025 Informe Evolución Enfermería. Todos los derechos reservados.
+          <br>C.G.Francisco Manuel--M.G.José Antonio--M.M. Francisco Javier</BR>
+  </footer>
 
     <script>
       const hoy = new Date().toISOString().slice(0, 10);
@@ -790,7 +860,7 @@
       function cargarListadoInformesGuardados() {
         const select = document.getElementById("informesGuardados");
         select.innerHTML =
-          '<option value="">-- Seleccionar Informe --</option>';
+          '<option value="">-- Seleccionar Informe Guardado --</option>';
 
         const informesPorBox = {};
 
@@ -973,10 +1043,13 @@
           btn.onclick = () => selectBox(i);
           boxSelector.appendChild(btn);
         }
-        new Choices("#informesGuardados", {
+        new Choices("#tuSelector", {
+          allowHTML: true,
           searchEnabled: false,
-          itemSelectText: "",
           shouldSort: false,
+          itemSelectText: "",
+          position: "bottom", // Intenta 'auto' si sigue sin mostrarse correctamente
+          renderSelectedChoices: "always",
         });
       };
     </script>
