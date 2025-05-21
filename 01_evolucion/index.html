@@ -8,15 +8,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet" />
+      rel="stylesheet"
+    />
+
+
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
-    <script
-      src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+      href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
     <title>Evolución de Enfermería</title>
     <style>
@@ -29,10 +33,13 @@
         --pantone15: #79b47f;
         --btn: #489950;
       }
-
       * {
+        margin: 0;
+        padding: 0;
         outline: none;
+        box-sizing: border-box;
       }
+
       body {
         font-family: "Montserrat", sans-serif;
         margin: 20px;
@@ -303,165 +310,119 @@
         margin-right: 8px;
       }
       /* listado informes guardados */
-      /* INFORMES GUARDADOS */
-#informesGuardados {
-  min-width: 300px;
-  font-size: 14px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  background-color: var(--pantone15) !important;
-  color: var(--fuente) !important;
-  border: none !important;
-  outline: none !important;
-}
+      #informesGuardados {
+        min-width: 220px; /* o el valor que necesites */
+        font-size: 14px;
+        padding: 6px 10px;
+        border-radius: 6px;
+      }
+      #informesGuardados optgroup {
+        font-weight: bold;
+        font-size: 13px;
+        line-height: 1.6;
+        color: white;
+        background-color: var(--pantone15);
+        padding-left: 4px 12px;
+      }
 
-#informesGuardados optgroup {
-  background-color: var(--pantone15) !important;
-  color: white !important;
-  font-weight: bold;
-  font-style: italic;
-  padding: 5px 10px;
-  font-size: 13px;
-}
+      #informesGuardados option {
+        padding: 6px 12px;
+        white-space: nowrap;
+      }
 
-#informesGuardados option {
-  background-color: var(--hover) !important;
-  color: var(--fuente) !important;
-  padding: 10px;
-  font-size: 14px;
-  white-space: normal;
-  min-width: 250px !important;
-  display: block;
-}
+      /* no especificado */
+      .no-especificado {
+        font-style: italic;
+        color: #666; /* gris medio */
+      }
 
-/* CHOICES.JS PERSONALIZADO */
-.choices {
-  font-family: "Montserrat", sans-serif;
-  font-size: 14px;
-  font-weight: bold;
-  width: 100%;
-  color: var(--fuente);
-  position: relative;
-  z-index: 1050;
-}
+      /* Estilo personalizado para Choices.js */
+      /* CONTENEDOR DE CHOICES */
+      .choices {
+        font-family: "Montserrat", sans-serif;
+        font-size: 14px;
+        font-weight: bold;
+        width: 100%;
+        color: var(--fuente);
+        position: relative;
+        z-index: 1050;
+      }
 
-.choices__inner {
-  background-color: var(--pantone15) !important;
-  color: var(--fuente) !important;
-  border-radius: 5px;
-  padding: 10px 15px;
-  width: 100%;
-  min-height: auto;
-  border: none !important;
-  box-shadow: none !important;
-  outline: none !important;
-}
+      .choices__inner {
+        background-color: var(--pantone15);
+        color: var(--fuente);
+        border-radius: 5px;
+        border: 1px solid var(--borde);
+        padding: 10px 15px;
+        width: 100%;
+        min-height: auto;
+      }
 
-.choices__placeholder {
-  color: var(--fuente);
-  opacity: 1;
-}
+      .choices__placeholder {
+        color: var(--fuente);
+        opacity: 1;
+      }
 
-.choices[data-type*="select-one"].is-open .choices__list--dropdown {
-  position: absolute !important;
-  bottom: 100% !important;
-  top: auto !important;
-  left: 0 !important;
-  margin-bottom: 6px !important;
-  background-color: white;
-  border: 1px solid var(--borde);
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  max-height: none;
-  overflow-y: auto;
-  width: 100%;
-  z-index: 9999;
-}
+      /* LISTA DESPLEGADA HACIA ARRIBA */
+      .choices[data-type*="select-one"].is-open .choices__list--dropdown {
+        position: absolute !important;
+        bottom: 100% !important;
+        top: auto !important;
+        left: 0 !important;
+        margin-bottom: 6px !important;
+        background-color: white;
+        border: 1px solid var(--borde);
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        max-height: none;
+        overflow-y: auto;
+        width: 100%;
+        z-index: 9999;
+      }
 
-.choices__list--dropdown,
-.choices__list[aria-expanded] {
-  font-size: 14px;
-  padding: 0;
-  background-color: white;
-  border-radius: 5px;
-  overflow-y: auto;
-}
+      /* LISTA COMPLETA */
+      .choices__list--dropdown,
+      .choices__list[aria-expanded] {
+        font-size: 14px;
+        padding: 0;
+        background-color: white;
+        border-radius: 5px;
+        overflow-y: auto;
+      }
 
-.choices__list--dropdown {
-  max-height: none !important;
-  height: auto !important;
-  overflow-y: visible !important;
-  overflow: visible !important;
-  box-sizing: border-box;
-  width: 100%;
-}
+      .choices__list--dropdown {
+        max-height: none !important;
+        height: auto !important;
+        overflow-y: visible !important;
+      }
 
-/* Ítems del dropdown */
-.choices__item--selectable {
-  padding: 8px 12px;
-  background-color: #e8f4eb;
-  border-bottom: 1px solid #d7e8da;
-  width: 100%;
-  box-sizing: border-box;
-}
+      /* ÍTEMS */
+      .choices__item--selectable {
+        padding: 10px 14px;
+        background-color: #e8f4eb;
+        border-bottom: 1px solid #d7e8da;
+      }
 
-.choices__item--selectable:hover,
-.choices__item--selectable:focus,
-.choices__item--selectable.is-highlighted {
-  background-color: var(--hover) !important;
-  color: var(--fuente) !important;
-  outline: none !important;
-}
+      .choices__item--selectable:hover {
+        background-color: var(--pantone);
+        color: white;
+      }
 
-/* Grupo de opciones (Box X) */
-.choices__item--choice-group {
-  background-color: var(--pantone15);
-  color: white;
-  font-style: italic;
-  font-weight: bold;
-  padding: 6px 14px;
-  font-size: 12px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+      /* GRUPOS (Box X) */
+      .choices__item--choice-group {
+        background-color: var(--pantone15);
+        color: white;
+        font-style: italic;
+        font-weight: bold;
+        padding: 6px 14px;
+        font-size: 13px;
+      }
 
-/* Item seleccionado arriba */
-.choices__list--single .choices__item {
-  width: 100%;
-}
-
-/* Eliminar sombras/bordes al enfocar */
-.choices,
-.choices__inner,
-.choices__list--dropdown,
-.choices__item--selectable,
-#informesGuardados,
-.choices__inner:focus,
-.choices__list--dropdown:focus,
-.choices:focus {
-  outline: none !important;
-  box-shadow: none !important;
-  border: none !important;
-}
-
-/* Eliminar el azul de selección en los items del desplegable */
-.choices__item--selectable.is-highlighted,
-.choices__item--selectable:focus,
-.choices__item--selectable:hover {
-  background-color: var(--hover) !important;
-  color: var(--fuente) !important;
-  outline: none !important;
-}
-
-/* El ítem actualmente seleccionado en la lista desplegable */
-.choices__list--dropdown .choices__item--selectable.is-highlighted {
-  background-color: var(--hover) !important;
-  color: var(--fuente) !important;
-}
-
-
-/* fin de choices */
+      /* ÍTEM SELECCIONADO ARRIBA */
+      .choices__list--single .choices__item {
+        width: 100%;
+      }
+      /* fin del choice */
 
       /* icono_balance */
       .icono-container {
@@ -575,6 +536,9 @@
 
       /* FIN DEL MEDIA PRINT */
       /* FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF */
+
+    
+
     </style>
   </head>
   <body>
@@ -588,10 +552,15 @@
     <a
       href="https://jolejuma.es/balance"
       target="_blank"
-      class="icono-container">
+      class="icono-container"
+    >
       <img src="balance_verde.png" alt="Balance" class="icono verde" />
       <img src="balance_azul.png" alt="Balance Azul" class="icono azul" />
     </a>
+    
+
+
+
     <!-- Mensaje de Box seleccionado -->
     <div id="mensaje-box-seleccionado">
       Ha seleccionado el Box <span id="numero-box-seleccionado"></span>
@@ -608,14 +577,16 @@
         <textarea
           id="cardiovascular"
           oninput="guardarDatos()"
-          disabled></textarea>
+          disabled
+        ></textarea>
       </div>
       <div class="campo">
         <label for="respiratorio">3. RESPIRATORIO</label>
         <textarea
           id="respiratorio"
           oninput="guardarDatos()"
-          disabled></textarea>
+          disabled
+        ></textarea>
       </div>
       <div class="campo">
         <label for="renal">4. RENAL</label>
@@ -626,7 +597,8 @@
         <textarea
           id="gastrointestinal"
           oninput="guardarDatos()"
-          disabled></textarea>
+          disabled
+        ></textarea>
       </div>
       <div class="campo">
         <label for="nutricional">6. NUTRICIONAL/METABÓLICO</label>
@@ -637,7 +609,8 @@
         <textarea
           id="termorregulacion"
           oninput="guardarDatos()"
-          disabled></textarea>
+          disabled
+        ></textarea>
       </div>
       <div class="campo">
         <label for="piel">8. PIEL</label>
@@ -674,8 +647,9 @@
       <label class="informeGuardado" for="informesGuardados"></label>
       <select
         id="informesGuardados"
-        onchange="cargarInformeDesdeLista(this.value)">
-        <option value>-- Seleccionar Informe --</option>
+        onchange="cargarInformeDesdeLista(this.value)"
+      >
+        <option value="">-- Seleccionar Informe --</option>
       </select>
       <button class="eliminarInforme" onclick="eliminarInforme()">
         Eliminar Informe
@@ -690,7 +664,8 @@
       id="copiarInformeBtn"
       onclick="copiarInforme()"
       style="display: none"
-      class="copiar-btn">
+      class="copiar-btn"
+    >
       <i class="fas fa-copy"></i> Copiar Informe
     </button>
 
@@ -700,10 +675,9 @@
     <!-- Mensaje de turno -->
     <div id="mensaje-turno"></div>
     <footer>
-      <p>&copy; 2025 Informe Evolución Enfermería. Todos los derechos
-        reservados.
-        <br>C.G.Francisco Manuel--M.G.José Antonio--M.M. Francisco Javier</br>
-    </footer>
+      <p>&copy; 2025 Informe Evolución Enfermería. Todos los derechos reservados.
+          <br>C.G.Francisco Manuel--M.G.José Antonio--M.M. Francisco Javier</BR>
+  </footer>
 
     <script>
       const hoy = new Date().toISOString().slice(0, 10);
@@ -1090,7 +1064,7 @@
           btn.onclick = () => selectBox(i);
           boxSelector.appendChild(btn);
         }
-  new Choices("#informesGuardados", {
+        new Choices("#tuSelector", {
           allowHTML: true,
           searchEnabled: false,
           shouldSort: false,
