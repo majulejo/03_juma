@@ -308,8 +308,12 @@
         font-size: 14px;
         padding: 6px 10px;
         border-radius: 6px;
+        border: none !important;
+  background-color: var(--pantone15) !important;
+  color: var(--fuente) !important;
+  outline: none !important;
       }
-      
+
       #informesGuardados optgroup {
   background-color: var(--pantone15) !important;
   color: white !important;
@@ -324,6 +328,9 @@
   color: var(--fuente) !important;
   padding: 10px;
   font-size: 14px;
+  min-width: 250px !important;
+  display: block;
+  white-space: normal; 
 }
 
 
@@ -346,13 +353,16 @@
       }
 
       .choices__inner {
-        background-color: var(--pantone15);
-        color: var(--fuente);
         border-radius: 5px;
         border: 1px solid var(--borde);
         padding: 10px 15px;
         width: 100%;
         min-height: auto;
+        border: none !important;
+        background-color: var(--pantone15) !important;
+        color: var(--fuente) !important;
+        box-shadow: none !important;
+        outline: none !important;
       }
 
       .choices__placeholder {
@@ -391,13 +401,18 @@
         max-height: none !important;
         height: auto !important;
         overflow-y: visible !important;
-          overflow: visible !important;
+        overflow: visible !important;
+        box-sizing: border-box;
+        width: 100%;
       }
 
       /* ÍTEMS */
       .choices__item--selectable {
-padding: 8px 12px;         background-color: #e8f4eb;
+        padding: 8px 12px;         
+        background-color: #e8f4eb;
         border-bottom: 1px solid #d7e8da;
+        box-sizing: border-box;
+        width: 100%;
       }
 
       .choices__item--selectable:hover {
@@ -429,7 +444,22 @@ padding: 8px 12px;         background-color: #e8f4eb;
       #informesGuardados {
         outline: none !important;
       }
+      /* Estilo activo al pasar el ratón o seleccionar */
+.choices__item--selectable.is-highlighted,
+.choices__item--selectable:focus,
+.choices__item--selectable:hover {
+  background-color: var(--hover) !important;
+  color: var(--fuente) !important;
+  outline: none !important;
+}
 
+/* Quita el borde de enfoque del dropdown */
+.choices:focus,
+.choices__list--dropdown:focus,
+.choices__inner:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
       /* fin del choice */
 
       /* icono_balance */
