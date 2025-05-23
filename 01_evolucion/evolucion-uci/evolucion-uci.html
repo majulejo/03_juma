@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="evolucion.png?v=3" type="image/png" />
+    <link rel="icon" href="evo-uci.png?v=3" type="image/png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,7 +21,7 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
-    <title>Evolución de Enfermería</title>
+    <title>Evolución Uci de Enfermería</title>
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
@@ -300,7 +300,7 @@
         font-size: 14px;
         font-weight: bold;
         background-color: var(--pantone15);
-        color: white;
+        color: var(--fuente);
         border: 2px solid var(--pantone15);
         border-radius: 5px;
         padding: 10px 20px;
@@ -693,7 +693,7 @@
         id="informesGuardados"
         onchange="cargarInformeDesdeLista(this.value)"
       >
-        <option value="">-- Seleccionar Informe --</option>
+        <option value="">-- Seleccionar Informe guardado --</option>
       </select>
       <button class="eliminarInforme" onclick="eliminarInforme()">
         Eliminar Informe
