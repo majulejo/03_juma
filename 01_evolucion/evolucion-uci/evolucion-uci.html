@@ -11,7 +11,6 @@
       rel="stylesheet"
     />
 
-
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -221,36 +220,6 @@
         font-size: 14px;
       }
 
-      .fecha-container {
-        font-weight: bold;
-        margin-top: 10px;
-        color: var(--fuente);
-        position: relative;
-        overflow: visible !important;
-        z-index: 1000;
-      }
-
-      #informesGuardados,
-      .eliminarInforme {
-        padding: 10px 15px;
-        font-size: 12px;
-        cursor: pointer;
-        border: none;
-        border-radius: 5px;
-        background-color: var(--pantone15);
-        color: var(--fuente);
-        flex-grow: 1;
-        min-width: 120px;
-        font-weight: bold;
-        transition: background-color 0.3s ease-in-out;
-        margin: 0 15px;
-      }
-
-      #informesGuardados:hover,
-      .eliminarInforme:hover {
-        background-color: var(--btn);
-        color: #fff;
-      }
       /* mensaje de aviso 1200 caracteres */
       #aviso-1200 {
         position: sticky;
@@ -312,25 +281,87 @@
       .copiar-btn i {
         margin-right: 8px;
       }
-      /* listado informes guardados */
-      #informesGuardados {
-        min-width: 220px; /* o el valor que necesites */
+
+      .fecha-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+      /* Estilo actualizado para el botón #informesGuardados y su desplegable */
+
+      #informesGuardados,
+      .eliminarInforme {
+        appearance: none;
+        font-family: "Montserrat", sans-serif;
         font-size: 14px;
-        padding: 6px 10px;
-        border-radius: 6px;
+        font-weight: bold;
+        background-color: var(--pantone15);
+        color: white;
+        border: 2px solid var(--pantone15);
+        border-radius: 5px;
+        padding: 10px 20px;
+        height: 44px;
+        min-width: 200px;
+        box-sizing: border-box;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        text-align: center;
+      }
+
+      #informesGuardados:hover,
+      .eliminarInforme:hover {
+        background-color: var(--btn);
+        color: white;
+        border-color: var(--btn);
       }
       #informesGuardados optgroup {
         font-weight: bold;
         font-size: 13px;
-        line-height: 1.6;
-        color: white;
-        background-color: var(--pantone15);
-        padding-left: 4px 12px;
+        color: #ffffff;
+        background-color: var(--pantone);
+        padding: 6px 12px;
       }
 
       #informesGuardados option {
-        padding: 6px 12px;
+        background-color: #e8f4eb;
+        color: var(--fuente);
+        padding: 8px 12px;
         white-space: nowrap;
+        border-bottom: 1px solid #d7e8da;
+        font-size: 13px;
+      }
+
+      #informesGuardados option:hover,
+      #informesGuardados option:focus {
+        background-color: var(--pantone);
+        color: #ffffff;
+      }
+
+      select#informesGuardados:focus {
+        outline: none;
+        border-color: var(--btn);
+        box-shadow: 0 0 0 3px rgba(72, 153, 80, 0.3);
+      }
+
+      /* Forzar apertura hacia arriba del desplegable (simulación visual) */
+      .choices[data-type*="select-one"].is-open .choices__list--dropdown {
+        position: absolute !important;
+        bottom: 100% !important;
+        top: auto !important;
+        left: 0 !important;
+        margin-bottom: 6px !important;
+        background-color: white;
+        border: 1px solid var(--borde);
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        max-height: none;
+        overflow-y: auto;
+        width: 100%;
+        z-index: 9999;
       }
 
       /* no especificado */
@@ -340,7 +371,7 @@
       }
 
       /* Estilo personalizado para Choices.js */
-      /* CONTENEDOR DE CHOICES */
+      /* Estilo personalizado para Choices.js */
       .choices {
         font-family: "Montserrat", sans-serif;
         font-size: 14px;
@@ -349,6 +380,9 @@
         color: var(--fuente);
         position: relative;
         z-index: 1050;
+        max-width: 300px;
+        margin: 0 auto;
+        box-sizing: border-box;
       }
 
       .choices__inner {
@@ -382,6 +416,19 @@
         width: 100%;
         z-index: 9999;
       }
+
+      /* ÍTEMS */
+      .choices__item--selectable {
+        padding: 10px 14px;
+        background-color: #e8f4eb;
+        border-bottom: 1px solid #d7e8da;
+      }
+
+      .choices__item--selectable:hover {
+        background-color: var(--pantone);
+        color: white;
+      }
+      /* --- */
 
       /* LISTA COMPLETA */
       .choices__list--dropdown,
@@ -437,29 +484,29 @@
       }
 
       .icono {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          transition: opacity 0.5s ease-in-out; /* Transición suave */
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transition: opacity 0.5s ease-in-out; /* Transición suave */
       }
 
       /* Mostrar el icono verde por defecto */
       .icono.verde {
-          opacity: 1;
+        opacity: 1;
       }
 
       /* Ocultar el icono azul por defecto */
       .icono.azul {
-          opacity: 0;
+        opacity: 0;
       }
 
       /* Cuando se hace hover, la imagen verde desaparece y la azul aparece */
       .icono-container:hover .verde {
-          opacity: 0;
+        opacity: 0;
       }
 
       .icono-container:hover .azul {
-          opacity: 1;
+        opacity: 1;
       }
 
       /* Fin icono_balance */
@@ -468,80 +515,77 @@
       /* FOOTER */
       /* =============================== */
 
-      footer  {
-          color: var(--fuente);
-          font-size: 10px ;
-          font-weight: bold;
-          text-align: center;
-          padding: 5px;
-          margin-bottom: 5px;
-          margin: 0 auto;
-          width: 100%;
-          z-index: 50;
+      footer {
+        border-top: 1px solid var(--pantone15);
+        color: var(--fuente);
+        font-size: 10px;
+        font-weight: bold;
+        text-align: center;
+        padding: 5px;
+        margin-bottom: 5px;
+        margin: 0 auto;
+        width: 100%;
+        z-index: 50;
       }
       /* fin del footer */
 
       /* mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm */
       /* mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm */
       /* mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm */
-     @media print {
-  @page {
-    size: A4 portrait;
-    margin: 0;
-  }
+      @media print {
+        @page {
+          size: A4 portrait;
+          margin: 0;
+        }
 
-  body {
-    margin: 0 !important;
-    padding: 0 !important;
-    visibility: visible;
-    height: 100vh;
-  }
+        body {
+          margin: 0 !important;
+          padding: 0 !important;
+          visibility: visible;
+          height: 100vh;
+        }
 
-  body > *:not(.resultado) {
-    display: none !important;
-  }
+        body > *:not(.resultado) {
+          display: none !important;
+        }
 
-  .resultado {
-    visibility: visible !important;
-    display: block !important;
-    position: relative !important;
-    width: 100%;
-    max-width: 600px;
-    margin-left: 3.5cm;
-    margin-right: 1cm;
-    background: white !important;
-    font-size: 12px !important;
-    box-sizing: border-box;
-    box-shadow: none !important;
-  }
+        .resultado {
+          visibility: visible !important;
+          display: block !important;
+          position: relative !important;
+          width: 100%;
+          max-width: 600px;
+          margin-left: 3.5cm;
+          margin-right: 1cm;
+          background: white !important;
+          font-size: 12px !important;
+          box-sizing: border-box;
+          box-shadow: none !important;
+        }
 
-  .resultado.diurno-print {
-    margin-top: 2cm;
-    margin-bottom: 0;
-  }
+        .resultado.diurno-print {
+          margin-top: 2cm;
+          margin-bottom: 0;
+        }
 
-  .resultado.nocturno-print {
-    margin-top: 0;
-    margin-bottom: 2cm;
-  }
+        .resultado.nocturno-print {
+          margin-top: 0;
+          margin-bottom: 2cm;
+        }
 
-  .resultado p {
-    page-break-inside: avoid;
-    margin: 5px 0;
-  }
+        .resultado p {
+          page-break-inside: avoid;
+          margin: 5px 0;
+        }
 
-  .no-especificado {
-    color: black !important;
-    font-style: italic;
-  }
-}
-
+        .no-especificado {
+          color: black !important;
+          font-style: italic;
+        }
+      }
 
       /* FIN DEL MEDIA PRINT */
       /* FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF */
-
-    
-
     </style>
   </head>
   <body>
@@ -560,9 +604,6 @@
       <img src="balance_verde.png" alt="Balance" class="icono verde" />
       <img src="balance_azul.png" alt="Balance Azul" class="icono azul" />
     </a>
-    
-
-
 
     <!-- Mensaje de Box seleccionado -->
     <div id="mensaje-box-seleccionado">
@@ -677,27 +718,42 @@
 
     <!-- Mensaje de turno -->
     <div id="mensaje-turno"></div>
+    <div
+      id="mensaje-edicion"
+      style="
+        display: none;
+        color: red;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 10px;
+      "
+    >
+      Editando informe anterior. Al generar se guardará como nuevo.
+    </div>
+
     <footer>
-      <p>&copy; 2025 Informe Evolución Enfermería. Todos los derechos reservados.
-          <br>C.G.Francisco Manuel--M.G.José Antonio--M.M. Francisco Javier</BR>
-  </footer>
+      <p>
+        &copy; 2025 Informe Evolución Enfermería. Todos los derechos reservados.
+        <br />C.G.Francisco Manuel--M.G.José Antonio--M.M. Francisco Javier
+      </p>
+    </footer>
 
     <script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyBxd0CXGNiOyKpg97Wil2EYStO_7Q6Dfak",
-    authDomain: "informes-uci.firebaseapp.com",
-    projectId: "informes-uci",
-    storageBucket: "informes-uci.firebasestorage.app",
-    messagingSenderId: "448318328600",
-    appId: "1:448318328600:web:5c7d6874e487764aefd86d"
-  };
+      let modoEdicion = false;
 
-  // Inicializa Firebase usando compat
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
+      const firebaseConfig = {
+        apiKey: "AIzaSyBxd0CXGNiOyKpg97Wil2EYStO_7Q6Dfak",
+        authDomain: "informes-uci.firebaseapp.com",
+        projectId: "informes-uci",
+        storageBucket: "informes-uci.firebasestorage.app",
+        messagingSenderId: "448318328600",
+        appId: "1:448318328600:web:5c7d6874e487764aefd86d",
+      };
 
+      // Inicializa Firebase usando compat
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
 
-      
       const hoy = new Date().toISOString().slice(0, 10);
       let selectedBox = null;
       const campos = [
@@ -715,38 +771,56 @@
 
       const TOTAL_CARACTERES = 1200;
 
-     function getKey(box) {
-  return `evolucion_${hoy}_box${box}`;
-}
-
-
+      function getKey(box) {
+        const ahora = new Date().toISOString().replace(/[:.]/g, "-");
+        return `evolucion_${ahora}_box${box}`;
+      }
       function guardarDatos() {
+        document.getElementById("copiarInformeBtn").style.display = "none";
+        const botonCopiar = document.getElementById("copiarInformeBtn");
+        if (botonCopiar && botonCopiar.style.display !== "none") {
+          botonCopiar.style.display = "none";
+        }
+
         if (!selectedBox) return;
         const datos = {};
         campos.forEach((campo) => {
           datos[campo] = document.getElementById(campo).value || "";
         });
-db.collection("evolucion").doc(getKey(selectedBox)).set(datos)
-  .then(() => console.log("Datos guardados en Firebase"))
-  .catch(error => console.error("Error al guardar en Firebase:", error));
+        db.collection("evolucion")
+          .doc(getKey(selectedBox))
+          .set(datos)
+          .then(() => console.log("Datos guardados en Firebase"))
+          .catch((error) =>
+            console.error("Error al guardar en Firebase:", error)
+          );
         actualizarContadorGlobal();
       }
 
       function cargarDatos(box) {
-  db.collection("evolucion").doc(getKey(box)).get()
-    .then(doc => {
-      if (doc.exists) {
-        const datos = doc.data();
-        campos.forEach(campo => document.getElementById(campo).value = datos[campo] || "");
-      } else {
-        campos.forEach(campo => document.getElementById(campo).value = "");
+        db.collection("evolucion")
+          .doc(getKey(box))
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              const datos = doc.data();
+              campos.forEach(
+                (campo) =>
+                  (document.getElementById(campo).value = datos[campo] || "")
+              );
+            } else {
+              campos.forEach(
+                (campo) => (document.getElementById(campo).value = "")
+              );
+            }
+          });
       }
-    });
-}
-
-
 
       function selectBox(boxNumber) {
+        if (selectedBox !== null && !modoEdicion) guardarDatos();
+        modoEdicion = false;
+        document.getElementById("mensaje-edicion").style.display = "none";
+
         if (selectedBox !== null) guardarDatos();
         selectedBox = boxNumber;
         cargarDatos();
@@ -766,55 +840,70 @@ db.collection("evolucion").doc(getKey(selectedBox)).set(datos)
       }
 
       function generarInforme() {
-  if (!selectedBox) {
-    alert("Por favor, seleccione un Box antes de generar el informe.");
-    return;
-  }
+        if (!selectedBox) {
+          alert("Por favor, seleccione un Box antes de generar el informe.");
+          return;
+        }
 
-  const datos = {};
-  campos.forEach((campo) => {
-    const valor = document.getElementById(campo).value.trim();
-    datos[campo] = valor || "No Especificado";
-  });
+        const datos = {};
+        campos.forEach((campo) => {
+          const valor = document.getElementById(campo).value.trim();
+          datos[campo] = valor || "No Especificado";
+          document.getElementById("mensaje-edicion").style.display = "none";
+        });
 
-  // Guardar la fecha legible dentro del documento
-  datos.fecha = hoy;
-  datos.box = selectedBox;
+        // Guardar la fecha legible dentro del documento
+        datos.fecha = hoy;
+        datos.box = selectedBox;
 
-  const docId = getKey(selectedBox);
+        const docId = getKey(selectedBox);
 
-  db.collection("evolucion").doc(docId).set(datos).then(() => {
-    console.log("Informe guardado correctamente.");
-    cargarListadoInformesGuardados(); // actualizar el desplegable
+        db.collection("evolucion")
+          .doc(docId)
+          .set(datos)
+          .then(() => {
+            console.log("Informe guardado correctamente.");
+            cargarListadoInformesGuardados(); // actualizar el desplegable
 
-    const horaActual = new Date().getHours();
-    const turnoTexto = horaActual >= 8 && horaActual < 20
-      ? "Turno de 8 a 20 horas"
-      : "Turno de 20 a 8 horas";
+            const horaActual = new Date().getHours();
+            const turnoTexto =
+              horaActual >= 8 && horaActual < 20
+                ? "Turno de 8 a 20 horas"
+                : "Turno de 20 a 8 horas";
 
-    const encabezado = `<p><strong>BOX ${selectedBox} - ${turnoTexto}</strong></p>`;
-    const cuerpo = campos.map((campo) => {
-      const contenido = datos[campo] === "No Especificado"
-        ? "<span class='no-especificado'>No Especificado</span>"
-        : datos[campo];
-      const campoFormateado = campo === "especial"
-        ? "ESPECIAL VIGILANCIA"
-        : campo.toUpperCase();
-      return `<p><strong>${campoFormateado}:</strong> ${contenido}</p>`;
-    }).join("");
+            const encabezado = `<p><strong>BOX ${selectedBox} - ${turnoTexto}</strong></p>`;
+            const cuerpo = campos
+              .map((campo) => {
+                const contenido =
+                  datos[campo] === "No Especificado"
+                    ? "<span class='no-especificado'>No Especificado</span>"
+                    : datos[campo];
+                const campoFormateado =
+                  campo === "especial"
+                    ? "ESPECIAL VIGILANCIA"
+                    : campo.toUpperCase();
+                return `<p><strong>${campoFormateado}:</strong> ${contenido}</p>`;
+              })
+              .join("");
 
-    const resultadoDiv = document.getElementById("resultado");
-    resultadoDiv.innerHTML = encabezado + cuerpo;
-    resultadoDiv.classList.remove("diurno-print", "nocturno-print");
-    resultadoDiv.classList.add(horaActual >= 8 && horaActual < 20 ? "diurno-print" : "nocturno-print");
-    resultadoDiv.style.display = "block";
+            const resultadoDiv = document.getElementById("resultado");
+            resultadoDiv.innerHTML = encabezado + cuerpo;
+            resultadoDiv.classList.remove("diurno-print", "nocturno-print");
+            resultadoDiv.classList.add(
+              horaActual >= 8 && horaActual < 20
+                ? "diurno-print"
+                : "nocturno-print"
+            );
+            resultadoDiv.style.display = "block";
 
-    document.getElementById("mensaje-turno").textContent = `Turno seleccionado: ${turnoTexto}`;
-    document.getElementById("mensaje-turno").style.display = "block";
-    document.getElementById("copiarInformeBtn").style.display = "inline-block";
-  });
-}
-
+            document.getElementById(
+              "mensaje-turno"
+            ).textContent = `Turno seleccionado: ${turnoTexto}`;
+            document.getElementById("mensaje-turno").style.display = "block";
+            document.getElementById("copiarInformeBtn").style.display =
+              "inline-block";
+          });
+      }
 
       function copiarInforme() {
         if (!selectedBox) return;
@@ -829,7 +918,7 @@ db.collection("evolucion").doc(getKey(selectedBox)).set(datos)
 
         campos.forEach((campo) => {
           const valor =
-            document.getElementById(campo).value.trim() || "No Especificado"; // ✅ corregido
+            document.getElementById(campo).value.trim() || "No Especificado";
           const titulo =
             campo === "especial" ? "ESPECIAL VIGILANCIA" : campo.toUpperCase();
           texto += `${titulo}: ${valor}\n`;
@@ -840,12 +929,8 @@ db.collection("evolucion").doc(getKey(selectedBox)).set(datos)
           .then(() => {
             const boton = document.getElementById("copiarInformeBtn");
             boton.innerHTML = "✅ Copiado";
-            boton.disabled = true;
-
             setTimeout(() => {
-              boton.style.display = "none";
               boton.innerHTML = '<i class="fas fa-copy"></i> Copiar Informe';
-              boton.disabled = false;
             }, 3000);
           })
           .catch((err) => {
@@ -873,17 +958,19 @@ db.collection("evolucion").doc(getKey(selectedBox)).set(datos)
 
       function borrarDatos() {
         if (!confirm(`¿Desea borrar los datos del Box-${selectedBox}?`)) return;
-        db.collection("evolucion").doc(getKey(selectedBox)).delete()
-  .then(() => {
-    campos.forEach((campo) => {
-      document.getElementById(campo).value = "";
-    });
-    alert("Datos borrados en Firebase. BOX " + selectedBox);
-  })
-  .catch((error) => {
-    console.error("Error al borrar datos:", error);
-    alert("Error al borrar datos en Firebase.");
-  });
+        db.collection("evolucion")
+          .doc(getKey(selectedBox))
+          .delete()
+          .then(() => {
+            campos.forEach((campo) => {
+              document.getElementById(campo).value = "";
+            });
+            alert("Datos borrados en Firebase. BOX " + selectedBox);
+          })
+          .catch((error) => {
+            console.error("Error al borrar datos:", error);
+            alert("Error al borrar datos en Firebase.");
+          });
 
         cargarListadoInformesGuardados();
       }
@@ -903,106 +990,112 @@ db.collection("evolucion").doc(getKey(selectedBox)).set(datos)
         });
       }
 
-      
+      function cargarInformeDesdeLista(docId) {
+        if (!docId) return;
 
-     function cargarInformeDesdeLista(docId) {
-  if (!docId) return;
+        db.collection("evolucion")
+          .doc(docId)
+          .get()
+          .then((doc) => {
+            if (!doc.exists) {
+              alert("No se encontraron datos para este informe.");
+              return;
+            }
 
-  db.collection("evolucion").doc(docId).get().then((doc) => {
-    if (!doc.exists) {
-      alert("No se encontraron datos para este informe.");
-      return;
-    }
+            const datos = doc.data();
+            const matchBox = docId.match(/box(\d+)/);
+            const boxSeleccionado = matchBox ? parseInt(matchBox[1]) : null;
+            if (!boxSeleccionado) {
+              alert("No se pudo determinar el Box de este informe.");
+              return;
+            }
 
-    const datos = doc.data();
-    const matchBox = docId.match(/box(\d+)/);
-    const boxSeleccionado = matchBox ? parseInt(matchBox[1]) : null;
-    if (!boxSeleccionado) {
-      alert("No se pudo determinar el Box de este informe.");
-      return;
-    }
+            selectedBox = boxSeleccionado;
+            document.getElementById("numero-box-seleccionado").textContent =
+              boxSeleccionado;
+            document.getElementById("mensaje-box-seleccionado").style.display =
+              "block";
 
-    selectedBox = boxSeleccionado;
-    document.getElementById("numero-box-seleccionado").textContent = boxSeleccionado;
-    document.getElementById("mensaje-box-seleccionado").style.display = "block";
+            campos.forEach((campo) => {
+              document.getElementById(campo).value = datos[campo] || "";
+            });
 
-    campos.forEach((campo) => {
-      document.getElementById(campo).value = datos[campo] || "";
-    });
-
-    habilitarCampos();
-    document.getElementById("mensaje-turno").textContent =
-      "Informe cargado. Puede modificarlo y guardarlo con la fecha actual.";
-    document.getElementById("mensaje-turno").style.display = "block";
-  });
-}
-
-
-
-      function eliminarInforme() {
-  const select = document.getElementById("informesGuardados");
-  const key = select.value;
-  if (!key) {
-    alert("Por favor, seleccione un informe para eliminar.");
-    return;
-  }
-
-  const confirmacion = confirm("¿Está seguro de que desea eliminar este informe?");
-  if (!confirmacion) return;
-
-  db.collection("evolucion").doc(key).delete()
-    .then(() => {
-      alert("Informe eliminado correctamente.");
-      select.value = "";
-      cargarListadoInformesGuardados();
-      document.getElementById("mensaje-turno").textContent = "";
-      document.getElementById("mensaje-turno").style.display = "none";
-    })
-    .catch((error) => {
-      alert("Error al eliminar el informe: " + error);
-    });
-}
-
-
-
-      function eliminarInformesDeBox() {
-  if (!selectedBox) {
-    alert("Debe seleccionar un Box antes de eliminar sus informes.");
-    return;
-  }
-
-  const confirmacion = confirm(`¿Eliminar TODOS los informes del Box ${selectedBox}?`);
-  if (!confirmacion) return;
-
-  db.collection("evolucion")
-    .where(firebase.firestore.FieldPath.documentId(), ">=", `evolucion_`)
-    .get()
-    .then((querySnapshot) => {
-      const batch = db.batch();
-      let count = 0;
-
-      querySnapshot.forEach((doc) => {
-        if (doc.id.includes(`_box${selectedBox}`)) {
-          batch.delete(doc.ref);
-          count++;
-        }
-      });
-
-      if (count === 0) {
-        alert(`No hay informes del Box ${selectedBox} para eliminar.`);
-        return;
+            habilitarCampos();
+            document.getElementById("mensaje-turno").textContent =
+              "Informe cargado. Puede modificarlo y guardarlo con la fecha actual.";
+            document.getElementById("mensaje-turno").style.display = "block";
+            modoEdicion = true;
+            document.getElementById("mensaje-edicion").style.display = "block";
+          });
       }
 
-      batch.commit().then(() => {
-        alert(`Se han eliminado ${count} informe(s) del Box ${selectedBox}.`);
-        cargarListadoInformesGuardados();
-        document.getElementById("mensaje-turno").style.display = "none";
-      });
-    });
-}
+      function eliminarInforme() {
+        const select = document.getElementById("informesGuardados");
+        const key = select.value;
+        if (!key) {
+          alert("Por favor, seleccione un informe para eliminar.");
+          return;
+        }
 
+        const confirmacion = confirm(
+          "¿Está seguro de que desea eliminar este informe?"
+        );
+        if (!confirmacion) return;
 
+        db.collection("evolucion")
+          .doc(key)
+          .delete()
+          .then(() => {
+            alert("Informe eliminado correctamente.");
+            select.value = "";
+            cargarListadoInformesGuardados();
+            document.getElementById("mensaje-turno").textContent = "";
+            document.getElementById("mensaje-turno").style.display = "none";
+          })
+          .catch((error) => {
+            alert("Error al eliminar el informe: " + error);
+          });
+      }
 
+      function eliminarInformesDeBox() {
+        if (!selectedBox) {
+          alert("Debe seleccionar un Box antes de eliminar sus informes.");
+          return;
+        }
+
+        const confirmacion = confirm(
+          `¿Eliminar TODOS los informes del Box ${selectedBox}?`
+        );
+        if (!confirmacion) return;
+
+        db.collection("evolucion")
+          .where(firebase.firestore.FieldPath.documentId(), ">=", `evolucion_`)
+          .get()
+          .then((querySnapshot) => {
+            const batch = db.batch();
+            let count = 0;
+
+            querySnapshot.forEach((doc) => {
+              if (doc.id.includes(`_box${selectedBox}`)) {
+                batch.delete(doc.ref);
+                count++;
+              }
+            });
+
+            if (count === 0) {
+              alert(`No hay informes del Box ${selectedBox} para eliminar.`);
+              return;
+            }
+
+            batch.commit().then(() => {
+              alert(
+                `Se han eliminado ${count} informe(s) del Box ${selectedBox}.`
+              );
+              cargarListadoInformesGuardados();
+              document.getElementById("mensaje-turno").style.display = "none";
+            });
+          });
+      }
 
       function actualizarContadorGlobal() {
         let total = 0;
@@ -1041,80 +1134,87 @@ db.collection("evolucion").doc(getKey(selectedBox)).set(datos)
         return total;
       }
 
-     window.onload = () => {
-  deshabilitarCampos();
-  cargarListadoInformesGuardados();
+      window.onload = () => {
+        deshabilitarCampos();
+        cargarListadoInformesGuardados();
 
-  const boxSelector = document.getElementById("boxSelector");
-  if (!boxSelector) {
-    console.error("No se encontró el selector de Boxes.");
-    return;
-  }
+        const boxSelector = document.getElementById("boxSelector");
+        if (!boxSelector) {
+          console.error("No se encontró el selector de Boxes.");
+          return;
+        }
 
-  for (let i = 1; i <= 12; i++) {
-    const btn = document.createElement("button");
-    btn.textContent = `Box ${i}`;
-    btn.onclick = () => selectBox(i);
-    boxSelector.appendChild(btn);
-  }
+        for (let i = 1; i <= 12; i++) {
+          const btn = document.createElement("button");
+          btn.textContent = `Box ${i}`;
+          btn.onclick = () => selectBox(i);
+          boxSelector.appendChild(btn);
+        }
 
-  // Aplica Choices.js al selector de informes
-  new Choices("#informesGuardados", {
-    allowHTML: true,
-    searchEnabled: false,
-    shouldSort: false,
-    itemSelectText: "",
-    position: "bottom",
-    renderSelectedChoices: "always",
-  });
-};
+        // Inicializa Choices después de que el select esté en el DOM
+      //   const selector = document.getElementById("informesGuardados");
+      //   if (selector) {
+      //     new Choices(selector, {
+      //       allowHTML: true,
+      //       searchEnabled: false,
+      //       shouldSort: false,
+      //       itemSelectText: "",
+      //       position: "bottom",
+      //       renderSelectedChoices: "always",
+      //     });
+      //   }
+      // };
 
-
-      };
       function cargarListadoInformesGuardados() {
-  const select = document.getElementById("informesGuardados");
-  select.innerHTML = '<option value="">-- Seleccionar Informe --</option>';
+        const select = document.getElementById("informesGuardados");
+        select.innerHTML =
+          '<option value="">-- Seleccionar Informe --</option>';
 
-  db.collection("evolucion").get().then((querySnapshot) => {
-    const informesPorBox = {};
+        db.collection("evolucion")
+          .get()
+          .then((querySnapshot) => {
+            const informesPorBox = {};
 
-    querySnapshot.forEach((doc) => {
-      const id = doc.id; // ejemplo: evolucion_2025-05-23_box3
-      const match = id.match(/evolucion_(\d{4}-\d{2}-\d{2})_box(\d+)/);
-      if (match) {
-        const fecha = match[1];
-        const box = match[2];
+            querySnapshot.forEach((doc) => {
+              const id = doc.id; // ejemplo: evolucion_2025-05-23_box3
+              const match = id.match(/evolucion_(\d{4}-\d{2}-\d{2})_box(\d+)/);
+              if (match) {
+                const fecha = match[1];
+                const box = match[2];
 
-        if (!informesPorBox[box]) informesPorBox[box] = [];
-        informesPorBox[box].push({ id, fecha });
-      }
-    });
+                if (!informesPorBox[box]) informesPorBox[box] = [];
+                informesPorBox[box].push({ id, fecha });
+              }
+            });
 
-    Object.keys(informesPorBox).sort((a, b) => a - b).forEach((box) => {
-      const grupo = document.createElement("optgroup");
-      grupo.label = `Box ${box}`;
+            Object.keys(informesPorBox)
+              .sort((a, b) => a - b)
+              .forEach((box) => {
+                const grupo = document.createElement("optgroup");
+                grupo.label = `Box ${box}`;
 
-      informesPorBox[box]
-        .sort((a, b) => b.fecha.localeCompare(a.fecha))
-        .forEach(({ id, fecha }) => {
-          const option = document.createElement("option");
-          option.value = id;
-          const fechaLinda = new Date(fecha).toLocaleDateString("es-ES", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
+                informesPorBox[box]
+                  .sort((a, b) => b.id.localeCompare(a.id)) // más recientes primero
+                  .forEach(({ id, fecha }) => {
+                    const option = document.createElement("option");
+                    option.value = id;
+                    const dateObj = new Date(fecha);
+                    const fechaHora =
+                      dateObj.toLocaleDateString("es-ES") +
+                      " " +
+                      dateObj.toLocaleTimeString("es-ES", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      });
+                    option.textContent = fechaHora;
+
+                    grupo.appendChild(option);
+                  });
+
+                select.appendChild(grupo);
+              });
           });
-          option.textContent = fechaLinda;
-          grupo.appendChild(option);
-        });
-
-      select.appendChild(grupo);
-    });
-  });
-}
-
+      }
     </script>
-    
-
   </body>
 </html>
