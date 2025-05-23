@@ -1,0 +1,102 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Evolución UCI</title>
+    <style>
+      body {
+        font-family: "Montserrat", sans-serif;
+        background: #92c99b;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      form {
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        min-width: 300px;
+      }
+
+      input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      button {
+        padding: 10px;
+        background: #489950;
+        color: white;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+
+      button:hover {
+        background: #3b8144;
+      }
+
+      .error {
+        color: red;
+        font-size: 13px;
+        text-align: center;
+      }
+    </style>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyBxd0CXGNiOyKpg97Wil2EYStO_7Q6Dfak",
+        authDomain: "informes-uci.firebaseapp.com",
+        projectId: "informes-uci",
+      };
+
+      firebase.initializeApp(firebaseConfig);
+    </script>
+  </head>
+  <body>
+    <form onsubmit="login(event)">
+      <h2>Acceso a Evolución UCI</h2>
+      <input
+        type="email"
+        id="email"
+        placeholder="Correo electrónico"
+        required
+      />
+      <input type="password" id="password" placeholder="Contraseña" required />
+      <button type="submit">Iniciar Sesión</button>
+      <div class="error" id="error-msg"></div>
+    </form>
+
+    <script>
+      function login(event) {
+        event.preventDefault();
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const errorMsg = document.getElementById("error-msg");
+
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(email, password)
+          .then(() => {
+            window.location.href = "index.html";
+          })
+          .catch((error) => {
+            errorMsg.textContent = "Correo o contraseña incorrectos.";
+          });
+      }
+    </script>
+  </body>
+</html>
