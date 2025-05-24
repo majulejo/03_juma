@@ -563,7 +563,7 @@
           position: relative !important;
           width: 100%;
           max-width: 600px;
-          margin-left: 3.5cm;
+          margin-left: 3cm;
           margin-right: 1cm;
           background: white !important;
           font-size: 12px !important;
@@ -577,8 +577,9 @@
         }
 
         .resultado.nocturno-print {
-          margin-top: 0;
-          margin-bottom: 2cm;
+          position: absolute !important;
+          bottom: 2cm !important;
+          top: auto !important;
         }
 
         .resultado p {
@@ -859,6 +860,16 @@
         document.getElementById("mensaje-turno").style.display = "block";
         document.getElementById("copiarInformeBtn").style.display =
           "inline-block";
+
+        // Llamar a la impresión automática después de mostrar
+        setTimeout(() => {
+          window.print();
+          setTimeout(() => {
+            resultadoDiv.style.display = "none";
+            document.getElementById("mensaje-turno").style.display = "none";
+            document.getElementById("copiarInformeBtn").style.display = "none";
+          }, 500);
+        }, 200);
       }
 
       function selectBox(boxNumber) {
