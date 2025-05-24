@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guía - Gestión Informes UCI</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Montserrat", sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+      }
+      h1 {
+        text-align: center;
+        color: #2c3e50;
+      }
+      ul {
+        max-width: 700px;
+        margin: 30px auto;
+        padding: 0 20px;
+      }
+      li {
+        margin-bottom: 20px;
+        background-color: #ffffff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+      code.block {
+        display: block;
+        background: #f4f4f4;
+        padding: 10px;
+        margin-top: 10px;
+        border-left: 4px solid #4caf50;
+        font-family: monospace;
+        white-space: pre-wrap;
+      }
+      .logo {
+        text-align: center;
+        margin-top: 40px;
+      }
+      .logo img {
+        height: 60px;
+        vertical-align: middle;
+      }
+      .logo a {
+        display: inline-block;
+        margin-top: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        color: #368f3f;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Guía para Gestión de Informes UCI</h1>
+    <ul>
+      <li>
+        <strong>1. Subir una nueva versión del sistema:</strong><br />
+        Abre el CMD y navega a la carpeta del proyecto:
+        <p class="block">
+          e: <br />
+          cd "Mi
+          unidad\01_curso_html_css_completo\03_juma\01_evolucion\evolucion-uci"
+          <br />
+          firebase deploy
+        </p>
+      </li>
+
+      <li>
+        <strong>2. Añadir nuevo usuario:</strong><br />Desde
+        <a href="https://console.firebase.google.com" target="_blank"
+          >Firebase Console</a
+        >
+        accede a tu proyecto > Authentication > Users > Add user. Introduce
+        correo y contraseña, luego haz clic en 'Add user'.
+      </li>
+
+      <li>
+        <strong>3. Editar lista desplegable de usuarios:</strong><br />Edita el
+        archivo <code>index.html</code> en el selector de usuarios y añade una
+        nueva <code>&lt;option&gt;</code> con el alias y correo
+        correspondientes. Por ejemplo:
+        <p class="block">
+          &lt;select id="usuarioSelector"&gt; <br />&lt;option
+          value="cornejogil73@gmail.com"&gt;FM C.G.&lt;/option&gt; &lt;option
+          <br />
+          value="mesamesaj@gmail.com"&gt;FJ M.M.&lt;/option&gt; &lt;option
+          <br />
+          value="jolejuma.sspa@gmail.com"&gt;JA MG&lt;/option&gt; <br />
+          &lt;/select&gt;<br />
+        </p>
+      </li>
+
+      <li>
+        <strong>4. Verificar cambios en producción:</strong><br />Abre
+        <a href="https://informes-uci.web.app" target="_blank"
+          >https://informes-uci.web.app</a
+        >
+        y comprueba que la nueva versión y usuarios aparecen correctamente.
+      </li>
+    </ul>
+
+    <div class="logo">
+      <img src="evo-uci.png" alt="Acceso UCI" />
+      <br />
+      <a href="https://informes-uci.web.app" target="_blank"
+        >Acceder a la App</a
+      >
+    </div>
+  </body>
+</html>
