@@ -1,1200 +1,1481 @@
 <!DOCTYPE html>
 <html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="evolucion.png?v=3" type="image/png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" href="evo-uci.png?v=3" type="image/png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <title>Gemini Evolución de Enfermería</title>
 
-  <title>Evolución Uci de Enfermería</title>
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <!-- Firebase Auth SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script>
-    firebase.auth().onAuthStateChanged((user) => {
-      if (!user) window.location.href = "index.html";
-    });
-  </script>
-  <script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
 
-
-
-  </script>
-
-  <style>
-    :root {
-      --fuente: #2e2925;
-      --pantone: #368f3f;
-      --principal: #92c99b;
-      --hover: #d9ebd8;
-      --borde: #4fa66a;
-      --pantone15: #79b47f;
-      --btn: #489950;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      outline: none;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: "Montserrat", sans-serif;
-      margin: 20px;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background-color: var(--principal);
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 24px;
-      color: var(--fuente);
-    }
-
-    .box-selector {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
-    }
-
-    .box-selector button {
-      padding: 10px 15px;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-      border: none;
-      border-radius: 5px;
-      background-color: var(--pantone15);
-      color: white;
-      min-width: 80px;
-    }
-
-    .box-selector button:hover {
-      background-color: white;
-      color: var(--fuente);
-      transition: all 0.5s ease;
-    }
-
-    .box-selector button.active {
-      background-color: var(--pantone);
-      box-shadow: 0 0 5px #0000004d;
-      transition: all 0.5s ease;
-    }
-
-    .formulario {
-      width: 100%;
-      max-width: 600px;
-      margin-bottom: 20px;
-    }
-
-    .campo {
-      margin-bottom: 15px;
-      text-align: center;
-    }
-
-    .campo label {
-      font-weight: bold;
-      display: block;
-      margin-bottom: 5px;
-      font-size: 14px;
-      color: var(--fuente);
-    }
-
-    /* ====== ESTILO BASE DE TODOS LOS TEXTAREA ====== */
-textarea {
-  width: 95%;
-  min-height: 80px;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid var(--borde);
-  border-radius: 5px;
-  resize: vertical;
-  color: var(--fuente);
-  outline: none;
-  overflow: auto;
-  overflow-y: hidden;
-  background-color: #fff;
-  transition: all 0.3s ease-in-out;
-}
-
-/* ====== CAMPOS BLOQUEADOS (readonly) ====== */
-textarea[readonly] {
-  background-color: #f5f5f5 !important;
-  color: #999 !important;
-  border-color: #ddd !important;
-  cursor: not-allowed;
-}
-/* Campos habilitados */
-textarea:not([readonly]) {
-  background-color: white !important;
-  color: var(--fuente) !important;
-  border-color: var(--borde) !important;
-}
-
-textarea[readonly]::placeholder {
-  color: #bbb;
-  font-style: italic;
-}
-
-/* ====== CAMPOS HABILITADOS (con clase .habilitado) ====== */
-textarea.habilitado {
-  background-color: #fff !important;
-  color: var(--fuente) !important;
-  border-color: var(--borde) !important;
-}
-
-    .contador-global {
-      text-align: right;
-      font-weight: 400;
-      font-size: 10px;
-      color: var(--fuente);
-      margin-top: -10px;
-      margin-bottom: 10px;
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .buttons button,
-    .btn-alternativo {
-      padding: 10px 15px;
-      font-size: 14px;
-      cursor: pointer;
-      border: none;
-      border-radius: 5px;
-      background-color: var(--btn);
-      color: #fff;
-      flex-grow: 1;
-      min-width: 120px;
-      font-weight: bold;
-      transition: background-color 0.3s ease-in-out;
-    }
-
-    .buttons button:hover,
-    .btn-alternativo:hover {
-      background-color: var(--pantone15);
-      color: var(--fuente);
-    }
-
-    .btn-alternativo {
-      background-color: white;
-      color: var(--pantone);
-    }
-
-    .resultado {
-      margin-top: 20px;
-      padding: 20px;
-      font-family: "Montserrat", sans-serif;
-      font-size: 12px;
-      line-height: 1.6;
-      display: none;
-      background-color: #f5f5f5;
-      width: 100%;
-      max-width: 700px;
-      box-sizing: border-box;
-      word-wrap: break-word;
-      white-space: pre-wrap;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .resultado p {
-      margin: 8px 0;
-    }
-
-    .no-especificado {
-      font-style: italic;
-      color: #666;
-    }
-
-    #mensaje-box-seleccionado {
-      text-align: center;
-      font-weight: bold;
-      margin-top: 5px;
-      margin-bottom: 20px;
-      color: var(--pantone);
-      display: none;
-      font-size: 20px;
-    }
-
-    #mensaje-turno {
-      text-align: center;
-      font-weight: bold;
-      margin-top: 10px;
-      color: var(--fuente);
-      display: none;
-      font-size: 14px;
-    }
-
-    /* mensaje de aviso 1200 caracteres */
-    #aviso-1200 {
-      position: sticky;
-      top: 20px;
-      z-index: 100;
-      background-color: #ffefc1;
-      color: #b35900;
-      font-weight: bold;
-      padding: 10px 15px;
-      margin-top: 10px;
-      border-left: 5px solid #ffcc00;
-      border-radius: 4px;
-      font-size: 13px;
-      animation: fadeIn 0.5s ease-in-out;
-      text-align: center;
-      max-width: 600px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-5px);
+    <style>
+      :root {
+        --fuente: #2e2925;
+        --pantone: #368f3f;
+        --principal: #92c99b;
+        --hover: #d9ebd8;
+        --borde: #4fa66a;
+        --pantone15: #79b47f;
+        --btn: #489950;
       }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .contador-aviso {
-      color: var(--pantone) !important;
-    }
-
-    .contador-alerta {
-      color: red !important;
-      font-size: 14px;
-    }
-
-    /* botón copiar informe */
-    .copiar-btn {
-      padding: 10px 15px;
-      font-size: 14px;
-      cursor: pointer;
-      border: none;
-      border-radius: 5px;
-      background-color: var(--btn);
-      color: white;
-      font-weight: bold;
-      transition: background-color 0.3s ease-in-out;
-      margin-top: 10px;
-      min-width: 120px;
-    }
-
-    .copiar-btn:hover {
-      background-color: var(--pantone15);
-    }
-
-    .copiar-btn i {
-      margin-right: 8px;
-    }
-
-    .fecha-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      margin-top: 20px;
-      margin-bottom: 10px;
-    }
-
-    /* Estilo actualizado para el botón #informesGuardados y su desplegable */
-
-    #informesGuardados,
-    .eliminarInforme {
-      appearance: none;
-      font-family: "Montserrat", sans-serif;
-      font-size: 14px;
-      font-weight: bold;
-      background-color: var(--pantone15);
-      color: var(--fuente);
-      border: 2px solid var(--pantone15);
-      border-radius: 5px;
-      padding: 10px 20px;
-      height: 44px;
-      min-width: 200px;
-      box-sizing: border-box;
-      cursor: pointer;
-      transition: all 0.3s ease-in-out;
-      text-align: center;
-    }
-
-    #informesGuardados:hover,
-    .eliminarInforme:hover {
-      background-color: var(--btn);
-      color: white;
-      border-color: var(--btn);
-    }
-
-    #informesGuardados optgroup {
-      font-weight: bold;
-      font-size: 13px;
-      color: #ffffff;
-      background-color: var(--pantone);
-      padding: 6px 12px;
-    }
-
-    #informesGuardados option {
-      background-color: #e8f4eb;
-      color: var(--fuente);
-      padding: 8px 12px;
-      white-space: nowrap;
-      border-bottom: 1px solid #d7e8da;
-      font-size: 13px;
-    }
-
-    #informesGuardados option:hover,
-    #informesGuardados option:focus {
-      background-color: var(--pantone);
-      color: #ffffff;
-    }
-
-    select#informesGuardados:focus {
-      outline: none;
-      border-color: var(--btn);
-      box-shadow: 0 0 0 3px rgba(72, 153, 80, 0.3);
-    }
-
-    /* Forzar apertura hacia arriba del desplegable (simulación visual) */
-    .choices[data-type*="select-one"].is-open .choices__list--dropdown {
-      position: absolute !important;
-      bottom: 100% !important;
-      top: auto !important;
-      left: 0 !important;
-      margin-bottom: 6px !important;
-      background-color: white;
-      border: 1px solid var(--borde);
-      border-radius: 5px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-      max-height: none;
-      overflow-y: auto;
-      width: 100%;
-      z-index: 9999;
-    }
-
-    /* no especificado */
-    .no-especificado {
-      font-style: italic;
-      color: #666;
-      /* gris medio */
-    }
-
-    /* Estilo personalizado para Choices.js */
-    /* Estilo personalizado para Choices.js */
-    .choices {
-      font-family: "Montserrat", sans-serif;
-      font-size: 14px;
-      font-weight: bold;
-      width: 100%;
-      color: var(--fuente);
-      position: relative;
-      z-index: 1050;
-      max-width: 300px;
-      margin: 0 auto;
-      box-sizing: border-box;
-    }
-
-    .choices__inner {
-      background-color: var(--pantone15);
-      color: var(--fuente);
-      border-radius: 5px;
-      border: 1px solid var(--borde);
-      padding: 10px 15px;
-      width: 100%;
-      min-height: auto;
-    }
-
-    .choices__placeholder {
-      color: var(--fuente);
-      opacity: 1;
-    }
-
-    /* LISTA DESPLEGADA HACIA ARRIBA */
-    .choices[data-type*="select-one"].is-open .choices__list--dropdown {
-      position: absolute !important;
-      bottom: 100% !important;
-      top: auto !important;
-      left: 0 !important;
-      margin-bottom: 6px !important;
-      background-color: white;
-      border: 1px solid var(--borde);
-      border-radius: 5px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-      max-height: none;
-      overflow-y: auto;
-      width: 100%;
-      z-index: 9999;
-    }
-
-    /* ÍTEMS */
-    .choices__item--selectable {
-      padding: 10px 14px;
-      background-color: #e8f4eb;
-      border-bottom: 1px solid #d7e8da;
-    }
-
-    .choices__item--selectable:hover {
-      background-color: var(--pantone);
-      color: white;
-    }
-
-    /* --- */
-
-    /* LISTA COMPLETA */
-    .choices__list--dropdown,
-    .choices__list[aria-expanded] {
-      font-size: 14px;
-      padding: 0;
-      background-color: white;
-      border-radius: 5px;
-      overflow-y: auto;
-    }
-
-    .choices__list--dropdown {
-      max-height: none !important;
-      height: auto !important;
-      overflow-y: visible !important;
-    }
-
-    /* ÍTEMS */
-    .choices__item--selectable {
-      padding: 10px 14px;
-      background-color: #e8f4eb;
-      border-bottom: 1px solid #d7e8da;
-    }
-
-    .choices__item--selectable:hover {
-      background-color: var(--pantone);
-      color: white;
-    }
-
-    /* GRUPOS (Box X) */
-    .choices__item--choice-group {
-      background-color: var(--pantone15);
-      color: white;
-      font-style: italic;
-      font-weight: bold;
-      padding: 6px 14px;
-      font-size: 13px;
-    }
-
-    /* ÍTEM SELECCIONADO ARRIBA */
-    .choices__list--single .choices__item {
-      width: 100%;
-    }
-
-    /* fin del choice */
-
-    /* icono_balance */
-    .icono-container {
-      position: relative;
-      display: inline-block;
-      width: 30px;
-      /* Ajusta el tamaño del icono */
-      height: 30px;
-      margin-bottom: 10px;
-    }
-
-    .icono {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      transition: opacity 0.5s ease-in-out;
-      /* Transición suave */
-    }
-
-    /* Mostrar el icono verde por defecto */
-    .icono.verde {
-      opacity: 1;
-    }
-
-    /* Ocultar el icono azul por defecto */
-    .icono.azul {
-      opacity: 0;
-    }
-
-    /* Cuando se hace hover, la imagen verde desaparece y la azul aparece */
-    .icono-container:hover .verde {
-      opacity: 0;
-    }
-
-    .icono-container:hover .azul {
-      opacity: 1;
-    }
-
-    /* Fin icono_balance */
-    
-
-    /* =============================== */
-    /* FOOTER */
-    /* =============================== */
-
-    footer {
-      border-top: 1px solid var(--pantone15);
-      color: var(--fuente);
-      font-size: 10px;
-      font-weight: bold;
-      text-align: center;
-      padding: 5px;
-      margin-bottom: 5px;
-      margin: 0 auto;
-      width: 100%;
-      z-index: 50;
-    }
-
-    /* fin del footer */
-
-    /* mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm */
-    /* mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm */
-    /* mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm */
-    @media print {
-      @page {
-        size: A4 portrait;
+      * {
         margin: 0;
+        padding: 0;
+        outline: none;
+        box-sizing: border-box;
       }
 
       body {
-        margin: 0 !important;
-        padding: 0 !important;
-        visibility: visible;
-        height: 100vh;
+        font-family: "Montserrat", sans-serif;
+        margin: 20px;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: var(--principal);
       }
 
-      body>*:not(.resultado) {
-        display: none !important;
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: var(--fuente);
+      }
+
+      .box-selector {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+      }
+
+      .box-selector button {
+        padding: 10px 15px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--pantone15);
+        color: white;
+        min-width: 80px;
+      }
+
+      .box-selector button:hover {
+        background-color: white;
+        color: var(--fuente);
+        transition: all 0.5s ease;
+      }
+
+      .box-selector button.active {
+        background-color: var(--pantone);
+        box-shadow: 0 0 5px #0000004d;
+        transition: all 0.5s ease;
+      }
+
+      .formulario {
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 20px;
+      }
+
+      .campo {
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      .campo label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: var(--fuente);
+      }
+
+      .campo textarea {
+        width: 95%;
+        min-height: 80px;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid var(--borde);
+        border-radius: 5px;
+        resize: vertical;
+        background-color: #d1e5d3;
+        color: var(--fuente);
+        outline: none;
+        overflow: auto;
+        overflow-y: hidden;
+      }
+
+      .campo textarea:disabled {
+        background-color: var(--principal) !important;
+        border: 1px solid var(--borde) !important;
+        color: #6c757d !important;
+        cursor: not-allowed;
+      }
+
+      .contador-global {
+        text-align: right;
+        font-weight: 400;
+        font-size: 10px;
+        color: var(--fuente);
+        margin-top: -10px;
+        margin-bottom: 10px;
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .buttons button,
+      .btn-alternativo {
+        padding: 10px 15px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--btn);
+        color: #fff;
+        flex-grow: 1;
+        min-width: 120px;
+        font-weight: bold;
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      .buttons button:hover,
+      .btn-alternativo:hover {
+        background-color: var(--pantone15);
+        color: var(--fuente);
+      }
+
+      .btn-alternativo {
+        background-color: white;
+        color: var(--pantone);
       }
 
       .resultado {
-        visibility: visible !important;
-        display: block !important;
-        position: relative !important;
+        margin-top: 20px;
+        padding: 20px;
+        font-family: "Montserrat", sans-serif;
+        font-size: 12px;
+        line-height: 1.6;
+        display: none;
+        background-color: #f5f5f5;
         width: 100%;
-        max-width: 600px;
-        margin-left: 3cm;
-        margin-right: 1cm;
-        background: white !important;
-        font-size: 12px !important;
+        max-width: 700px;
         box-sizing: border-box;
-        box-shadow: none !important;
-      }
-
-      .resultado.diurno-print {
-        margin-top: 2cm;
-        margin-bottom: 0;
-      }
-
-      .resultado.nocturno-print {
-        position: absolute !important;
-        bottom: 2cm !important;
-        top: auto !important;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       }
 
       .resultado p {
-        page-break-inside: avoid;
-        margin: 5px 0;
+        margin: 8px 0;
       }
 
       .no-especificado {
-        color: black !important;
         font-style: italic;
+        color: #666;
       }
-    }
 
-    /* FIN DEL MEDIA PRINT */
-    /* FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF */
-  </style>
-</head>
-
-<body>
-  <h1>Firebase Evolución de Enfermería</h1>
-
-  <!-- Selector de Box -->
-  <div class="box-selector" id="boxSelector"></div>
-
-  <!-- Enlace a balance -->
-
-  <a href="https://jolejuma.es/balance" target="_blank" class="icono-container">
-    <img src="balance_verde.png" alt="Balance" class="icono verde" />
-    <img src="balance_azul.png" alt="Balance Azul" class="icono azul" />
-  </a>
-
-  <!-- Mensaje de Box seleccionado -->
-  <div id="mensaje-box-seleccionado">
-    Ha seleccionado el Box <span id="numero-box-seleccionado"></span>
-  </div>
-
-  <!-- Formulario -->
-  <form class="formulario" id="formulario">
-    <div class="campo">
-      <label for="neurologico">1. NEUROLÓGICO</label>
-      <textarea id="neurologico" oninput="guardarDatos()" readonly placeholder="Seleccione Box para poder añadir información"></textarea>
-    </div>
-    <div class="campo">
-      <label for="cardiovascular">2. CARDIOVASCULAR</label>
-      <textarea id="cardiovascular" oninput="guardarDatos()" readonly placeholder="Seleccione Box para poder añadir información"></textarea>
-    </div>
-    <div class="campo">
-      <label for="respiratorio">3. RESPIRATORIO</label>
-      <textarea id="respiratorio" oninput="guardarDatos()" readonly placeholder="Seleccione Box para poder añadir información"></textarea>
-    </div>
-    <div class="campo">
-      <label for="renal">4. RENAL</label>
-      <textarea id="renal" oninput="guardarDatos()" readonly placeholder="Seleccione Box para poder añadir información"></textarea>
-    </div>
-    <div class="campo">
-      <label for="gastrointestinal">5. GASTROINTESTINAL</label>
-      <textarea id="gastrointestinal" oninput="guardarDatos()" readonly placeholder="Seleccione Box para poder añadir información"></textarea>
-    </div>
-    <div class="campo">
-      <label for="nutricional">6. NUTRICIONAL/METABÓLICO</label>
-      <textarea id="nutricional" oninput="guardarDatos()" readonly placeholder="Seleccione Box para poder añadir información"></textarea>
-    </div>
-    <div class="campo">
-      <label for="termorregulacion">7. TERMORREGULACIÓN</label>
-      <textarea id="termorregulacion" oninput="guardarDatos()" readonly placeholder="Seleccione Box para poder añadir información"></textarea>
-    </div>
-    <div class="campo">
-      <label for="piel">8. PIEL</label>
-      <textarea id="piel" oninput="guardarDatos()" readonly placeholder="Seleccione Box para poder añadir información"></textarea>
-    </div>
-    <div class="campo">
-      <label for="otros">9. OTROS</label>
-      <textarea id="otros" oninput="guardarDatos()" readonly placeholder="Seleccione Box para poder añadir información"></textarea>
-    </div>
-    <div class="campo">
-      <label for="especial">10. ESPECIAL VIGILANCIA</label>
-      <textarea id="especial" oninput="guardarDatos()" readonly placeholder="Seleccione Box para poder añadir información"></textarea>
-    </div>
-
-    <!-- Contador global -->
-    <div class="contador-global">
-      <strong>Total de caracteres utilizados:</strong>
-      <span id="contador-total">0</span> / <span id="total-maximo">1200</span>
-    </div>
-  </form>
-
-  <!-- Botones -->
-  <div class="buttons">
-    <button onclick="generarInforme()">Generar Informe</button>
-    <button onclick="imprimirAuto()">Imprimir</button>
-    <button onclick="borrarDatos()">Borrar Datos</button>
-    <button class="btn-alternativo" onclick="imprimirAlternativo()">
-      Imprimir en Turno Alternativo
-    </button>
-  </div>
-
-  <!-- Desplegable de informes guardados -->
-  <div class="fecha-container">
-    <label class="informeGuardado" for="informesGuardados"></label>
-    <select id="informesGuardados" onchange="cargarInformeDesdeLista(this.value)">
-      <option value="">-- Seleccionar Informe guardado --</option>
-    </select>
-    <button class="eliminarInforme" onclick="eliminarInforme()">
-      Eliminar Informe
-    </button>
-    <button class="eliminarInforme" onclick="eliminarInformesDeBox()">
-      Eliminar Informes del Box
-    </button>
-  </div>
-
-  <!-- copiar informe generado -->
-  <button id="copiarInformeBtn" onclick="copiarInforme()" style="display: none" class="copiar-btn">
-    <i class="fas fa-copy"></i> Copiar Informe
-  </button>
-
-  <!-- Resultado -->
-  <div class="resultado" id="resultado"></div>
-
-  <!-- Mensaje de turno -->
-  <div id="mensaje-turno"></div>
-  <div id="mensaje-edicion" style="
+      #mensaje-box-seleccionado {
+        text-align: center;
+        font-weight: bold;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        color: var(--pantone);
         display: none;
-        color: red;
+        font-size: 20px;
+      }
+
+      #mensaje-turno {
+        text-align: center;
+        font-weight: bold;
+        margin-top: 10px;
+        color: var(--fuente);
+        display: none;
+        font-size: 14px;
+      }
+
+      .fecha-container {
+        font-weight: bold;
+        margin-top: 10px;
+        color: var(--fuente);
+        position: relative;
+        overflow: visible !important;
+        z-index: 1000;
+      }
+
+      #informesGuardados,
+      .eliminarInforme {
+        padding: 10px 15px;
+        font-size: 12px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--pantone15);
+        color: var(--fuente);
+        flex-grow: 1;
+        min-width: 120px;
+        font-weight: bold;
+        transition: background-color 0.3s ease-in-out;
+        margin: 0 15px;
+      }
+
+      #informesGuardados:hover,
+      .eliminarInforme:hover {
+        background-color: var(--btn);
+        color: #fff;
+      }
+      /* mensaje de aviso 1200 caracteres */
+      #aviso-1200 {
+        position: sticky;
+        top: 20px;
+        z-index: 100;
+        background-color: #ffefc1;
+        color: #b35900;
+        font-weight: bold;
+        padding: 10px 15px;
+        margin-top: 10px;
+        border-left: 5px solid #ffcc00;
+        border-radius: 4px;
+        font-size: 13px;
+        animation: fadeIn 0.5s ease-in-out;
+        text-align: center;
+        max-width: 600px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-5px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .contador-aviso {
+        color: var(--pantone) !important;
+      }
+
+      .contador-alerta {
+        color: red !important;
+        font-size: 14px;
+      }
+
+      /* botón copiar informe */
+      .copiar-btn {
+        padding: 10px 15px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--btn);
+        color: white;
+        font-weight: bold;
+        transition: background-color 0.3s ease-in-out;
+        margin-top: 10px;
+        min-width: 120px;
+      }
+
+      .copiar-btn:hover {
+        background-color: var(--pantone15);
+      }
+
+      .copiar-btn i {
+        margin-right: 8px;
+      }
+      /* listado informes guardados */
+      #informesGuardados {
+        min-width: 220px; /* o el valor que necesites */
+        font-size: 14px;
+        padding: 6px 10px;
+        border-radius: 6px;
+      }
+      #informesGuardados optgroup {
+        font-weight: bold;
+        font-size: 13px;
+        line-height: 1.6;
+        color: white;
+        background-color: var(--pantone15);
+        padding-left: 4px 12px;
+      }
+
+      #informesGuardados option {
+        padding: 6px 12px;
+        white-space: nowrap;
+      }
+
+      /* no especificado */
+      .no-especificado {
+        font-style: italic;
+        color: #666; /* gris medio */
+      }
+
+      /* Estilo personalizado para Choices.js */
+      /* CONTENEDOR DE CHOICES */
+      .choices {
+        font-family: "Montserrat", sans-serif;
+        font-size: 12px; /* Ajustado a 12px */
+        font-weight: bold;
+        width: 100%;
+        color: var(--fuente);
+        position: relative;
+        z-index: 1050;
+      }
+
+      .choices__inner {
+        background-color: var(
+          --btn
+        ); /* CAMBIO: Fondo como el botón principal */
+        color: #fff; /* CAMBIO: Texto blanco como el botón principal */
+        border-radius: 5px;
+        border: none;
+        padding: 10px 15px;
+        width: 100%;
+        min-height: auto;
+        font-size: 12px;
+        font-weight: bold;
+        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+      }
+
+      /* Hover para el desplegable (parte visible) */
+      .choices__inner:hover {
+        background-color: var(
+          --pantone15
+        ); /* CAMBIO: Hover como los botones de eliminar */
+        color: var(
+          --fuente
+        ); /* CAMBIO: Texto como los botones de eliminar en hover */
+      }
+
+      .choices__placeholder {
+        color: #fff; /* Asegura que el placeholder sea blanco con el nuevo fondo */
+        opacity: 1;
+      }
+
+      /* LISTA DESPLEGADA HACIA ARRIBA */
+      .choices[data-type*="select-one"].is-open .choices__list--dropdown {
+        position: absolute !important;
+        bottom: 100% !important;
+        top: auto !important;
+        left: 0 !important;
+        margin-bottom: 6px !important;
+        background-color: white;
+        border: 1px solid var(--borde);
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        max-height: none;
+        overflow-y: auto;
+        width: 100%;
+        z-index: 9999;
+      }
+
+      /* LISTA COMPLETA */
+      .choices__list--dropdown,
+      .choices__list[aria-expanded] {
+        font-size: 14px;
+        padding: 0;
+        background-color: white;
+        border-radius: 5px;
+        overflow-y: auto;
+      }
+
+      .choices__list--dropdown {
+        max-height: none !important;
+        height: auto !important;
+        overflow-y: visible !important;
+      }
+
+      /* ÍTEMS */
+      .choices__item--selectable {
+        padding: 10px 14px;
+        background-color: #e8f4eb;
+        border-bottom: 1px solid #d7e8da;
+      }
+
+      .choices__item--selectable:hover {
+        background-color: var(--pantone);
+        color: white;
+      }
+
+      /* GRUPOS (Box X) */
+      .choices__item--choice-group {
+        background-color: var(--pantone15);
+        color: white;
+        font-style: italic;
+        font-weight: bold;
+        padding: 6px 14px;
+        font-size: 13px;
+      }
+
+      /* ÍTEM SELECCIONADO ARRIBA */
+      .choices__list--single .choices__item {
+        width: 100%;
+      }
+      /* fin del choice */
+
+      /* icono_balance */
+      .icono-container {
+        position: relative;
+        display: inline-block;
+        width: 30px; /* Ajusta el tamaño del icono */
+        height: 30px;
+        margin-bottom: 10px;
+      }
+
+      .icono {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transition: opacity 0.5s ease-in-out; /* Transición suave */
+      }
+
+      /* Mostrar el icono verde por defecto */
+      .icono.verde {
+        opacity: 1;
+      }
+
+      /* Ocultar el icono azul por defecto */
+      .icono.azul {
+        opacity: 0;
+      }
+
+      /* Cuando se hace hover, la imagen verde desaparece y la azul aparece */
+      .icono-container:hover .verde {
+        opacity: 0;
+      }
+
+      .icono-container:hover .azul {
+        opacity: 1;
+      }
+
+      /* Fin icono_balance */
+
+      /* =============================== */
+      /* FOOTER */
+      /* =============================== */
+
+      footer {
+        color: var(--fuente);
+        font-size: 10px;
         font-weight: bold;
         text-align: center;
-        margin-top: 10px;
-      ">
-    Editando informe anterior. Al generar se guardará como nuevo.
-  </div>
-  <div id="status-message" style="display: none; color: red; text-align: center; margin-top: 10px;"></div>
-
-  <button onclick="guardarPrueba()">Guardar Prueba en Firebase</button>
-
-  <!-- mensaje visible de error -->
-  <div id="status-message2" style="
-  display: none;
-  text-align: center;
-  color: red;
-  font-weight: bold;
-  margin-top: 10px;
-  background-color: #fff3cd;
-  border: 1px solid #ffeeba;
-  padding: 10px;
-  border-radius: 5px;
-  max-width: 600px;
-"></div>
-
-  <button onclick="probarConexionFirestore()" style="display: block; margin: 20px auto;">
-    Probar conexión con Firebase
-  </button>
-  <footer>
-    <p>
-      &copy; 2025 Informe Evolución Enfermería. Todos los derechos reservados.
-      <br />C.G.Francisco Manuel--M.G.José Antonio--M.M. Francisco Javier
-    </p>
-  </footer>
-
-
-
-
-  <script>
-    // ======================
-    // CONFIGURACIÓN DE FIREBASE
-    // ======================
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBxd0CXGNiOyKpg97Wil2EYStO_7Q6Dfak",
-      authDomain: "informes-uci.firebaseapp.com",
-      projectId: "informes-uci",
-    };
-
-    // Inicializar Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-    const auth = firebase.auth();
-
-    console.log("Firebase inicializado correctamente.");
-
-
-    // Protección de página: redirigir si no está autenticado
-    firebase.auth().onAuthStateChanged((user) => {
-      if (!user) window.location.href = "index.html";
-      else console.log("Usuario autenticado:", user.email);
-    });
-
-    // ======================
-    // FUNCIONES AUXILIARES
-    // ======================
-
-    function mostrarMensajeEstado(mensaje) {
-      const div = document.getElementById("status-message");
-      div.textContent = mensaje;
-      div.style.display = "block";
-      setTimeout(() => {
-        div.style.display = "none";
-      }, 5000);
-    }
-
-    // ======================
-    // PRUEBA DE CONEXIÓN A FIRESTORE
-    // ======================
-    function probarConexionFirestore() {
-      db.collection("pruebas").add({
-        mensaje: "Prueba de conexión desde app.html",
-        fecha: firebase.firestore.FieldValue.serverTimestamp()
-      })
-        .then((docRef) => {
-          console.log("Documento escrito con ID:", docRef.id);
-          mostrarMensajeEstado("✅ Conexión con Firestore exitosa.");
-        })
-        .catch((error) => {
-          console.error("Error escribiendo documento:", error);
-          mostrarMensajeEstado("❌ Error al conectar con Firestore.");
-        });
-    }
-
-    function guardarPrueba() {
-      const informeRef = db.collection("pruebas").doc();
-      informeRef.set({
-        texto: "Esto es una prueba de guardado.",
-        fecha: firebase.firestore.FieldValue.serverTimestamp()
-      })
-        .then(() => {
-          console.log("Documento guardado con ID:", informeRef.id);
-          alert("Guardado exitoso!");
-        })
-        .catch((error) => {
-          console.error("Error al guardar:", error);
-          mostrarMensajeEstado("Error al guardar en Firebase.");
-        });
-    }
-
-    // ======================
-    // SELECCIÓN DE BOX Y DATOS
-    // ======================
-
-    let boxSeleccionado = null;
-
-    function recogerTodosLosCampos() {
-      return Array.from(document.querySelectorAll("input[id],textarea[id]"))
-        .filter(el => !el.id.startsWith("print_"))
-        .map(el => el.id);
-    }
-
-    function guardarDatos(idBox = boxSeleccionado) {
-      if (idBox === null) return;
-      const data = {};
-      recogerTodosLosCampos().forEach(id => {
-        const el = document.getElementById(id);
-        if (el) data[id] = el.value;
-      });
-      localStorage.setItem(`box_${idBox}`, JSON.stringify(data));
-    }
-
-    function cargarDatos() {
-      if (boxSeleccionado === null) return;
-      const data = JSON.parse(localStorage.getItem(`box_${boxSeleccionado}`) || "{}");
-      recogerTodosLosCampos().forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = data[id] || "";
-      });
-    }
-
-    // ======================
-    // SELECCIONAR BOX
-    // ==========================
-
- function seleccionarBox(num) {
-  if (boxSeleccionado !== null) guardarDatos(boxSeleccionado);
-
-  boxSeleccionado = num;
-
-  // Actualizar botones visuales
-  document.querySelectorAll(".box-selector button").forEach(btn => {
-    btn.classList.toggle("active", +btn.dataset.box === num);
-  });
-
-  // Mostrar mensaje de Box seleccionado
-  document.getElementById("mensaje-box-seleccionado").style.display = "block";
-  document.getElementById("numero-box-seleccionado").textContent = num;
-
-  // Cargar datos previos
-  cargarDatos();
-
-  // Habilitar campos
-  document.querySelectorAll("textarea").forEach(el => {
-    el.removeAttribute("readonly");
-  });
-
-  localStorage.setItem("box_seleccionado", num);
-}
-
-    // ======================
-    // DETECTAR TURNO AUTOMATICO
-    // ==========================
-    function obtenerTurnoActual() {
-      const hora = new Date().getHours();
-      return hora >= 8 && hora < 20 ? "diurno" : "nocturno";
-    }
-
-    // ======================
-    // IMPRESION DIFERENCIADA SEGUN TURNO
-    // ==========================
-
-    function imprimirAuto() {
-      const turno = obtenerTurnoActual();
-      const resultado = document.getElementById("resultado");
-
-      if (turno === "diurno") {
-        resultado.classList.add("diurno-print");
-        resultado.classList.remove("nocturno-print");
-      } else {
-        resultado.classList.add("nocturno-print");
-        resultado.classList.remove("diurno-print");
+        padding: 5px;
+        margin-bottom: 5px;
+        margin: 0 auto;
+        width: 100%;
+        z-index: 50;
       }
+      /* fin del footer */
 
-      window.print();
-    }
+      /* mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm */
+      /* mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm */
+      /* mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm */
+      @media print {
+        @page {
+          size: A4 portrait;
+          margin: 0;
+        }
 
+        html,
+        body {
+          /* Asegura que html y body ocupen el 100% del viewport/página para posicionamiento absoluto */
+          height: 100%;
+          margin: 0 !important;
+          padding: 0 !important;
+          overflow: hidden; /* Opcional, para evitar barras de desplazamiento si el contenido se desborda */
+        }
 
-    // ======================
-    // GENERAR INFORME
-    // ======================
-   function generarInforme() {
-  if (!boxSeleccionado) {
-    alert("Por favor, selecciona un Box antes de generar el informe.");
-    return;
-  }
+        body {
+          visibility: visible;
+          position: relative; /* Ayuda a Firefox con el contexto de posicionamiento absoluto */
+        }
 
-  const turno = obtenerTurnoActual();
-  const contenido = recogerTodosLosCampos().reduce((acc, id) => {
-    acc[id] = document.getElementById(id).value.trim() || "No Especificado";
-    return acc;
-  }, {});
+        body > *:not(.resultado) {
+          display: none !important;
+        }
 
-  // Obtener fecha y hora actual formateada
-  const fechaCompleta = new Date().toLocaleString('es-ES', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false
-  }); // Ejemplo: "04/06/2025 15:30"
+        .resultado {
+          visibility: visible !important;
+          display: block !important;
+          position: relative !important; /* Mantener por defecto para diurno y como base */
+          width: 100%;
+          max-width: 600px;
+          margin-left: 3.5cm; /* Aplicado globalmente para ambos turnos */
+          margin-right: 1cm;
+          background: white !important;
+          font-size: 12px !important;
+          box-sizing: border-box;
+          box-shadow: none !important;
+        }
 
-  // Mostrar en pantalla (opcional)
-  const resultadoDiv = document.getElementById("resultado");
-  resultadoDiv.innerHTML = `
-    <h3>BOX ${boxSeleccionado} - Turno de ${turno === "diurno" ? "8 a 20 horas" : "20 a 8 horas"}</h3>
-    <p><strong>NEUROLÓGICO:</strong> ${contenido.neurologico}</p>
-    <p><strong>CARDIOVASCULAR:</strong> ${contenido.cardiovascular}</p>
-    <p><strong>RESPIRATORIO:</strong> ${contenido.respiratorio}</p>
-    <p><strong>RENAL:</strong> ${contenido.renal}</p>
-    <p><strong>GASTROINTESTINAL:</strong> ${contenido.gastrointestinal}</p>
-    <p><strong>NUTRICIONAL:</strong> ${contenido.nutricional}</p>
-    <p><strong>TERMORREGULACIÓN:</strong> ${contenido.termorregulacion}</p>
-    <p><strong>PIEL:</strong> ${contenido.piel}</p>
-    <p><strong>OTROS:</strong> ${contenido.otros}</p>
-    <p><strong>ESPECIAL VIGILANCIA:</strong> ${contenido.especial}</p>
-  `;
+        .resultado.diurno-print {
+          margin-top: 2cm;
+          margin-bottom: 0;
+        }
 
-  // Guardar en Firebase
-  db.collection("informes").add({
-    box: boxSeleccionado,
-    turno,
-    contenido,
-    fechaTexto: fechaCompleta, // Nueva propiedad
-    fechaFirestore: firebase.firestore.FieldValue.serverTimestamp()
-  })
-  .then(() => {
-    console.log("Informe guardado exitosamente.");
-    mostrarMensajeEstado("✅ Informe guardado exitosamente.");
+        .resultado.nocturno-print {
+          margin-top: 0;
+          margin-bottom: 2cm;
+          margin-left: 3.5cm !important; /* Asegurar el margen izquierdo para nocturno */
+          position: absolute !important; /* Aplicar position absolute para nocturno */
+          bottom: 1cm !important; /* Posicionar desde la parte inferior de la página */
+          /* ADVERTENCIA: position: absolute puede causar que el contenido se corte o no fluya
+             correctamente en impresiones de varias páginas. Úsalo con precaución. */
+        }
 
-    // Recargar informes para actualizar desplegable
-    cargarInformesDesdeFirestore();
-  })
-  .catch((error) => {
-    console.error("Error al guardar informe:", error);
-    mostrarMensajeEstado("❌ Error al guardar informe en Firebase.");
-  });
-}
-    // ======================
-    // copiar INFORME 
-    // ======================
+        .resultado p {
+          page-break-inside: avoid;
+          margin: 5px 0;
+        }
 
-    function copiarInforme() {
-      const resultado = document.getElementById("resultado");
-      const textarea = document.createElement("textarea");
-      textarea.value = resultado.innerText;
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textarea);
-      alert("Informe copiado al portapapeles");
-    }
-
-
-    // ======================
-    // CARGAR INFORME DESDE LISTA 
-    // ======================
-  function cargarInformeDesdeLista(idInforme) {
-  if (!idInforme) return;
-
-  db.collection("informes").doc(idInforme).get()
-    .then(doc => {
-      if (doc.exists) {
-        const data = doc.data();
-        const contenido = data.contenido;
-
-        // Rellenar los campos con el contenido del informe
-        Object.entries(contenido).forEach(([id, valor]) => {
-          const el = document.getElementById(id);
-          if (el) el.value = valor;
-        });
-
-        // Mostrar mensaje de edición
-        const mensajeEdicion = document.getElementById("mensaje-edicion");
-        if (mensajeEdicion) {
-          mensajeEdicion.style.display = "block";
-          setTimeout(() => {
-            mensajeEdicion.style.display = "none";
-          }, 3000);
+        .no-especificado {
+          color: black !important;
+          font-style: italic;
         }
       }
-    })
-    .catch(error => {
-      console.error("Error al cargar informe:", error);
-    });
-}
 
-    // ======================
-    // CONTADOR DE CARACTERES
-    // ======================
+      /* FIN DEL MEDIA PRINT */
+      /* ************************************* */
+    </style>
+  </head>
+  <body>
+    <h1>Gemini rules4789+ Evolución de Enfermería</h1>
 
-    // Contador global de caracteres
-    document.querySelectorAll("textarea").forEach(el => {
-      el.addEventListener("input", () => {
-        let total = 0;
-        document.querySelectorAll("textarea").forEach(ta => {
-          total += ta.value.length;
+    <div class="box-selector" id="boxSelector"></div>
+
+    <a
+      href="https://jolejuma.es/balance"
+      target="_blank"
+      class="icono-container"
+    >
+      <img src="balance_verde.png" alt="Balance" class="icono verde" />
+      <img src="balance_azul.png" alt="Balance Azul" class="icono azul" />
+    </a>
+
+    <div id="mensaje-box-seleccionado">
+      Ha seleccionado el Box <span id="numero-box-seleccionado"></span>
+    </div>
+
+    <form class="formulario" id="formulario">
+      <div class="campo">
+        <label for="neurologico">1. NEUROLÓGICO</label>
+        <textarea id="neurologico" oninput="guardarDatos()" disabled></textarea>
+      </div>
+      <div class="campo">
+        <label for="cardiovascular">2. CARDIOVASCULAR</label>
+        <textarea
+          id="cardiovascular"
+          oninput="guardarDatos()"
+          disabled
+        ></textarea>
+      </div>
+      <div class="campo">
+        <label for="respiratorio">3. RESPIRATORIO</label>
+        <textarea
+          id="respiratorio"
+          oninput="guardarDatos()"
+          disabled
+        ></textarea>
+      </div>
+      <div class="campo">
+        <label for="renal">4. RENAL</label>
+        <textarea id="renal" oninput="guardarDatos()" disabled></textarea>
+      </div>
+      <div class="campo">
+        <label for="gastrointestinal">5. GASTROINTESTINAL</label>
+        <textarea
+          id="gastrointestinal"
+          oninput="guardarDatos()"
+          disabled
+        ></textarea>
+      </div>
+      <div class="campo">
+        <label for="nutricional">6. NUTRICIONAL/METABÓLICO</label>
+        <textarea id="nutricional" oninput="guardarDatos()" disabled></textarea>
+      </div>
+      <div class="campo">
+        <label for="termorregulacion">7. TERMORREGULACIÓN</label>
+        <textarea
+          id="termorregulacion"
+          oninput="guardarDatos()"
+          disabled
+        ></textarea>
+      </div>
+      <div class="campo">
+        <label for="piel">8. PIEL</label>
+        <textarea id="piel" oninput="guardarDatos()" disabled></textarea>
+      </div>
+      <div class="campo">
+        <label for="otros">9. OTROS</label>
+        <textarea id="otros" oninput="guardarDatos()" disabled></textarea>
+      </div>
+      <div class="campo">
+        <label for="especial">10. ESPECIAL VIGILANCIA</label>
+        <textarea id="especial" oninput="guardarDatos()" disabled></textarea>
+      </div>
+
+      <div class="contador-global">
+        <strong>Total de caracteres utilizados:</strong>
+        <span id="contador-total">0</span> /
+        <span id="total-maximo">1200</span>
+      </div>
+    </form>
+
+    <div class="buttons">
+      <button onclick="generarInforme()">Generar Informe</button>
+      <button onclick="imprimirAuto()">Imprimir</button>
+      <button onclick="borrarDatos()">Borrar Datos</button>
+      <button class="btn-alternativo" onclick="imprimirAlternativo()">
+        Imprimir en Turno Alternativo
+      </button>
+    </div>
+
+    <div class="fecha-container">
+      <label class="informeGuardado" for="informesGuardados"></label>
+      <select
+        id="informesGuardados"
+        onchange="cargarInformeDesdeLista(this.value)"
+      >
+        <option value="">-- Seleccionar Informe Guardado --</option>
+      </select>
+      <button class="eliminarInforme" onclick="eliminarInforme()">
+        Eliminar Informe
+      </button>
+      <button class="eliminarInforme" onclick="eliminarInformesDeBox()">
+        Eliminar Informes del Box
+      </button>
+    </div>
+
+    <button
+      id="copiarInformeBtn"
+      onclick="copiarInforme()"
+      style="display: none"
+      class="copiar-btn"
+    >
+      <i class="fas fa-copy"></i> Copiar Informe
+    </button>
+
+    <div class="resultado" id="resultado"></div>
+
+    <div id="mensaje-turno"></div>
+    <footer>
+      <p>
+        &copy; 2025 Informe Evolución Enfermería. Todos los derechos reservados.
+        <br />C.G.Francisco Manuel--M.G.José Antonio--M.M. Francisco Javier<br />
+      </p>
+    </footer>
+
+    <script>
+      // --- CONFIGURACIÓN E INICIALIZACIÓN DE FIREBASE ---
+      // Declaramos las variables globalmente, pero las asignamos en window.onload
+      let db;
+      let auth;
+      let currentUserId = null;
+
+      const hoy = new Date().toISOString().slice(0, 10);
+      let selectedBox = null;
+      const campos = [
+        "neurologico",
+        "cardiovascular",
+        "respiratorio",
+        "renal",
+        "gastrointestinal",
+        "nutricional",
+        "termorregulacion",
+        "piel",
+        "otros",
+        "especial",
+      ];
+
+      const TOTAL_CARACTERES = 1200;
+
+      // Función para guardar datos en Firebase
+      async function guardarDatos() {
+        // Asegúrate de que un Box esté seleccionado, el usuario autenticado Y Firebase inicializado
+        if (!selectedBox || !currentUserId || !db) {
+          // Añadida comprobación de 'db'
+          console.warn(
+            "No se puede guardar: Box no seleccionado, usuario no autenticado, o Firebase no inicializado correctamente."
+          );
+          mostrarMensaje(
+            "Por favor, seleccione un Box y asegúrese de estar autenticado para guardar. Si el problema persiste, intente recargar la página."
+          );
+          return;
+        }
+
+        const informeId = localStorage.getItem(
+          `current_informe_id_box_${selectedBox}_${hoy}`
+        );
+        const datos = {};
+        campos.forEach((campo) => {
+          datos[campo] = document.getElementById(campo).value || "";
         });
 
-        // Actualizar el contador visual
+        datos.fecha = hoy;
+        datos.timestamp = new Date().toISOString(); // Guarda la fecha y hora completa para ordenar
+        datos.box = selectedBox;
+        datos.userId = currentUserId; // ¡IMPORTANTE! Guarda el ID del usuario con el informe
+
+        try {
+          // Referencia a la colección específica del usuario
+          const userInformesCollection = db
+            .collection("users")
+            .doc(currentUserId)
+            .collection("informesEnfermeria");
+
+          let docRef;
+          if (informeId) {
+            docRef = userInformesCollection.doc(informeId);
+            await docRef.update(datos);
+            console.log("Documento actualizado con ID: ", informeId);
+          } else {
+            docRef = await userInformesCollection.add(datos);
+            localStorage.setItem(
+              `current_informe_id_box_${selectedBox}_${hoy}`,
+              docRef.id
+            );
+            console.log("Documento escrito con ID: ", docRef.id);
+          }
+        } catch (e) {
+          console.error("Error al guardar el documento: ", e);
+          mostrarMensaje(
+            "Error al guardar los datos. Por favor, intente de nuevo. Revise la consola para más detalles."
+          );
+        }
+        actualizarContadorGlobal();
+      }
+
+      // Función para cargar datos desde Firebase
+      async function cargarDatos() {
+        // Añadida comprobación de 'db'
+        if (!selectedBox || !currentUserId || !db) {
+          campos.forEach((campo) => {
+            document.getElementById(campo).value = "";
+          });
+          console.warn(
+            "No se puede cargar: Box no seleccionado, usuario no autenticado, o Firebase no inicializado correctamente."
+          );
+          return;
+        }
+
+        const informeId = localStorage.getItem(
+          `current_informe_id_box_${selectedBox}_${hoy}`
+        );
+
+        if (informeId) {
+          try {
+            const userInformesCollection = db
+              .collection("users")
+              .doc(currentUserId)
+              .collection("informesEnfermeria");
+            const doc = await userInformesCollection.doc(informeId).get();
+            if (doc.exists) {
+              const datos = doc.data();
+              campos.forEach((campo) => {
+                document.getElementById(campo).value = datos[campo] || "";
+              });
+            } else {
+              console.log(
+                "No existe un informe para hoy en este Box. Limpiando campos."
+              );
+              campos.forEach((campo) => {
+                document.getElementById(campo).value = "";
+              });
+              localStorage.removeItem(
+                `current_informe_id_box_${selectedBox}_${hoy}`
+              );
+            }
+          } catch (error) {
+            console.error("Error al cargar el documento: ", error);
+            mostrarMensaje(
+              "Error al cargar los datos. Por favor, intente de nuevo."
+            );
+          }
+        } else {
+          campos.forEach((campo) => {
+            document.getElementById(campo).value = "";
+          });
+        }
+        actualizarContadorGlobal();
+      }
+
+      function selectBox(boxNumber) {
+        if (selectedBox !== null) guardarDatos();
+        selectedBox = boxNumber;
+        cargarDatos();
+
+        document.querySelectorAll(".box-selector button").forEach((btn) => {
+          btn.classList.remove("active");
+          if (btn.textContent === `Box ${boxNumber}`)
+            btn.classList.add("active");
+        });
+
+        document.getElementById("numero-box-seleccionado").textContent =
+          boxNumber;
+        document.getElementById("mensaje-box-seleccionado").style.display =
+          "block";
+        habilitarCampos();
+      }
+
+      function generarInforme() {
+        if (!selectedBox) {
+          mostrarMensaje(
+            "Por favor, seleccione un Box antes de generar el informe."
+          );
+          return;
+        }
+
+        guardarDatos();
+
+        const datos = {};
+        campos.forEach((campo) => {
+          const valor = document.getElementById(campo).value.trim();
+          datos[campo] = valor === "" ? "No Especificado" : valor;
+        });
+
+        const horaActual = new Date().getHours();
+        const esTurnoDiurno = horaActual >= 8 && horaActual < 20;
+        const turnoTexto = esTurnoDiurno
+          ? "Turno de 8 a 20 horas"
+          : "Turno de 20 a 8 horas";
+
+        const encabezado = `<p><strong>BOX ${selectedBox} - ${turnoTexto}</strong></p>`;
+        const cuerpo = campos
+          .map((campo) => {
+            const valor = document.getElementById(campo).value.trim();
+            const contenido =
+              valor === ""
+                ? "<span class='no-especificado'>No Especificado</span>"
+                : valor;
+            const campoFormateado =
+              campo === "especial"
+                ? "ESPECIAL VIGILANCIA"
+                : campo.toUpperCase();
+            return `<p><strong>${campoFormateado}:</strong> ${contenido}</p>`;
+          })
+          .join("");
+
+        const resultadoDiv = document.getElementById("resultado");
+        resultadoDiv.innerHTML = encabezado + cuerpo;
+        resultadoDiv.classList.remove("diurno-print", "nocturno-print");
+
+        resultadoDiv.classList.add(
+          esTurnoDiurno ? "diurno-print" : "nocturno-print"
+        );
+        resultadoDiv.style.display = "block";
+
+        document.getElementById(
+          "mensaje-turno"
+        ).textContent = `Turno seleccionado: ${turnoTexto}`;
+        document.getElementById("mensaje-turno").style.display = "block";
+        document.getElementById("copiarInformeBtn").style.display =
+          "inline-block";
+      }
+
+      function copiarInforme() {
+        if (!selectedBox) return;
+
+        const horaActual = new Date().getHours();
+        const esTurnoDiurno = horaActual >= 8 && horaActual < 20;
+        const turnoTexto = esTurnoDiurno
+          ? "Turno de 8 a 20 horas"
+          : "Turno de 8 a 20 horas"; // Corregido: si es diurno, el turno es de 8 a 20
+
+        let texto = `BOX ${selectedBox} - ${turnoTexto}\n`;
+
+        campos.forEach((campo) => {
+          const valor =
+            document.getElementById(campo).value.trim() || "No Especificado";
+          const titulo =
+            campo === "especial" ? "ESPECIAL VIGILANCIA" : campo.toUpperCase();
+          texto += `${titulo}: ${valor}\n`;
+        });
+
+        navigator.clipboard
+          .writeText(texto)
+          .then(() => {
+            const boton = document.getElementById("copiarInformeBtn");
+            boton.innerHTML = "✅ Copiado";
+            boton.disabled = true;
+
+            setTimeout(() => {
+              boton.style.display = "none";
+              boton.innerHTML = '<i class="fas fa-copy"></i> Copiar Informe';
+              boton.disabled = false;
+            }, 3000);
+          })
+          .catch((err) => {
+            console.error("Error al copiar el texto: ", err);
+            // Fallback para entornos que no soportan navigator.clipboard (como iframes de Gemini)
+            const textarea = document.createElement("textarea");
+            textarea.value = texto;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+
+            const boton = document.getElementById("copiarInformeBtn");
+            boton.innerHTML = "✅ Copiado (fallback)";
+            boton.disabled = true;
+
+            setTimeout(() => {
+              boton.style.display = "none";
+              boton.innerHTML = '<i class="fas fa-copy"></i> Copiar Informe';
+              boton.disabled = false;
+            }, 3000);
+          });
+      }
+
+      function imprimirAuto() {
+        if (!selectedBox) {
+          mostrarMensaje("Seleccione un Box antes de imprimir.");
+          return;
+        }
+        generarInforme();
+        const resultadoDiv = document.getElementById("resultado");
+        resultadoDiv.style.display = "block";
+        setTimeout(() => {
+          window.print();
+          setTimeout(() => {
+            resultadoDiv.style.display = "none";
+            document.getElementById("mensaje-turno").style.display = "none";
+            document.getElementById("copiarInformeBtn").style.display = "none";
+          }, 500);
+        }, 100);
+      }
+
+      // Función para imprimir en turno alternativo
+      function imprimirAlternativo() {
+        if (!selectedBox) {
+          mostrarMensaje(
+            "Seleccione un Box antes de imprimir en turno alternativo."
+          );
+          return;
+        }
+
+        generarInforme(); // Esto también asegura que los datos estén guardados y el resultado se muestre
+
+        const resultadoDiv = document.getElementById("resultado");
+        resultadoDiv.style.display = "block"; // Asegura que el resultado esté visible para la impresión
+
+        // Determinar el turno actual y el alternativo
+        const horaActual = new Date().getHours();
+        const esTurnoDiurnoActual = horaActual >= 8 && horaActual < 20;
+
+        // Si es diurno, el alternativo es nocturno. Si es nocturno, el alternativo es diurno.
+        const turnoAlternativoTexto = esTurnoDiurnoActual
+          ? "Turno de 20 a 8 horas"
+          : "Turno de 8 a 20 horas";
+
+        // Almacenar las clases originales para restaurarlas después
+        const originalClasses = resultadoDiv.className;
+        const originalMessageTurno =
+          document.getElementById("mensaje-turno").textContent;
+
+        // 1. Modificar el contenido del informe para reflejar el turno alternativo
+        // Esto es una forma simple de hacerlo. Podrías querer modificar el HTML interno de 'resultadoDiv' más a fondo.
+        const encabezadoOriginal = `BOX ${selectedBox} - ${
+          esTurnoDiurnoActual
+            ? "Turno de 8 a 20 horas"
+            : "Turno de 20 a 8 horas"
+        }`;
+        const encabezadoAlternativo = `BOX ${selectedBox} - ${turnoAlternativoTexto}`;
+
+        resultadoDiv.innerHTML = resultadoDiv.innerHTML.replace(
+          encabezadoOriginal,
+          encabezadoAlternativo
+        );
+
+        // 2. Aplicar las clases CSS de impresión para el turno alternativo
+        // Esto es crucial para el margen y el estilo de impresión
+        resultadoDiv.classList.remove("diurno-print", "nocturno-print");
+        resultadoDiv.classList.add(
+          esTurnoDiurnoActual ? "nocturno-print" : "diurno-print"
+        );
+
+        // Opcional: Modificar el mensaje del turno mostrado en pantalla temporalmente
+        document.getElementById(
+          "mensaje-turno"
+        ).textContent = `Imprimiendo para: ${turnoAlternativoTexto}`;
+        document.getElementById("mensaje-turno").style.display = "block";
+
+        // Dar un pequeño retraso para que el navegador aplique los estilos antes de imprimir
+        setTimeout(() => {
+          window.print();
+          // Restaurar los estilos y el contenido original después de imprimir
+          setTimeout(() => {
+            resultadoDiv.className = originalClasses; // Restaura todas las clases originales
+            document.getElementById("mensaje-turno").textContent =
+              originalMessageTurno; // Restaura el mensaje original
+            document.getElementById("mensaje-turno").style.display = "none"; // Oculta el mensaje si no debe estar visible
+            document.getElementById("copiarInformeBtn").style.display = "none";
+            resultadoDiv.style.display = "none"; // Oculta el resultado div si no debe estar visible
+          }, 500); // Pequeño retraso después de la impresión
+        }, 100); // Pequeño retraso antes de la impresión
+      }
+
+      // Función para borrar datos del Box seleccionado
+      async function borrarDatos() {
+        if (!selectedBox || !currentUserId || !db) {
+          // Añadida comprobación de 'db'
+          mostrarMensaje(
+            "Por favor, seleccione un Box y asegúrese de estar autenticado para borrar sus datos."
+          );
+          return;
+        }
+
+        // Reemplazar confirm con un modal o mensaje en pantalla
+        if (
+          !confirm(`¿Desea borrar los datos del Box ${selectedBox} para HOY?`)
+        )
+          return;
+
+        const informeId = localStorage.getItem(
+          `current_informe_id_box_${selectedBox}_${hoy}`
+        );
+        if (informeId) {
+          try {
+            const userInformesCollection = db
+              .collection("users")
+              .doc(currentUserId)
+              .collection("informesEnfermeria");
+            await userInformesCollection.doc(informeId).delete();
+            localStorage.removeItem(
+              `current_informe_id_box_${selectedBox}_${hoy}`
+            );
+            mostrarMensaje("Datos borrados de Firebase.");
+          } catch (error) {
+            console.error("Error al borrar el documento de Firebase: ", error);
+            mostrarMensaje(
+              "Error al borrar los datos de Firebase. Por favor, intente de nuevo."
+            );
+          }
+        } else {
+          mostrarMensaje("No hay datos guardados para este Box hoy.");
+        }
+
+        campos.forEach((campo) => {
+          document.getElementById(campo).value = "";
+        });
+        actualizarContadorGlobal();
+        cargarListadoInformesGuardados();
+      }
+
+      function deshabilitarCampos() {
+        campos.forEach((campo) => {
+          document.getElementById(campo).disabled = true;
+          document.getElementById(campo).placeholder =
+            "Seleccione un Box primero";
+        });
+      }
+
+      function habilitarCampos() {
+        campos.forEach((campo) => {
+          document.getElementById(campo).disabled = false;
+          document.getElementById(campo).placeholder = "";
+        });
+      }
+
+      // Función para cargar la lista de informes guardados desde Firebase
+      async function cargarListadoInformesGuardados() {
+        if (!currentUserId || !db) {
+          // Añadida comprobación de 'db'
+          console.warn(
+            "Usuario no autenticado o Firebase no inicializado, no se pueden cargar informes guardados."
+          );
+          return;
+        }
+
+        const select = document.getElementById("informesGuardados");
+        select.innerHTML =
+          '<option value="">-- Seleccionar Informe Guardado --</option>';
+
+        try {
+          const userInformesCollection = db
+            .collection("users")
+            .doc(currentUserId)
+            .collection("informesEnfermeria");
+          const snapshot = await userInformesCollection.get();
+          const informesPorBox = {};
+
+          snapshot.forEach((doc) => {
+            const data = doc.data();
+            const informeId = doc.id;
+            const box = data.box;
+            const fecha = data.fecha;
+            const timestamp = data.timestamp || new Date(fecha).toISOString(); // Obtener timestamp o crearlo para datos antiguos
+
+            if (box && timestamp) {
+              if (!informesPorBox[box]) {
+                informesPorBox[box] = [];
+              }
+              informesPorBox[box].push({ informeId, fecha, timestamp });
+            }
+          });
+
+          const boxesOrdenados = Object.keys(informesPorBox)
+            .map(Number)
+            .sort((a, b) => a - b); // Ordena los Boxes del 1 al 12
+
+          boxesOrdenados.forEach((box) => {
+            const informes = informesPorBox[box];
+            // Ordenar por timestamp, del más reciente al más antiguo
+            informes.sort((a, b) => b.timestamp.localeCompare(a.timestamp));
+
+            const grupo = document.createElement("optgroup");
+            grupo.label = `Box ${box}`;
+
+            informes.forEach(({ informeId, fecha, timestamp }) => {
+              const option = document.createElement("option");
+              const dateObj = new Date(timestamp);
+              const fechaHoraLinda =
+                dateObj.toLocaleDateString("es-ES", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                }) +
+                " " +
+                dateObj.toLocaleTimeString("es-ES", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                });
+              option.value = informeId;
+              option.textContent = `${fechaHoraLinda}`; // Muestra la fecha y hora
+              grupo.appendChild(option);
+            });
+            select.appendChild(grupo);
+          });
+          if (window.choicesSelect) {
+            window.choicesSelect.destroy();
+          }
+          window.choicesSelect = new Choices(select, {
+            allowHTML: true,
+            searchEnabled: false,
+            shouldSort: false,
+            itemSelectText: "",
+            position: "bottom",
+            renderSelectedChoices: "always",
+          });
+        } catch (error) {
+          console.error("Error al cargar la lista de informes: ", error);
+          mostrarMensaje("Error al cargar los informes guardados.");
+        }
+      }
+
+      // Función para cargar un informe desde la lista desplegable de Firebase
+      async function cargarInformeDesdeLista(informeId) {
+        if (!informeId || !currentUserId || !db) {
+          // Añadida comprobación de 'db'
+          if (selectedBox) {
+            campos.forEach((campo) => {
+              document.getElementById(campo).value = "";
+            });
+          } else {
+            deshabilitarCampos();
+          }
+          document.getElementById("mensaje-turno").style.display = "none";
+          document.getElementById("copiarInformeBtn").style.display = "none";
+          return;
+        }
+
+        try {
+          const userInformesCollection = db
+            .collection("users")
+            .doc(currentUserId)
+            .collection("informesEnfermeria");
+          const doc = await userInformesCollection.doc(informeId).get();
+          if (!doc.exists) {
+            mostrarMensaje("No se encontraron datos para este informe.");
+            cargarListadoInformesGuardados();
+            return;
+          }
+          const datos = doc.data();
+          selectedBox = datos.box;
+
+          document.querySelectorAll(".box-selector button").forEach((btn) => {
+            btn.classList.remove("active");
+            if (btn.textContent === `Box ${selectedBox}`) {
+              btn.classList.add("active");
+            }
+          });
+
+          document.getElementById("numero-box-seleccionado").textContent =
+            selectedBox;
+          document.getElementById("mensaje-box-seleccionado").style.display =
+            "block";
+
+          campos.forEach((campo) => {
+            document.getElementById(campo).value = datos[campo] || "";
+          });
+          habilitarCampos();
+          actualizarContadorGlobal();
+          const loadedDate = new Date(
+            datos.timestamp || datos.fecha
+          ).toLocaleDateString("es-ES", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+          document.getElementById(
+            "mensaje-turno"
+          ).textContent = `Informe del Box ${selectedBox} (${loadedDate}) cargado. Puede modificarlo y guardarlo.`;
+          document.getElementById("mensaje-turno").style.display = "block";
+
+          if (datos.fecha === hoy && datos.box === selectedBox) {
+            // Consideramos solo la fecha para la "carga actual del día"
+            localStorage.setItem(
+              `current_informe_id_box_${selectedBox}_${hoy}`,
+              informeId
+            );
+          } else {
+            localStorage.removeItem(
+              `current_informe_id_box_${selectedBox}_${hoy}`
+            );
+          }
+        } catch (error) {
+          console.error("Error al cargar el informe desde la lista: ", error);
+          mostrarMensaje("Error al cargar el informe seleccionado.");
+        }
+      }
+
+      // Función para eliminar un informe específico de Firebase
+      async function eliminarInforme() {
+        const select = document.getElementById("informesGuardados");
+        const informeId = select.value;
+        if (!informeId || !currentUserId || !db) {
+          // Añadida comprobación de 'db'
+          mostrarMensaje(
+            "Por favor, seleccione un informe y asegúrese de estar autenticado para eliminar."
+          );
+          return;
+        }
+        // Reemplazar confirm con un modal o mensaje en pantalla
+        if (
+          !confirm(
+            "¿Está seguro de que desea eliminar este informe de forma permanente?"
+          )
+        )
+          return;
+
+        try {
+          const userInformesCollection = db
+            .collection("users")
+            .doc(currentUserId)
+            .collection("informesEnfermeria");
+          await userInformesCollection.doc(informeId).delete();
+          mostrarMensaje("Informe eliminado correctamente de Firebase.");
+
+          const currentInformeId = localStorage.getItem(
+            `current_informe_id_box_${selectedBox}_${hoy}`
+          );
+          if (currentInformeId === informeId) {
+            campos.forEach((campo) => {
+              document.getElementById(campo).value = "";
+            });
+            localStorage.removeItem(
+              `current_informe_id_box_${selectedBox}_${hoy}`
+            );
+          }
+          actualizarContadorGlobal();
+          cargarListadoInformesGuardados();
+          document.getElementById("mensaje-turno").style.display = "none";
+        } catch (error) {
+          console.error("Error al eliminar el informe: ", error);
+          mostrarMensaje(
+            "Error al eliminar el informe. Por favor, intente de nuevo."
+          );
+        }
+      }
+
+      // Función para eliminar todos los informes de un Box de Firebase
+      async function eliminarInformesDeBox() {
+        if (!selectedBox || !currentUserId || !db) {
+          // Añadida comprobación de 'db'
+          mostrarMensaje(
+            "Debe seleccionar un Box y asegurarse de estar autenticado antes de eliminar sus informes."
+          );
+          return;
+        }
+
+        // Reemplazar confirm con un modal o mensaje en pantalla
+        if (
+          !confirm(
+            `¿Eliminar TODOS los informes del Box ${selectedBox} de forma permanente? Esta acción no se puede deshacer.`
+          )
+        )
+          return;
+
+        try {
+          const userInformesCollection = db
+            .collection("users")
+            .doc(currentUserId)
+            .collection("informesEnfermeria");
+          const snapshot = await userInformesCollection
+            .where("box", "==", selectedBox)
+            .get();
+
+          if (snapshot.empty) {
+            mostrarMensaje(
+              `No hay informes del Box ${selectedBox} para eliminar.`
+            );
+            return;
+          }
+
+          const batch = db.batch();
+          snapshot.forEach((doc) => {
+            batch.delete(doc.ref);
+          });
+          await batch.commit();
+
+          localStorage.removeItem(
+            `current_informe_id_box_${selectedBox}_${hoy}`
+          );
+
+          mostrarMensaje(
+            `Se han eliminado ${snapshot.size} informe(s) del Box ${selectedBox} de Firebase.`
+          );
+          campos.forEach((campo) => {
+            document.getElementById(campo).value = "";
+          });
+          actualizarContadorGlobal();
+          cargarListadoInformesGuardados();
+          document.getElementById("mensaje-turno").style.display = "none";
+        } catch (error) {
+          console.error("Error al eliminar informes del Box: ", error);
+          mostrarMensaje(
+            "Error al eliminar los informes del Box. Por favor, intente de nuevo."
+          );
+        }
+      }
+
+      function actualizarContadorGlobal() {
+        let total = 0;
+        campos.forEach((campo) => {
+          const valor = document.getElementById(campo)?.value || "";
+          total += valor.length;
+        });
         document.getElementById("contador-total").textContent = total;
 
-        // Mostrar mensaje si se supera el límite
-        if (total > 1200) {
-          mostrarMensajeEstado("⚠️ Has superado el límite de 1200 caracteres.");
-        }
-      });
-    });
+        const div = document.querySelector(".contador-global");
 
-// ======================
-    // CONTADOR DE CARACTERES
-    // ======================
+        div.classList.remove("contador-aviso", "contador-alerta");
 
-
- function borrarDatos() {
-  if (!boxSeleccionado) return;
-
-  recogerTodosLosCampos().forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = "";
-  });
-
-  // Volver a bloquear los campos
-  document.querySelectorAll("textarea").forEach(el => {
-    el.setAttribute("readonly", "readonly");
-  });
-
-  boxSeleccionado = null;
-}
-    // ======================
-    // CARGAR INFORME DESDE FIREBASE
-    // ======================
-
-
-  function cargarInformesDesdeFirestore() {
-  db.collection("informes")
-    .orderBy("fechaFirestore", "desc")
-    .onSnapshot((querySnapshot) => {
-      const informes = [];
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-
-        // Usar fechaTexto o convertir serverTimestamp a fecha legible
-        let fechaMostrar = "";
-        if (data.fechaTexto) {
-          fechaMostrar = data.fechaTexto; // Si ya está guardada
-        } else if (data.fechaFirestore?.seconds) {
-          const fecha = new Date(data.fechaFirestore.seconds * 1000);
-          fechaMostrar = fecha.toLocaleString('es-ES', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          }); // Ej: "04/06/2025 15:30"
+        if (total >= 1200) {
+          div.classList.add("contador-alerta");
+        } else if (total > 960) {
+          div.classList.add("contador-aviso");
         }
 
-        informes.push({ id: doc.id, data });
-      });
+        if (total >= 1200) {
+          if (!document.getElementById("aviso-1200")) {
+            const aviso = document.createElement("div");
+            aviso.id = "aviso-1200";
+            aviso.innerHTML =
+              "⚠️ <strong>ATENCIÓN:</strong> Ha rellenado la mitad del documento.";
+            const contenedorBox = document.getElementById("boxSelector");
+            contenedorBox.insertAdjacentElement("afterend", aviso);
+          }
+        } else {
+          const avisoExistente = document.getElementById("aviso-1200");
+          if (avisoExistente) avisoExistente.remove();
+        }
 
-      // Actualizar el desplegable
-      const select = document.getElementById("informesGuardados");
-      select.innerHTML = `<option value="">-- Seleccionar Informe guardado --</option>`;
+        return total;
+      }
 
-      informes.forEach(({ id, data }) => {
-        const option = document.createElement("option");
-        option.value = id;
-        option.textContent = `Box ${data.box} - ${data.fechaTexto}`;
-        select.appendChild(option);
-      });
-    });
-}
+      // Función de utilidad para mostrar mensajes (reemplaza alert y confirm)
+      function mostrarMensaje(mensaje) {
+        alert(mensaje);
+      }
 
+      window.onload = () => {
+        deshabilitarCampos();
 
-    // ======================
-    // ELIMINAR INFORMES
-    // ==========================
-    function eliminarInforme(idInforme) {
-      db.collection("informes").doc(idInforme).delete()
-        .then(() => {
-          console.log("Informe eliminado exitosamente.");
-          mostrarMensajeEstado("✅ Informe eliminado exitosamente.");
-        })
-        .catch((error) => {
-          console.error("Error al eliminar informe:", error);
-          mostrarMensajeEstado("❌ Error al eliminar informe.");
+        const boxSelector = document.getElementById("boxSelector");
+        if (!boxSelector) {
+          console.error("No se encontró el selector de Boxes.");
+          return;
+        }
+
+        for (let i = 1; i <= 12; i++) {
+          const btn = document.createElement("button");
+          btn.textContent = `Box ${i}`;
+          btn.onclick = () => selectBox(i);
+          boxSelector.appendChild(btn);
+        }
+
+        // --- CONFIGURACIÓN E INICIALIZACIÓN DE FIREBASE (Movida aquí) ---
+        const firebaseConfig = {
+          apiKey: "AIzaSyBxd0CXGNiOyKpg97Wil2EYStO_7Q6Dfak",
+          authDomain: "informes-uci.firebaseapp.com",
+          projectId: "informes-uci",
+          storageBucket: "informes-uci.firebasestorage.app",
+          messagingSenderId: "448318328600",
+          appId: "1:448318328600:web:5c7d6874e487764aefd86d",
+        };
+
+        // Inicializa la aplicación de Firebase UNA SOLA VEZ
+        firebase.initializeApp(firebaseConfig);
+
+        // Obtén las referencias a los servicios de Firebase y las asigna a las variables globales
+        db = firebase.firestore();
+        auth = firebase.auth();
+
+        // Listener de autenticación: se ejecuta DESPUÉS de que Firebase esté inicializado
+        auth.onAuthStateChanged((user) => {
+          if (!user) {
+            console.log("Usuario no logueado, redirigiendo a index.html");
+            window.location.href = "index.html";
+          } else {
+            console.log("Usuario logueado:", user.uid);
+            currentUserId = user.uid;
+            cargarListadoInformesGuardados();
+          }
         });
-    }
-    // ======================
-    // INICIALIZACIÓN AL CARGAR LA PÁGINA
-    // ==========================
-    function eliminarInformesDeBox(box) {
-      db.collection("informes")
-        .where("box", "==", box)
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            doc.ref.delete();
-          });
-        })
-        .catch((error) => {
-          console.error("Error al eliminar informes del Box:", error);
-          mostrarMensajeEstado("❌ Error al eliminar informes del Box.");
+        // --- FIN CONFIGURACIÓN E INICIALIZACIÓN DE FIREBASE ---
+
+        // Inicializar Choices.js para el select de informes guardados
+        window.choicesSelect = new Choices("#informesGuardados", {
+          allowHTML: true,
+          searchEnabled: false,
+          shouldSort: false,
+          itemSelectText: "",
+          position: "bottom",
+          renderSelectedChoices: "always",
         });
-    }
-    // ======================
-    // INICIALIZACIÓN AL CARGAR LA PÁGINA
-    // ======================
-
-      window.addEventListener("DOMContentLoaded", () => {
-  // Bloquear todos los campos al cargar la página
-  document.querySelectorAll("textarea").forEach(el => {
-    el.setAttribute("readonly", "readonly");
-  });
-
-  // Cargar Box seleccionado anteriormente (si existe)
-  const savedBox = localStorage.getItem("box_seleccionado");
-  if (savedBox) seleccionarBox(+savedBox);
-
-  // Cargar informes desde Firebase
-  cargarInformesDesdeFirestore();
-});
-
-// 👇 Este código está FUERA del DOMContentLoaded, y por eso falla
-const selector = document.getElementById("boxSelector");
-for (let i = 1; i <= 12; i++) {
-  const btn = document.createElement("button");
-  btn.textContent = `Box ${i}`;
-  btn.dataset.box = i;
-  btn.onclick = () => seleccionarBox(i);
-  selector.appendChild(btn);
-}
-
-cargarInformesDesdeFirestore();
-const savedBox = localStorage.getItem("box_seleccionado");
-if (savedBox) seleccionarBox(+savedBox);
-
-  </script>
-</body>
-
-</html>
-</body>
-
+      };
+    </script>
+  </body>
 </html>
