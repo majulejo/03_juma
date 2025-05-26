@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="acceso.png?v=3" type="image/png" />
+    <link rel="icon" href="img/acceso.png?v=3" type="image/png" />
 
     <title>Acceso - Informes UCI</title>
     <link
@@ -25,8 +25,10 @@
         background: #92c99b;
         height: 100vh;
         display: flex;
+        flex-direction: column; /* Cambiado a columna para apilar el modal y el footer */
         align-items: center;
-        justify-content: center;
+        justify-content: center; /* Centra el contenido principal verticalmente */
+        position: relative; /* Contexto para el footer absoluto */
       }
 
       .login-modal {
@@ -37,6 +39,8 @@
         max-width: 350px;
         width: 100%;
         text-align: center;
+        margin-top: auto; /* Empuja el modal hacia el centro superior */
+        margin-bottom: auto; /* Empuja el modal hacia el centro inferior */
       }
 
       h2 {
@@ -44,9 +48,9 @@
         color: #2e2925;
       }
 
-      /* Estilos para el input de contraseña (ahora solo para password) */
+      /* Estilos para el input de contraseña */
       input[type="password"] {
-        width: 100%;
+        width: 98%;
         padding: 10px;
         margin-bottom: 15px;
         border-radius: 6px;
@@ -55,7 +59,7 @@
       }
 
       button {
-        width: 100%;
+        width: 98%;
         background-color: #368f3f;
         color: white;
         border: none;
@@ -81,15 +85,15 @@
         position: relative;
         width: 100%;
         margin-bottom: 15px;
-        border-radius: 6px;
+        border-radius: 6px; /* Añadí el border-radius que faltaba */
         border: 1px solid #4fa66a;
         font-size: 14px;
         cursor: pointer;
-        text-align: left; /* Alinea el texto a la izquierda */
+        text-align: left;
       }
 
       .selected-option {
-        padding: 10px;
+        padding: 15px;
         background-color: white;
         border-radius: 6px;
         display: flex;
@@ -97,58 +101,98 @@
       }
 
       .selected-option .option-image {
-        width: 28px; /* Ajusta el tamaño de tu imagen */
-        height: 28px;
+        width: 40px;
+        height: 40px;
         margin-right: 10px;
-        border-radius: 50%; /* Si quieres que la imagen sea redonda */
+        border-radius: 20%;
         object-fit: cover;
       }
 
       .options-list {
         position: absolute;
-        top: 100%; /* Justo debajo del elemento seleccionado */
+        top: 100%;
         left: 0;
         right: 0;
-        background-color: white;
+        background-color: #fff;
         border: 1px solid #4fa66a;
-        border-top: none;
-        border-radius: 0 0 6px 6px;
-        z-index: 10; /* Asegura que esté por encima de otros elementos */
-        max-height: 200px; /* Limita la altura del desplegable */
-        overflow-y: auto; /* Agrega scroll si hay muchas opciones */
-        display: none; /* Oculto por defecto */
+        border-top: none; /* Mantén el border-top none para que no haya doble borde */
+        border-radius: 0 0 6px 6px; /* Añadí el border-radius inferior */
+        z-index: 10;
+        max-height: 200px;
+        overflow-y: auto;
+        display: none;
+        /* margin-bottom: 0; */ /* Eliminado o puesto a 0 ya que el footer se posiciona de forma diferente */
       }
 
       .options-list.show {
-        display: block; /* Muestra cuando se hace clic */
+        display: block;
       }
 
-      .option {
+      /* Estilos para CADA OPCIÓN DENTRO DE LA LISTA DESPLEGABLE */
+      .options-list .option {
         padding: 10px;
         cursor: pointer;
         display: flex;
         align-items: center;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 5px;
       }
 
-      .option:hover {
+      /* Oculta la opción actualmente seleccionada de la lista desplegable */
+      .options-list .option.hidden {
+        display: none;
+      }
+
+      .options-list .option:hover:not(.hidden) {
         background-color: #f0f0f0;
       }
 
-      .option .option-image {
-        width: 28px; /* Ajusta el tamaño de tu imagen */
+      .options-list .option .option-image {
+        width: 28px;
         height: 28px;
         margin-right: 10px;
-        border-radius: 50%;
+        border-radius: 20%; /* Ajuste aquí a 20% para que coincida con el selected-option */
         object-fit: cover;
       }
       /* Estilos para el texto dentro de las opciones, si es necesario para ajustar alineación */
       .selected-option span,
-      .option span {
-        /* Puedes añadir aquí estilos si el texto todavía no se alinea bien,
-           por ejemplo, un line-height específico o un ligero padding */
-        margin: 0; /* Asegura que no haya márgenes predeterminados */
+      .options-list .option span {
+        margin: 0;
         padding: 0;
       }
+
+      /* IMPORTANTE: Para la última opción dentro del desplegable, quita el margen y el borde inferior */
+      .options-list .option:last-child {
+        margin-bottom: 0;
+        border-bottom: none;
+      }
+
+      /* =============================== */
+      /* FOOTER */
+      /* =============================== */
+
+      footer {
+        color: #2e2925; /* Usé un color más legible para el texto del footer */
+        font-size: 10px;
+        font-weight: bold;
+        text-align: center;
+        padding: 5px 0px 0px;
+        margin-top: auto; /* Empuja el footer hacia abajo si hay espacio, o para que empuje el modal hacia arriba */
+        width: 100%;
+        z-index: 50;
+        border-top: 1px solid #4fa66a; /* Usé el color verde de tu tema */
+
+        /* Posicionamiento para fijar al pie de página */
+        position: absolute; /* */
+        bottom: 0; /* */
+        left: 0;
+        right: 0;
+        background-color: var(
+          --pantone
+        ); /* Fondo semi-transparente para el footer si el cuerpo es verde */
+        padding-bottom: 10px; /* Un poco de padding extra en la parte inferior */
+      }
+      /* fin del footer */
     </style>
   </head>
   <body>
@@ -160,16 +204,51 @@
       </h2>
       <div class="custom-select" id="customEmailSelect">
         <div class="selected-option" id="selectedOption">
-          <img src="jose.png" alt="Imagen de JA M.G." class="option-image" />
+          <img
+            src="img/jose.png"
+            alt="Imagen de JA M.G."
+            class="option-image"
+          />
           <span>JA M.G.</span>
         </div>
-        
-          <div class="option" data-value="cornejogil73@gmail.com">
-            <img src="fran.png" alt="Imagen de FM C.G." class="option-image" />
+        <div class="options-list" id="optionsList">
+          <div
+            class="option"
+            data-value="jolejuma.sspa@gmail.com"
+            data-name="JA M.G."
+            data-image="img/jose.png"
+          >
+            <img
+              src="img/jose.png"
+              alt="Imagen de JA M.G."
+              class="option-image"
+            />
+            <span>JA M.G.</span>
+          </div>
+          <div
+            class="option"
+            data-value="cornejogil73@gmail.com"
+            data-name="FM C.G."
+            data-image="img/fran.png"
+          >
+            <img
+              src="img/fran.png"
+              alt="Imagen de FM C.G."
+              class="option-image"
+            />
             <span>FM C.G.</span>
           </div>
-          <div class="option" data-value="mesamesaj@gmail.com">
-            <img src="javi.png" alt="Imagen de FJ M.M." class="option-image" />
+          <div
+            class="option"
+            data-value="mesamesaj@gmail.com"
+            data-name="FJ M.M."
+            data-image="img/javi.png"
+          >
+            <img
+              src="img/javi.png"
+              alt="Imagen de FJ M.M."
+              class="option-image"
+            />
             <span>FJ M.M.</span>
           </div>
         </div>
@@ -179,37 +258,59 @@
       <div class="error" id="error-msg"></div>
     </div>
 
+    <footer>
+      <p>
+        &copy; 2025 Informe Evolución Enfermería. Todos los derechos reservados.
+        <br />C.G.Francisco Manuel--M.G.José Antonio--M.M. Francisco Javier<br />
+      </p>
+    </footer>
+
     <script>
-      // Necesitarás una forma de obtener el valor seleccionado para el login
-      // El valor por defecto debe coincidir con el data-value de la opción inicial en selected-option
+      // El valor por defecto debe coincidir con el data-value de la opción inicial visible
       let selectedEmail = "jolejuma.sspa@gmail.com";
 
       const customSelect = document.getElementById("customEmailSelect");
       const selectedOptionDiv = document.getElementById("selectedOption");
       const optionsList = document.getElementById("optionsList");
-      const options = optionsList.querySelectorAll(".option");
+      const allOptions = optionsList.querySelectorAll(".option"); // Todas las opciones de la lista
 
-      // Establece el contenido inicial del selectedOptionDiv al cargar la página
-      // Esto asegura que la primera imagen y texto se muestren correctamente
-      // Puedes comentar o eliminar esta parte si prefieres que el selectedOptionDiv ya tenga el contenido por defecto en HTML
-      const initialOption = optionsList.querySelector(
-        '.option[data-value="' + selectedEmail + '"]'
-      );
-      if (initialOption) {
-        selectedOptionDiv.innerHTML = initialOption.innerHTML;
+      // Función para actualizar la opción seleccionada y la lista desplegable
+      function updateSelectedOption(value, name, imageSrc) {
+        selectedEmail = value;
+        selectedOptionDiv.innerHTML = `
+          <img src="${imageSrc}" alt="Imagen de ${name}" class="option-image" />
+          <span>${name}</span>
+        `;
+        // Ocultar la opción seleccionada de la lista y mostrar las demás
+        allOptions.forEach((option) => {
+          if (option.dataset.value === value) {
+            option.classList.add("hidden");
+          } else {
+            option.classList.remove("hidden");
+          }
+        });
+        optionsList.classList.remove("show"); // Cerrar el desplegable
       }
+
+      // Inicializar la opción seleccionada al cargar la página
+      // Esto asegura que "JA M.G." esté visible y no se duplique en la lista.
+      updateSelectedOption(
+        "jolejuma.sspa@gmail.com",
+        "JA M.G.",
+        "img/jose.png"
+      );
 
       selectedOptionDiv.addEventListener("click", () => {
         optionsList.classList.toggle("show");
       });
 
-      options.forEach((option) => {
-        option.addEventListener("click", () => {
-          // Actualizar la opción seleccionada visible
-          selectedOptionDiv.innerHTML = option.innerHTML;
-          // Actualizar el valor que se usará para el login
-          selectedEmail = option.dataset.value;
-          optionsList.classList.remove("show");
+      // Añadir listeners a todas las opciones para cuando se haga clic
+      allOptions.forEach((option) => {
+        option.addEventListener("click", (event) => {
+          const value = option.dataset.value;
+          const name = option.dataset.name;
+          const imageSrc = option.dataset.image;
+          updateSelectedOption(value, name, imageSrc);
         });
       });
 
