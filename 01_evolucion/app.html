@@ -458,7 +458,40 @@
       }
 
       /* Fin icono_balance */
+      /* <!-- Botón de cerrar sesión --> */
+/* Estilo general para el botón de cerrar sesión */
+#logoutBtn {
+  padding: 10px 15px;
+  margin-top: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: red;
+  color: #fff;
+  font-weight: bold;
+  transition: background-color 0.3s ease-in-out;
+}
 
+#logoutBtn:hover {
+  background-color: var(--principal);
+  color: var(--fuente);
+  border: 1px solid var(--pantone);
+}
+
+/* Oculta el texto en dispositivos móviles */
+@media (max-width: 768px) {
+  
+    #logoutBtn  {
+      display: none; 
+    }
+  /* #logoutBtn span {
+    display: none; 
+  }
+  #logoutBtn i {
+    font-size: 20px; 
+  } */
+}
       /* =============================== */
       /* FOOTER */
       /* =============================== */
@@ -542,7 +575,7 @@
           font-size: 9px; /* Reduce el tamaño de fuente de los grupos de opciones */
         }
         #informesGuardados option {
-          font-size: 9px; /* Reduce el tamaño de fuente de las opciones */
+          font-size: 9px !important; /* Reduce el tamaño de fuente de las opciones */
         }
 
         /* Asegura que el icono del select esté oculto en móvil */
@@ -554,6 +587,7 @@
   </head>
   <body>
     <h1>Evolución de Enfermería</h1>
+    <div id="contenidoApp" style="display: none;"></div>
 
     <div class="box-selector" id="boxSelector"></div>
 
@@ -698,6 +732,11 @@
     <div class="resultado" id="resultado"></div>
 
     <div id="mensaje-turno"></div>
+<!-- Botón de cerrar sesión -->
+<button id="logoutBtn" onclick="cerrarSesion()">
+  <i class="fa-solid fa-lock"></i>
+  <span>Cerrar sesión</span>
+</button>
     <footer>
       <p>
         &copy; 2025 Informe Evolución Enfermería. Todos los derechos reservados.
@@ -722,16 +761,19 @@
 
       let currentUserId = null;
 
-      auth.onAuthStateChanged((user) => {
-        if (!user) {
-          console.log("Usuario no logueado, redirigiendo a index.html");
-          window.location.href = "index.html";
-        } else {
-          console.log("Usuario logueado:", user.uid);
-          currentUserId = user.uid;
-          cargarListadoInformesGuardados();
-        }
-      });
+     auth.onAuthStateChanged(async (user) => {
+  const contenidoApp = document.getElementById("contenidoApp");
+
+  if (!user) {
+    console.warn("Acceso denegado: Usuario no autenticado.");
+    window.location.href = "index.html"; // Redirige al login
+  } else {
+    currentUserId = user.uid;
+    console.log("Usuario autenticado. UID:", currentUserId);
+    await cargarListadoInformesGuardados();
+    contenidoApp.style.display = "block"; // Mostrar contenido seguro
+  }
+});
       // --- FIN CONFIGURACIÓN E INICIALIZACIÓN DE FIREBASE ---
 
       // Variables globales
@@ -1479,6 +1521,33 @@
           );
         }
       }
+      // CERRAR SESION
+      // Cerrar sesión
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  firebase.auth().signOut()
+    .then(() => {
+      console.log("Usuario cerró sesión");
+      window.location.href = "index.html"; // Redirigir al login
+    })
+    .catch((error) => {
+      alert("Error al cerrar sesión: " + error.message);
+    });
+});
+
+
+//Función de cierre de sesión en JavaScript
+function cerrarSesion() {
+  firebase.auth().signOut()
+    .then(() => {
+      console.log("Usuario ha cerrado sesión.");
+      window.location.href = "index.html"; // Redirige al login
+    })
+    .catch((error) => {
+      console.error("Error al cerrar sesión:", error);
+      alert("Error al cerrar sesión. Inténtalo de nuevo.");
+    });
+}
+
 
       window.onload = () => {
         deshabilitarCampos();
@@ -1497,5 +1566,6 @@
         }
       };
     </script>
+    </div> <!-- Fin de contenidoApp -->
   </body>
 </html>
