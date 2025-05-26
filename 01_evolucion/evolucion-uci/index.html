@@ -80,6 +80,7 @@
         border-radius: 6px;
         border: 1px solid #4fa66a;
         font-size: 14px;
+        text-align: center;
       }
 
       input[type="password"] {
@@ -90,6 +91,10 @@
         border-radius: 6px;
         border: 1px solid #4fa66a;
         font-size: 14px;
+      }
+
+      input[type="password"]::placeholder {
+        text-align: center;
       }
 
       button {
@@ -114,9 +119,7 @@
         margin-top: 10px;
       }
 
-      /* Estos estilos eran para el desplegable personalizado y ahora no se usan con el <select> nativo.
-         Los mantengo aquí para que no generen errores de sintaxis, pero no tendrán efecto en el <select> nativo.
-         Si deseas volver al desplegable personalizado con imágenes, tendremos que retomar ese código. */
+      /* =============================== */
       .custom-select {
         position: relative;
         width: 100%;
