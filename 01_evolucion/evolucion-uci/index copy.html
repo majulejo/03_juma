@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="acceso.png?v=3" type="image/png" />
+
+    <title>Acceso - Informes UCI</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background: #92c99b;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .login-modal {
+        background-color: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        max-width: 350px;
+        width: 100%;
+        text-align: center;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+        color: #2e2925;
+      }
+
+      select,
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 6px;
+        border: 1px solid #4fa66a;
+        font-size: 14px;
+      }
+
+      button {
+        width: 100%;
+        background-color: #368f3f;
+        color: white;
+        border: none;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #2e7332;
+      }
+
+      .error {
+        color: red;
+        font-size: 13px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-modal">
+      <h2>
+        Acceso <br />
+        a <br />
+        Evolución-Uci
+      </h2>
+      <select id="email">
+        <option value="jolejuma.sspa@gmail.com">JA M.G.</option>
+        <option value="cornejogil73@gmail.com">FM C.G.</option>
+        <option value="mesamesaj@gmail.com">FJ M.M.</option>
+      <input type="password" id="password" placeholder="Contraseña" />
+      <button onclick="login()">Entrar</button>
+      <div class="error" id="error-msg"></div>
+    </div>
+
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyBxd0CXGNiOyKpg97Wil2EYStO_7Q6Dfak",
+        authDomain: "informes-uci.firebaseapp.com",
+        projectId: "informes-uci",
+      };
+
+      firebase.initializeApp(firebaseConfig);
+
+      function login() {
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
+        const errorDiv = document.getElementById("error-msg");
+
+        firebase
+          .auth()
+          .signInWithEmailAndPassword(email, password)
+          .then(() => {
+            window.location.href = "app.html";
+          })
+          .catch((error) => {
+            errorDiv.textContent = "Acceso denegado: " + error.message;
+          });
+      }
+    </script>
+  </body>
+</html>

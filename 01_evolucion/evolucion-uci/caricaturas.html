@@ -44,7 +44,7 @@
         color: #2e2925;
       }
 
-      /* Estilos para el input de contraseña */
+      /* Estilos para el input de contraseña (ahora solo para password) */
       input[type="password"] {
         width: 100%;
         padding: 10px;
@@ -144,6 +144,8 @@
       /* Estilos para el texto dentro de las opciones, si es necesario para ajustar alineación */
       .selected-option span,
       .option span {
+        /* Puedes añadir aquí estilos si el texto todavía no se alinea bien,
+           por ejemplo, un line-height específico o un ligero padding */
         margin: 0; /* Asegura que no haya márgenes predeterminados */
         padding: 0;
       }
@@ -157,24 +159,26 @@
         Evolución-Uci
       </h2>
       <div class="custom-select" id="customEmailSelect">
-  <div class="selected-option" id="selectedOption">
-    <img src="jose.png" alt="Imagen de JA M.G." class="option-image" />
-    <span>JA M.G.</span>
-  </div>
-  <div class="options-list" id="optionsList">
-    <div class="option" data-value="cornejogil73@gmail.com">
-      <img src="fran.png" alt="Imagen de FM C.G." class="option-image" />
-      <span>FM C.G.</span>
+        <div class="selected-option" id="selectedOption">
+          <img src="jose.png" alt="Imagen de JA M.G." class="option-image" />
+          <span>JA M.G.</span>
+        </div>
+        
+          <div class="option" data-value="cornejogil73@gmail.com">
+            <img src="fran.png" alt="Imagen de FM C.G." class="option-image" />
+            <span>FM C.G.</span>
+          </div>
+          <div class="option" data-value="mesamesaj@gmail.com">
+            <img src="javi.png" alt="Imagen de FJ M.M." class="option-image" />
+            <span>FJ M.M.</span>
+          </div>
+        </div>
+      </div>
+      <input type="password" id="password" placeholder="Contraseña" />
+      <button onclick="login()">Entrar</button>
+      <div class="error" id="error-msg"></div>
     </div>
-    <div class="option" data-value="mesamesaj@gmail.com">
-      <img src="javi.png" alt="Imagen de FJ M.M." class="option-image" />
-      <span>FJ M.M.</span>
-    </div>
-  </div>
-</div>
-<input type="password" id="password" placeholder="Contraseña" />
-<button onclick="login()">Entrar</button>
-<div class="error" id="error-msg"></div>
+
     <script>
       // Necesitarás una forma de obtener el valor seleccionado para el login
       // El valor por defecto debe coincidir con el data-value de la opción inicial en selected-option
