@@ -558,7 +558,7 @@
     </style>
   </head>
   <body>
-    <h1>666Evolución de Enfermería</h1>
+    <h1>Evolución de Enfermería</h1>
 
     <!-- Selector de Box -->
     <div class="box-selector" id="boxSelector"></div>
@@ -773,18 +773,19 @@
 
         guardarDatos();
 
-        const horaActual = new Date().getHours();
-        const esTurnoDiurno = horaActual >= 8 && horaActual < 20;
-
         const datos = {};
         campos.forEach((campo) => {
           const valor = document.getElementById(campo).value.trim();
           datos[campo] = valor === "" ? "No Especificado" : valor;
         });
 
-        const encabezado = `<p><strong>BOX ${selectedBox} - ${
-          esTurnoDiurno ? "Turno de 8 a 20 horas" : "Turno de 20 a 8 horas"
-        }</strong></p>`;
+        const horaActual = new Date().getHours();
+        const esTurnoDiurno = horaActual >= 8 && horaActual < 20;
+        const turnoTexto = esTurnoDiurno
+          ? "Turno de 8 a 20 horas"
+          : "Turno de 20 a 8 horas";
+
+        const encabezado = `<p><strong>BOX ${selectedBox} - ${turnoTexto}</strong></p>`;
         const cuerpo = campos
           .map((campo) => {
             const valor = document.getElementById(campo).value.trim();
@@ -802,14 +803,56 @@
 
         const resultadoDiv = document.getElementById("resultado");
         resultadoDiv.innerHTML = encabezado + cuerpo;
-
-        // Asignar clase según el turno
         resultadoDiv.classList.remove("diurno-print", "nocturno-print");
+
         resultadoDiv.classList.add(
           esTurnoDiurno ? "diurno-print" : "nocturno-print"
         );
-
         resultadoDiv.style.display = "block";
+
+        document.getElementById(
+          "mensaje-turno"
+        ).textContent = `Turno seleccionado: ${turnoTexto}`;
+        document.getElementById("mensaje-turno").style.display = "block";
+        document.getElementById("copiarInformeBtn").style.display =
+          "inline-block";
+      }
+
+      function copiarInforme() {
+        if (!selectedBox) return;
+
+        const horaActual = new Date().getHours();
+        const esTurnoDiurno = horaActual >= 8 && horaActual < 20;
+        const turnoTexto = esTurnoDiurno
+          ? "Turno de 8 a 20 horas"
+          : "Turno de 20 a 8 horas";
+
+        let texto = `BOX ${selectedBox} - ${turnoTexto}\n`;
+
+        campos.forEach((campo) => {
+          const valor =
+            document.getElementById(campo).value.trim() || "No Especificado"; // ✅ corregido
+          const titulo =
+            campo === "especial" ? "ESPECIAL VIGILANCIA" : campo.toUpperCase();
+          texto += `${titulo}: ${valor}\n`;
+        });
+
+        navigator.clipboard
+          .writeText(texto.trim())
+          .then(() => {
+            const boton = document.getElementById("copiarInformeBtn");
+            boton.innerHTML = "✅ Copiado";
+            boton.disabled = true;
+
+            setTimeout(() => {
+              boton.style.display = "none";
+              boton.innerHTML = '<i class="fas fa-copy"></i> Copiar Informe';
+              boton.disabled = false;
+            }, 3000);
+          })
+          .catch((err) => {
+            alert("Error al copiar el informe: " + err);
+          });
       }
 
       function imprimirAuto() {
@@ -838,61 +881,6 @@
         });
         alert("Datos borrados.");
         cargarListadoInformesGuardados();
-      }
-
-      function imprimirAuto() {
-        if (!selectedBox) {
-          alert("Seleccione un Box antes de imprimir.");
-          return;
-        }
-
-        generarInforme();
-
-        const resultadoDiv = document.getElementById("resultado");
-        resultadoDiv.style.display = "block";
-
-        setTimeout(() => {
-          window.print();
-          setTimeout(() => {
-            resultadoDiv.style.display = "none";
-          }, 500);
-        }, 100);
-      }
-
-      function imprimirAlternativo() {
-        if (!selectedBox) {
-          alert("Seleccione un Box antes de imprimir.");
-          return;
-        }
-
-        generarInforme(); // Generamos el informe normal primero
-
-        const resultadoDiv = document.getElementById("resultado");
-        resultadoDiv.style.display = "block";
-
-        // Determinar hora actual
-        const horaActual = new Date().getHours();
-        const esTurnoDiurnoOriginal = horaActual >= 8 && horaActual < 20;
-
-        // Invertimos el turno para la impresión
-        resultadoDiv.classList.remove("diurno-print", "nocturno-print");
-        if (esTurnoDiurnoOriginal) {
-          resultadoDiv.classList.add("nocturno-print"); // Imprimir abajo
-        } else {
-          resultadoDiv.classList.add("diurno-print"); // Imprimir arriba
-        }
-
-        setTimeout(() => {
-          window.print();
-          setTimeout(() => {
-            // Restablecer a la clase original después de imprimir
-            resultadoDiv.classList.remove("diurno-print", "nocturno-print");
-            resultadoDiv.classList.add(
-              esTurnoDiurnoOriginal ? "diurno-print" : "nocturno-print"
-            );
-            resultadoDiv.style.display = "none";
-          }, 500);
-        }, 100);
       }
 
       function deshabilitarCampos() {

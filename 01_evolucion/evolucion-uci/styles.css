@@ -1,0 +1,707 @@
+      :root {
+        --fuente: #2e2925;
+        --pantone: #368f3f;
+        --principal: #92c99b;
+        --hover: #d9ebd8;
+        --borde: #4fa66a;
+        --pantone15: #79b47f;
+        --btn: #489950;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        outline: none;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        margin: 20px;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: var(--principal);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: var(--fuente);
+      }
+
+      .box-selector {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+      }
+      /* Estilos para cada botón de Box */
+.box-button {
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: var(--principal); /* Color de fondo normal, ajusta a tu var(--principal) */
+  color: var(--fuente); /* Color del texto */
+  border: 2px solid var(--borde); /* Borde */
+  border-radius: 8px; /* Bordes redondeados */
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  min-width: 80px; /* Para asegurar que todos tengan un ancho mínimo similar */
+  text-align: center;
+}
+
+/* Estilo cuando el ratón está sobre el botón */
+.box-button:hover {
+  background-color: var(--hover); /* Color de fondo al pasar el ratón */
+  border-color: var(--pantone);
+}
+
+/* Estilo para el botón de Box activo/seleccionado */
+.box-button.active {
+  background-color: var(--pantone); /* Color de fondo cuando está activo */
+  color: white; /* Texto blanco para el botón activo */
+  border-color: var(--pantone);
+}
+
+/* Media query existente en tu styles.css para responsive */
+@media (max-width: 768px) {
+  .box-selector button { /* Asegúrate de que esta regla también apunte a .box-button si lo cambiaste */
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+  /* Si usas la clase .box-button, ajusta así: */
+  .box-button {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+}
+
+      .box-selector button {
+        padding: 10px 15px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--pantone15);
+        color: white;
+        min-width: 80px;
+      }
+
+      .box-selector button:hover {
+        background-color: white;
+        color: var(--fuente);
+        transition: all 0.5s ease;
+      }
+
+      .box-selector button.active {
+        background-color: var(--pantone);
+        box-shadow: 0 0 5px #0000004d;
+        transition: all 0.5s ease;
+      }
+
+      .formulario {
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 20px;
+      }
+
+      .campo {
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      .campo label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: var(--fuente);
+      }
+
+      .campo textarea {
+        width: 95%;
+        min-height: 80px;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid var(--borde);
+        border-radius: 5px;
+        resize: vertical;
+        background-color: #d1e5d3;
+        color: var(--fuente);
+        outline: none;
+        overflow: auto;
+        overflow-y: hidden;
+      }
+
+      .campo textarea:disabled {
+        background-color: var(--principal) !important;
+        border: 1px solid var(--borde) !important;
+        color: #6c757d !important;
+        cursor: not-allowed;
+      }
+
+      .contador-global {
+        text-align: right;
+        font-weight: 400;
+        font-size: 10px;
+        color: var(--fuente);
+        margin-top: -10px;
+        margin-bottom: 10px;
+      }
+
+      /* Contenedores de botones principales y de imprimir */
+      .main-actions-container,
+      .print-actions-container {
+        display: flex;
+        justify-content: center; /* Centra los botones */
+        margin-top: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+        width: 100%;
+        max-width: 600px; /* Ancho de referencia */
+      }
+
+      .main-actions-container button,
+      .print-actions-container button,
+      .print-actions-container .btn-alternativo {
+        padding: 10px 15px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--btn);
+        color: #fff;
+        flex: 1; /* Permite que los botones crezcan y se encojan */
+        min-width: 120px; /* Mínimo para evitar que se hagan demasiado pequeños */
+        font-weight: bold;
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      .main-actions-container button:hover,
+      .print-actions-container button:hover,
+      .print-actions-container .btn-alternativo:hover {
+        background-color: var(--pantone15);
+        color: var(--fuente);
+      }
+
+      .print-actions-container .btn-alternativo {
+        background-color: white;
+        color: var(--pantone);
+      }
+
+      /* Estilo para los iconos dentro de los botones en pantallas grandes */
+      .main-actions-container button i,
+      .print-actions-container button i,
+      .eliminar-buttons-row .eliminarInforme i,
+      .copiar-btn i {
+        font-size: 16px; /* Tamaño pequeño para los iconos en desktop */
+        margin-right: 8px; /* Espacio entre icono y texto */
+      }
+
+      .resultado {
+        margin-top: 20px;
+        padding: 20px;
+        font-family: "Montserrat", sans-serif;
+        font-size: 12px;
+        line-height: 1.6;
+        display: none;
+        background-color: #f5f5f5;
+        width: 100%;
+        max-width: 700px;
+        box-sizing: border-box;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .resultado p {
+        margin: 8px 0;
+      }
+
+      .no-especificado {
+        font-style: italic;
+        color: #666;
+      }
+
+      #mensaje-box-seleccionado {
+        text-align: center;
+        font-weight: bold;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        color: var(--pantone);
+        display: none;
+        font-size: 20px;
+      }
+
+      #mensaje-turno {
+        text-align: center;
+        font-weight: bold;
+        margin-top: 10px;
+        color: var(--fuente);
+        display: none;
+        font-size: 14px;
+      }
+      /* Estilo para el mensaje de confirmación temporal */
+      #mensajeConfirmacion {
+        text-align: center;
+        padding: 10px;
+        margin-top: 10px;
+        background-color: #d4edda; /* Verde claro */
+        color: #155724; /* Verde oscuro */
+        border: 1px solid solid #c3e6cb;
+        border-radius: 5px;
+        font-weight: bold;
+        display: none; /* Oculto por defecto */
+        width: 100%;
+        max-width: 600px;
+        box-sizing: border-box;
+      }
+
+      /* Contenedor principal de las filas de select/botones de eliminar */
+      .fecha-container {
+        font-weight: bold;
+        margin-top: 20px; /* Separación con los botones de arriba */
+        color: var(--fuente);
+        position: relative;
+        overflow: visible !important;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column; /* Apila las filas verticalmente */
+        align-items: center; /* Centra las filas horizontalmente */
+        gap: 10px; /* Espacio vertical entre las filas */
+        width: 100%;
+        max-width: 600px; /* Alineado con el formulario y el grupo de botones principal */
+      }
+
+      /* Fila para el selector "Seleccionar Informe Guardado" */
+      .select-row {
+        display: flex;
+        justify-content: center; /* Centra el selector */
+        align-items: center; /* Alinea los elementos verticalmente */
+        width: 100%;
+        max-width: 600px; /* Mismo ancho que el contenedor principal de botones */
+        gap: 8px; /* Espacio entre el icono y el select */
+      }
+
+      /* Contenedor para los dos botones de eliminar */
+      .eliminar-buttons-row {
+        display: flex;
+        flex-direction: row; /* Coloca los botones en fila */
+        justify-content: center; /* Centra los botones horizontalmente */
+        gap: 10px; /* Espacio entre los botones */
+        width: 100%;
+        max-width: 600px; /* Mismo ancho que el contenedor principal de botones */
+        flex-wrap: wrap; /* Permite que los botones se envuelvan en pantallas pequeñas */
+      }
+
+      /* Estilo para el select y los botones de eliminar (sin margin en los lados) */
+      #informesGuardados,
+      .eliminar-buttons-row .eliminarInforme {
+        padding: 10px 15px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--pantone15); /* Color de fondo consistente */
+        color: var(--fuente); /* Color de texto consistente */
+        flex: 1; /* Permite que los elementos crezcan y se encojan */
+        min-width: 140px; /* Un mínimo para que no se hagan demasiado pequeños */
+        font-weight: bold;
+        transition: background-color 0.3s ease-in-out;
+        margin: 0; /* Eliminar márgenes laterales para que 'gap' funcione */
+      }
+
+      #informesGuardados:hover,
+      .eliminar-buttons-row .eliminarInforme:hover {
+        background-color: var(--btn); /* Hover consistente */
+        color: #fff; /* Color de texto en hover consistente */
+      }
+      /* mensaje de aviso 1200 caracteres */
+      #aviso-1200 {
+        position: sticky;
+        top: 50%;
+        z-index: 100;
+        background-color: #ffefc1;
+        color: #b35900;
+        font-weight: bold;
+        padding: 10px 15px;
+        margin-top: 10px;
+        border-left: 5px solid #ffcc00;
+        border-radius: 4px;
+        font-size: 13px;
+        animation: fadeIn 0.5s ease-in-out;
+        text-align: center;
+        max-width: 600px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-5px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .contador-aviso {
+        color: var(--pantone) !important;
+      }
+
+      .contador-alerta {
+        color: red !important;
+        font-size: 14px;
+      }
+
+      /* botón copiar informe */
+      .copiar-btn {
+        padding: 10px 15px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--btn);
+        color: white;
+        font-weight: bold;
+        transition: background-color 0.3s ease-in-out;
+        margin-top: 10px;
+        min-width: 120px;
+      }
+
+      .copiar-btn:hover {
+        background-color: var(--pantone15);
+      }
+
+      /* listado informes guardados */
+      /* NOTA: #informesGuardados directas son menos efectivas con Choices.js */
+      #informesGuardados optgroup {
+        font-weight: bold;
+        line-height: 1.6;
+        color: white;
+        background-color: var(--pantone15);
+        padding-left: 4px 12px;
+      }
+
+      #informesGuardados option {
+        padding: 6px 12px;
+        white-space: nowrap;
+      }
+
+      /* no especificado */
+      .no-especificado {
+        font-style: italic;
+        color: #666; /* gris medio */
+      }
+
+      /* Estilo para el select nativo */
+      #informesGuardados {
+        /* Restablecer estilos de Choices.js que ya no son necesarios */
+        -webkit-appearance: none; /* Elimina estilos nativos en Webkit */
+        -moz-appearance: none; /* Elimina estilos nativos en Firefox */
+        appearance: none; /* Elimina estilos nativos */
+        background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%20viewBox%3D%220%200%20292.4%20292.4%22%3E%3Cpath%20fill%3D%22%232e2925%22%20d%3D%22M287%20197.9c-3.6%203.6-7.8%205.4-12.1%205.4s-8.5-1.8-12.1-5.4L146.2%2091.2%2029.6%20197.9c-3.6%203.6-7.8%205.4-12.1%205.4s-8.5-1.8-12.1-5.4c-7.2-7.2-7.2-18.4%200-25.6L134.1%206.5c7.2-7.2%2018.4-7.2%2025.6%200l108.7%20108.7c7.2%207.2%207.2%2018.4%200%2025.6z%22%2F%3E%3C%2Fsvg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        background-size: 12px;
+        padding-right: 30px; /* Espacio para la flecha */
+        text-align: center; /* Centra el texto */
+        text-align-last: center; /* Para IE/Edge */
+        padding-left: 30px; /* Equilibra el padding derecho para centrar visualmente */
+      }
+
+      /* Cuando el select está abierto, la lista de opciones no tendrá scroll */
+      #informesGuardados:focus::-webkit-scrollbar,
+      #informesGuardados:active::-webkit-scrollbar,
+      #informesGuardados:hover::-webkit-scrollbar {
+        width: 0;
+        background: transparent; /* make scrollbar transparent */
+      }
+      /* Para Firefox */
+      #informesGuardados {
+        scrollbar-width: none; /* Firefox */
+      }
+      #informesGuardados option {
+        white-space: normal; /* Permite que el texto se envuelva */
+      }
+
+      /* Estilo del icono para el select (ahora oculto por defecto) */
+      .select-icon {
+        font-size: 18px; /* Tamaño del icono */
+        color: var(--fuente); /* Color del icono */
+        display: none; /* Ocultar por defecto */
+      }
+
+      /* icono_balance */
+      .icono-container {
+        position: relative;
+        display: inline-block;
+        width: 30px; /* Ajusta el tamaño del icono */
+        height: 30px;
+        margin-bottom: 10px;
+      }
+
+      .icono {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transition: opacity 0.5s ease-in-out; /* Transición suave */
+      }
+
+      /* Mostrar el icono verde por defecto */
+      .icono.verde {
+        opacity: 1;
+      }
+
+      /* Ocultar el icono azul por defecto */
+      .icono.azul {
+        opacity: 0;
+      }
+
+      /* Cuando se hace hover, la imagen verde desaparece y la azul aparece */
+      .icono-container:hover .verde {
+        opacity: 0;
+      }
+
+      .icono-container:hover .azul {
+        opacity: 1;
+      }
+
+      /* Fin icono_balance */
+      /* <!-- Botón de cerrar sesión --> */
+      /* Estilo general para el botón de cerrar sesión */
+      #logoutBtn {
+        padding: 10px 15px;
+        margin-top: 10px;
+        font-size: 14px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: red;
+        color: #fff;
+        font-weight: bold;
+        transition: background-color 0.3s ease-in-out;
+      }
+
+      #logoutBtn:hover {
+        background-color: var(--principal);
+        color: var(--fuente);
+        border: 1px solid var(--pantone);
+      }
+
+      /* Oculta el texto en dispositivos móviles */
+      @media (max-width: 768px) {
+        #logoutBtn {
+          display: none;
+        }
+        /* #logoutBtn span {
+    display: none; 
+  }
+  #logoutBtn i {
+    font-size: 20px; 
+  } */
+      }
+      /* =============================== */
+      /* FOOTER */
+      /* =============================== */
+
+      footer {
+        color: var(--fuente);
+        font-size: 10px;
+        font-weight: bold;
+        text-align: center;
+        padding: 5px 0px 0px;
+        margin: 20px auto 0px;
+        width: 100%;
+        z-index: 50;
+        border-top: 1px solid var(--pantone);
+      }
+      /* fin del footer */
+
+      /* MEDIA QUERIES PARA RESPONSIVIDAD */
+      @media (max-width: 768px) {
+        /* Ocultar los botones de imprimir en móvil */
+        .print-actions-container {
+          display: none;
+        }
+
+        /* Ocultar el botón de copiar informe en móvil */
+        #copiarInformeBtn {
+          display: none !important; /* Se mantiene oculto en móvil, !important para asegurar */
+        }
+
+        /* Contenedor de botones principales (Generar, Borrar) */
+        .main-actions-container {
+          flex-direction: row; /* Organizar en fila */
+          justify-content: space-evenly; /* Espacio entre los elementos */
+          width: 100%;
+          max-width: 90%; /* Ajusta el ancho máximo para móviles */
+          align-items: center; /* Centra los elementos verticalmente */
+          gap: 20px; /* Espacio más pequeño entre botones en fila */
+        }
+
+        /* Contenedor de botones de eliminar */
+        .eliminar-buttons-row {
+          flex-direction: row; /* Ya está en fila, asegurar */
+          justify-content: space-evenly; /* Espacio entre los elementos */
+          width: 100%;
+          max-width: 90%;
+          align-items: center;
+          gap: 20px; /* Espacio más pequeño entre botones en fila */
+        }
+
+        /* Ocultar el texto de los botones y mostrar solo los iconos */
+        .main-actions-container button,
+        .eliminar-buttons-row .eliminarInforme {
+          text-indent: -9999px; /* Mueve el texto fuera de la vista */
+          overflow: hidden; /* Oculta el texto que se desborda */
+          white-space: nowrap; /* Evita que el texto se envuelva */
+          padding: 10px; /* Ajusta el padding para centrar el icono */
+          min-width: 50px; /* Haz los botones más pequeños */
+          max-width: 60px; /* Limita el ancho para que sean más cuadrados */
+          display: flex; /* Usa flexbox para alinear icono y texto */
+          align-items: center;
+          justify-content: center; /* Centra el contenido horizontalmente */
+        }
+
+        /* Estilo para los iconos dentro de los botones en móvil */
+        .main-actions-container button i,
+        .eliminar-buttons-row .eliminarInforme i {
+          font-size: 20px; /* Tamaño del icono */
+          margin-right: 0; /* Elimina el margen a la derecha del icono ya que no hay texto */
+          text-indent: 0; /* Asegura que el icono no se vea afectado por el text-indent del padre */
+        }
+        /* Ajuste específico para el icono de "Imprimir en Turno Alternativo" si tiene dos iconos */
+        .print-actions-container .btn-alternativo i:first-child {
+          margin-right: 4px;
+        }
+
+        /* Disminuir tamaño de fuente para el select de informes guardados en móvil */
+        #informesGuardados {
+          font-size: 11px; /* Reduce el tamaño de fuente del select */
+        }
+        #informesGuardados optgroup {
+          font-size: 9px; /* Reduce el tamaño de fuente de los grupos de opciones */
+        }
+        #informesGuardados option {
+          font-size: 9px !important; /* Reduce el tamaño de fuente de las opciones */
+        }
+
+        /* Asegura que el icono del select esté oculto en móvil */
+        .select-icon {
+          display: none;
+        }
+      }
+      /* ESTILOS DE IMPRESIÓN MEJORADOS */
+    @media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  body {
+    visibility: hidden;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body > * {
+    display: none !important;
+  }
+
+  .resultado {
+    visibility: visible !important;
+    display: block !important;
+    position: absolute;
+    left: 3cm;
+    right: 0.5cm;
+    font-family: "Montserrat", sans-serif;
+    font-size: 12px;
+    line-height: 1.4;
+    background: white !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  .resultado.diurno-print {
+    top: 2cm;
+  }
+
+  .resultado.nocturno-print {
+        top: auto;
+        bottom: 2cm;
+  }
+
+  .resultado p {
+  margin: 2px 0 !important;
+  page-break-inside: avoid;
+  line-height: 1.2;
+}
+
+ .resultado p:first-of-type {
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
+    font-weight: bold;
+  }
+
+  .resultado strong {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 2px;
+  }
+}
+
+
+
+
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 20px;
+        }
+        .box-selector button {
+          font-size: 12px;
+          padding: 8px 12px;
+        }
+        .campo label {
+          font-size: 14px;
+        }
+        .campo textarea {
+          font-size: 12px;
+          height: 60px;
+        }
+        .buttons button {
+          font-size: 12px;
+          padding: 8px 12px;
+        }
+      }
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 18px;
+        }
+        .box-selector button {
+          font-size: 10px;
+          padding: 6px 10px;
+        }
+        .campo label {
+          font-size: 12px;
+        }
+        .campo textarea {
+          font-size: 10px;
+          height: 50px;
+        }
+        .buttons button {
+          font-size: 10px;
+          padding: 6px 10px;
+        }
+      }
