@@ -1016,7 +1016,7 @@
           }
         }
 
-     async function generarInforme() {
+   async function generarInforme() {
   if (!selectedBox) {
     mostrarMensaje("Por favor, seleccione un Box antes de generar el informe.");
     return;
@@ -1056,10 +1056,6 @@
       .doc(currentUserId)
       .collection("informesEnfermeria");
 
-    // Verificar si venimos de un informe previo (cargar desde lista)
-    const esNuevoInforme = !!window.informeCargadoId;
-
-    // Guardamos como nuevo documento
     const docRef = await userInformesCollection.add(datos);
     console.log("Informe generado y guardado con ID: ", docRef.id);
 
@@ -1076,67 +1072,67 @@
       month: "2-digit",
       day: "2-digit",
       hour: "2-digit",
-      minute: "2-digit"
+      minute: "2-digit",
     });
 
     // Mostrar mensaje personalizado si es un nuevo informe basado en otro
+    const esNuevoInforme = !!window.informeCargadoId;
+
     if (esNuevoInforme) {
       mostrarMensajeTemporal(
-        `Guardado Informe nuevo Bo-${selectedBox} ${fechaHoraGuardado} horas`
+        `Guardado Informe nuevo Bo-${selectedBox} ${fechaHoraGuardado}`
       );
     } else {
-      // Mensaje genérico si es un informe nuevo desde cero
       mostrarMensajeTemporal(
         `Informe guardado: Box ${selectedBox} - ${fechaHoraGuardado}`
       );
+    }
+
+    // Mostrar resultado visualmente
+    const horaActual = new Date().getHours();
+    const esTurnoDiurno = horaActual >= 8 && horaActual < 20;
+    const turnoTexto = esTurnoDiurno
+      ? "Turno de 8 a 20 horas"
+      : "Turno de 20 a 8 horas";
+
+    const resultadoDiv = document.getElementById("resultado");
+    resultadoDiv.innerHTML =
+      `<p><strong>BOX ${selectedBox} - ${turnoTexto}</strong></p>` +
+      campos
+        .map((campo) => {
+          const valor = datos[campo]?.trim() || "";
+          const contenido =
+            valor === ""
+              ? "<span class='no-especificado'>No Especificado</span>"
+              : valor;
+          const campoFormateado =
+            campo === "especial"
+              ? "ESPECIAL VIGILANCIA"
+              : originalLabelTexts[campo].substring(
+                  originalLabelTexts[campo].indexOf(" ") + 1
+                );
+          return `<p><strong>${campoFormateado}:</strong> ${contenido}</p>`;
+        })
+        .join("");
+
+    resultadoDiv.style.display = "block";
+    document.getElementById("mensaje-turno").style.display = "none";
+
+    // Mostrar el botón de copiar informe
+    const copiarBtn = document.getElementById("copiarInformeBtn");
+    if (window.innerWidth > 768 && copiarBtn) {
+      copiarBtn.style.display = "inline-block";
     }
   } catch (e) {
     console.error("Error al generar y guardar el informe: ", e);
     mostrarMensaje(
       "Error al generar y guardar el informe. Por favor, intente de nuevo."
     );
-    return;
   }
-
-  const horaActual = new Date().getHours();
-  const esTurnoDiurno = horaActual >= 8 && horaActual < 20;
-  const turnoTexto = esTurnoDiurno
-    ? "Turno de 8 a 20 horas"
-    : "Turno de 20 a 8 horas";
-
-  const resultadoDiv = document.getElementById("resultado");
-  resultadoDiv.innerHTML =
-    `<p><strong>BOX ${selectedBox} - ${turnoTexto}</strong></p>` +
-    campos
-      .map((campo) => {
-        const valor = datos[campo].trim();
-        const contenido =
-          valor === ""
-            ? "<span class='no-especificado'>No Especificado</span>"
-            : valor;
-        const campoFormateado =
-          campo === "especial"
-            ? "ESPECIAL VIGILANCIA"
-            : originalLabelTexts[campo].substring(
-                originalLabelTexts[campo].indexOf(" ") + 1
-              );
-        return `<p><strong>${campoFormateado}:</strong> ${contenido}</p>`;
-      })
-      .join("");
-
-  resultadoDiv.classList.remove("diurno-print", "nocturno-print");
-  resultadoDiv.classList.add(esTurnoDiurno ? "diurno-print" : "nocturno-print");
-  resultadoDiv.style.display = "block";
-  document.getElementById("mensaje-turno").textContent = `Turno seleccionado: ${turnoTexto}`;
-  document.getElementById("mensaje-turno").style.display = "block";
-
-  // Mostrar el botón de copiar informe
-  const copiarBtn = document.getElementById("copiarInformeBtn");
-  if (window.innerWidth > 768) {
-    copiarBtn.style.display = "inline-block";
-  }
-  console.log("Datos del informe generado:", datos);
 }
+
+
+
 
         function copiarInforme() {
           if (!selectedBox) return;
@@ -1195,10 +1191,10 @@
             });
         }
 
-      function imprimirAuto() {
+     function imprimirAuto() {
   const resultadoDiv = document.getElementById("resultado");
 
-  if (!resultadoDiv || resultadoDiv.innerHTML.trim() === "") {
+  if (!resultadoDiv || !resultadoDiv.innerHTML.trim()) {
     mostrarMensaje("No hay informe generado para imprimir.");
     return;
   }
@@ -1206,7 +1202,6 @@
   // Ocultar elementos innecesarios antes de imprimir
   const elementosOcultos = [
     "imprimirAuto",
-    "imprimirAlternativo",
     "copiarInformeBtn",
     "borrarDatosBtn",
     "generarInformeBtn",
@@ -1533,12 +1528,7 @@
     const doc = await docRef.get();
 
     if (doc.exists) {
-      const data = doc.data(); // Obtener los datos del documento
-
-      // Verificar que 'data' contiene los campos necesarios
-      if (!data || typeof data !== "object") {
-        throw new Error("Datos del informe inválidos.");
-      }
+      const data = doc.data();
 
       // Cambiar al box correcto si es necesario
       if (selectedBox !== data.box) {
@@ -1614,6 +1604,8 @@
     mostrarMensaje("Error al cargar el informe seleccionado. Consulte la consola.");
   }
 }
+
+
 
 
         async function eliminarInforme() {

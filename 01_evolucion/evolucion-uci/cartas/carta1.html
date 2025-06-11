@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Carta 1</title>
+    <style>
+      body {
+        background-color: #111;
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .card {
+        width: 220px;
+        height: 320px;
+        transform-style: preserve-3d;
+        transform: rotateY(180deg);
+        transition: transform 0.8s;
+        position: relative;
+      }
+
+      .card-face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+      }
+
+      .card-back {
+        background-color: #333;
+        transform: rotateY(180deg);
+        color: #fff;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 0.95rem;
+      }
+
+      .card-back ul {
+        padding-left: 20px;
+        margin: 0;
+      }
+
+      .flecha {
+        font-size: 2rem;
+        color: #0af;
+        text-decoration: none;
+        transition: transform 0.3s;
+      }
+
+      .flecha:hover {
+        transform: translateX(5px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="card-face card-back">
+        <strong>Carta 1</strong>
+        <ul>
+          <li>Resumen médico</li>
+          <li>Tratamiento actual</li>
+          <li>Signos vitales</li>
+        </ul>
+      </div>
+    </div>
+
+    <a href="carta2.html" class="flecha">➡ Ver Carta 2</a>
+  </body>
+</html>

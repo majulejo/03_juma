@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Selecciona una Carta</title>
+    <style>
+      body {
+        background-color: #111;
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .card-container {
+        perspective: 1000px;
+        width: 220px;
+        height: 320px;
+      }
+
+      .card {
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        transition: transform 0.8s;
+        position: relative;
+        cursor: pointer;
+      }
+
+      .card-container:hover .card,
+      .card-container.touch .card {
+        transform: rotateY(180deg);
+      }
+
+      .card-face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+      }
+
+      .card-front img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .card-back {
+        background-color: #333;
+        transform: rotateY(180deg);
+        color: #fff;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 0.9rem;
+      }
+
+      .card-back ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      .card-link {
+        text-decoration: none;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          flex-direction: column;
+          height: auto;
+        }
+      }
+    </style>
+    <script>
+      // Soporte para tap en móvil
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".card-container").forEach((container) => {
+          container.addEventListener("click", () => {
+            container.classList.toggle("touch");
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <a href="carta1.html" class="card-link">
+      <div class="card-container">
+        <div class="card">
+          <div class="card-face card-front">
+            <img
+              src="https://via.placeholder.com/220x320.png?text=Carta+1"
+              alt="Carta 1"
+            />
+          </div>
+          <div class="card-face card-back">
+            <strong>Incluye:</strong>
+            <ul>
+              <li>Resumen médico</li>
+              <li>Tratamiento actual</li>
+              <li>Signos vitales</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a href="carta2.html" class="card-link">
+      <div class="card-container">
+        <div class="card">
+          <div class="card-face card-front">
+            <img
+              src="https://via.placeholder.com/220x320.png?text=Carta+2"
+              alt="Carta 2"
+            />
+          </div>
+          <div class="card-face card-back">
+            <strong>Incluye:</strong>
+            <ul>
+              <li>Historia clínica</li>
+              <li>Exploración física</li>
+              <li>Plan terapéutico</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </a>
+  </body>
+</html>
